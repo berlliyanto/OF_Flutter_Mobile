@@ -1,0 +1,50 @@
+name: of_flutter_mobile
+version: 1.0.0+1
+publish_to: none
+description: A new Flutter project.
+environment: 
+  sdk: '>=3.2.3 <4.0.0'
+
+dependencies: 
+  cupertino_icons: ^1.0.2
+  get: ^4.6.6
+  flutter: 
+    sdk: flutter
+  get_storage: ^2.1.1
+  dio: ^5.4.0
+  auto_size_text: ^3.0.0
+  fluttertoast: ^8.2.4
+  morphable_shape: ^1.6.6
+  gap: ^3.0.1
+  intl: ^0.18.1
+  connectivity_plus: ^5.0.2
+  device_info_plus: ^9.1.1
+  permission_handler: ^11.2.0
+  flutter_hooks: ^0.20.4
+  pull_to_refresh: ^2.0.0
+  month_picker_dialog: ^2.6.0
+  path_provider: ^2.1.2
+  image_picker: ^1.0.7
+  shimmer: ^3.0.0
+
+dev_dependencies: 
+  flutter_lints: ^2.0.0
+  flutter_test: 
+    sdk: flutter
+
+flutter: 
+  assets: 
+    - assets/images/
+  fonts: 
+    - family: Inter
+      fonts: 
+        - asset: assets/fonts/Inter.ttf
+    - family: Oswald
+      fonts: 
+        - asset: assets/fonts/Oswald-Regular.ttf
+    - family: Lato
+      fonts: 
+        - asset: assets/fonts/Lato-Regular.ttf
+    
+  uses-material-design: true
+
