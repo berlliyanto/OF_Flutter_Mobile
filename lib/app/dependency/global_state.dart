@@ -1,17 +1,20 @@
 import 'package:get/get.dart';
 
 class GlobalState extends GetxController {
-  Transition pageTransition = Transition.noTransition;
-  int transistionDuration = 1000;
+  Rx<Transition> pageTransition = Transition.noTransition.obs;
+  RxInt transistionDuration = 600.obs;
 
   set setPageTransition(Transition transition) {
-    pageTransition = transition;
+    pageTransition.value = transition;
+    update();
   }
 
   set setTransitionDuration(int duration) {
-    transistionDuration = duration;
+    transistionDuration.value = duration;
+
+    update();
   }
 
-  Transition get getPageTransition => pageTransition;
-  int get getTransitionDuration => transistionDuration;
+  Transition get getPageTransition => pageTransition.value;
+  int get getTransitionDuration => transistionDuration.value;
 }

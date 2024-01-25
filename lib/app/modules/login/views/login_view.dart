@@ -4,18 +4,21 @@ import 'package:of_flutter_mobile/app/components/layout/main_layout.dart';
 import 'package:of_flutter_mobile/app/components/layout/background_layout.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/heading.dart';
 import 'package:of_flutter_mobile/app/modules/login/local_widgets/form_login.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
-  const LoginView({Key? key}) : super(key: key);
+  LoginView({Key? key}) : super(key: key);
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: GetBuilder<LoginController>(builder: (builder) {
         return BackgroundLayout(
           showBottom: true,
-          showLogo: controller.isLogoVisible.value,
+          showLogo: false,
           child: MainLayout(
             crossAxis: CrossAxisAlignment.start,
             paddingLR: 15,
@@ -35,8 +38,9 @@ class LoginView extends GetView<LoginController> {
                   ),
                 ),
               ),
-              formLogin(
-                  formKey: builder.formKey, title: "Sign In", builder: builder)
+              formLogin(formKey: formKey, title: "Sign In", builder: builder)
+                  .animate()
+                  .fade(duration: 800.ms)
             ],
           ),
         );

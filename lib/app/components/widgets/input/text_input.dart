@@ -7,6 +7,8 @@ class TextInput extends StatelessWidget {
   final String? label;
   final VoidCallback? onTap, onEditingComplete;
   final Function(PointerDownEvent pointer)? onTapOutside;
+  final IconData prefixIcon;
+  final TextInputType keyboardType;
 
   TextInput(
       {required this.controller,
@@ -15,6 +17,8 @@ class TextInput extends StatelessWidget {
       this.onTap,
       this.onTapOutside,
       this.onEditingComplete,
+      required this.prefixIcon,
+      this.keyboardType = TextInputType.text,
       super.key});
 
   final colors = ColorPicker();
@@ -22,6 +26,7 @@ class TextInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: keyboardType,
       onTapOutside: onTapOutside,
       onTap: onTap,
       onEditingComplete: onEditingComplete,
@@ -53,6 +58,7 @@ class TextInput extends StatelessWidget {
           ),
         ),
         labelText: label,
+        prefixIcon: Icon(prefixIcon),
       ),
     );
   }

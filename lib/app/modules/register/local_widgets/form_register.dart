@@ -7,17 +7,47 @@ import 'package:of_flutter_mobile/app/components/widgets/input/password_input.da
 import 'package:of_flutter_mobile/app/components/widgets/input/text_input.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/heading.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/paragraph.dart';
-import 'package:of_flutter_mobile/app/modules/login/controllers/login_controller.dart';
+import 'package:of_flutter_mobile/app/modules/register/controllers/register_controller.dart';
 
-Widget formLogin(
+Widget formRegister(
     {required GlobalKey<FormState> formKey,
     required String title,
-    required LoginController builder}) {
+    required RegisterController builder}) {
   return FormAuth(
     formKey: formKey,
     children: [
-      const Heading(
-          heading: "h1", size: 26, text: "Sign In", textAlign: TextAlign.start),
+      Heading(heading: "h1", size: 26, text: title, textAlign: TextAlign.start),
+      const Gap(15),
+      TextInput(
+        controller: builder.nameController,
+        label: "Name",
+        prefixIcon: Icons.abc,
+        onTap: () => builder.hideLogoOnFocus(),
+        onEditingComplete: () => builder.showLogoOnUnfocus(),
+        onTapOutside: (pointer) => builder.showLogoOnUnfocus(),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return "Please enter your name";
+          }
+          return null;
+        },
+      ),
+      const Gap(15),
+      TextInput(
+        controller: builder.emailController,
+        keyboardType: TextInputType.emailAddress,
+        label: "Email",
+        prefixIcon: Icons.email,
+        onTap: () => builder.hideLogoOnFocus(),
+        onEditingComplete: () => builder.showLogoOnUnfocus(),
+        onTapOutside: (pointer) => builder.showLogoOnUnfocus(),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return "Please enter your email";
+          }
+          return null;
+        },
+      ),
       const Gap(15),
       TextInput(
         controller: builder.usernameController,
@@ -55,22 +85,22 @@ Widget formLogin(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Paragraph(text: "Don't have an operator account?"),
+          const Paragraph(text: "Already have an operator account?"),
           const Gap(5),
           GestureDetector(
-            onTap: () => Get.toNamed('/register'),
+            onTap: () => Get.toNamed('/login'),
             child: const Paragraph(
-              text: "Sign Up",
+              text: "Sign In",
               fontWeight: FontWeight.bold,
             ),
           )
         ],
       ),
       const Gap(15),
-      GradientButton(
-          colors: [builder.colorPicker.cyanDark, builder.colorPicker.cyan],
-          onPressed: () => builder.handleSubmit(formKey),
-          text: "Sign In")
+      GradientButton(colors: [
+        Color(builder.colorPicker.colors.cyanDark),
+        Color(builder.colorPicker.colors.cyan)
+      ], onPressed: () => builder.handleSubmit(formKey), text: title)
     ],
   );
 }

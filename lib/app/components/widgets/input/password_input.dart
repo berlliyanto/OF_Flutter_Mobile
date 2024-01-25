@@ -8,6 +8,7 @@ class TextInputPassword extends StatelessWidget {
   final VoidCallback? onTap, onEditingComplete, toggleObscure;
   final Function(PointerDownEvent pointer)? onTapOutside;
   final bool isObscure;
+  final IconData prefixIcon;
 
   TextInputPassword(
       {required this.controller,
@@ -18,6 +19,7 @@ class TextInputPassword extends StatelessWidget {
       this.toggleObscure,
       this.onEditingComplete,
       required this.isObscure,
+      required this.prefixIcon,
       super.key});
 
   final colors = ColorPicker();
@@ -62,6 +64,7 @@ class TextInputPassword extends StatelessWidget {
           onPressed: toggleObscure,
           icon: Icon(isObscure ? Icons.visibility : Icons.visibility_off),
         ),
+        prefixIcon: Icon(prefixIcon),
       ),
     );
   }

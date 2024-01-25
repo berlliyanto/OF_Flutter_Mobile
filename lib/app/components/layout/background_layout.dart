@@ -5,12 +5,13 @@ import 'package:of_flutter_mobile/app/components/widgets/shape/shape.dart';
 import 'package:of_flutter_mobile/app/constant/color.dart';
 
 class BackgroundLayout extends StatelessWidget {
+  final bool showBottom, showLogo, showTop;
   final Widget child;
-  final bool showBottom, showLogo;
   BackgroundLayout(
-      {required this.child,
-      required this.showBottom,
+      {this.showBottom = true,
+      this.showTop = true,
       this.showLogo = true,
+      required this.child,
       super.key});
 
   final colors = ColorPicker();
@@ -30,24 +31,29 @@ class BackgroundLayout extends StatelessWidget {
             ),
           ),
         ),
-        positionedShape(
-          left: -100,
-          top: -200,
-          child: Hero(
-            tag: 'shape1',
-            child: Shape(
-                shape: "circle", color: colors.grey, height: 300, width: 300),
+        if (showTop)
+          positionedShape(
+            left: -100,
+            top: -200,
+            child: Hero(
+              tag: 'shape1',
+              child: Shape(
+                  shape: "circle", color: colors.grey, height: 300, width: 300),
+            ),
           ),
-        ),
-        positionedShape(
-          left: 190,
-          top: -250,
-          child: Hero(
-            tag: 'shape2',
-            child: Shape(
-                shape: "circle", color: colors.black, height: 300, width: 300),
+        if (showTop)
+          positionedShape(
+            left: 190,
+            top: -250,
+            child: Hero(
+              tag: 'shape2',
+              child: Shape(
+                  shape: "circle",
+                  color: colors.cyanDark,
+                  height: 300,
+                  width: 300),
+            ),
           ),
-        ),
         if (showBottom)
           positionedShape(
             left: Get.width - 200,
@@ -66,7 +72,7 @@ class BackgroundLayout extends StatelessWidget {
               tag: 'shape4',
               child: Shape(
                   shape: "circle",
-                  color: colors.black,
+                  color: colors.cyanDark,
                   height: 500,
                   width: 500),
             ),
@@ -77,8 +83,10 @@ class BackgroundLayout extends StatelessWidget {
             bottom: 40,
             child: const Hero(
               tag: 'soekiman',
-              child: Image(
-                image: AssetImage("assets/images/logo-auth.png"),
+              child: SizedBox(
+                child: Image(
+                  image: AssetImage("assets/images/logo-pt.png"),
+                ),
               ),
             ),
           ),
