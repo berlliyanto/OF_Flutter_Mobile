@@ -1,40 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:of_flutter_mobile/app/constant/color.dart';
 
-class TextInputPassword extends StatelessWidget {
+class TextInputAuth extends StatelessWidget {
   final TextEditingController controller;
   final String? Function(String? value)? validator;
   final String? label;
-  final VoidCallback? onTap, onEditingComplete, toggleObscure;
+  final VoidCallback? onTap, onEditingComplete;
+  final Function(String value) onSubmit;
   final Function(PointerDownEvent pointer)? onTapOutside;
-  final bool isObscure;
-  final IconData prefixIcon;
+  final IconData? prefixIcon;
+  final TextInputType keyboardType;
   final FocusNode focusNode;
+  final TextInputAction textInputAction;
+  final bool withPrefix;
 
-  TextInputPassword(
+  TextInputAuth(
       {required this.controller,
+      this.textInputAction = TextInputAction.next,
       this.validator,
       required this.label,
-      required this.focusNode,
+      required this.onSubmit,
       this.onTap,
       this.onTapOutside,
-      this.toggleObscure,
       this.onEditingComplete,
-      required this.isObscure,
-      required this.prefixIcon,
+      this.prefixIcon,
+      required this.focusNode,
+      this.withPrefix = true,
+      this.keyboardType = TextInputType.text,
       super.key});
 
   final colors = ColorPicker();
+
+  dynamic showIcon() {
+    if (!withPrefix) {
+      return null;
+    }
+
+    return Icon(prefixIcon);
+  }
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       focusNode: focusNode,
-      keyboardType: TextInputType.visiblePassword,
-      obscureText: isObscure,
+      textInputAction: textInputAction,
+      keyboardType: keyboardType,
       onTapOutside: onTapOutside,
       onTap: onTap,
       onEditingComplete: onEditingComplete,
+      onFieldSubmitted: (value) => onSubmit(value),
       controller: controller,
       validator: validator,
       decoration: InputDecoration(
@@ -63,11 +77,7 @@ class TextInputPassword extends StatelessWidget {
           ),
         ),
         labelText: label,
-        suffixIcon: IconButton(
-          onPressed: toggleObscure,
-          icon: Icon(isObscure ? Icons.visibility : Icons.visibility_off),
-        ),
-        prefixIcon: Icon(prefixIcon),
+        prefixIcon: showIcon(),
       ),
     );
   }

@@ -1,9 +1,19 @@
 import 'package:get/get.dart';
 
-import '../modules/chechkunit/bindings/chechkunit_binding.dart';
-import '../modules/chechkunit/views/chechkunit_view.dart';
+import '../modules/checkunit/bindings/addunit_binding.dart';
+import '../modules/checkunit/views/addunit_view.dart';
+import '../modules/checkunit/bindings/checkhistory_binding.dart';
+import '../modules/checkunit/views/checkhistory_view.dart';
+import '../modules/checkunit/bindings/checkreport_binding.dart';
+import '../modules/checkunit/views/checkreport_view.dart';
+import '../modules/checkunit/bindings/main_checkunit_binding.dart';
+import '../modules/checkunit/bindings/listforklift_binding.dart';
+import '../modules/checkunit/views/main_checkunit_view.dart';
+import '../modules/checkunit/views/listforklift_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/checkunit/bindings/listoperator_binding.dart';
+import '../modules/checkunit/views/listoperator_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/register/bindings/register_binding.dart';
@@ -42,9 +52,34 @@ class AppPages {
       binding: SplashBinding(),
     ),
     GetPage(
-      name: _Paths.CHECHKUNIT,
+      name: _Paths.CHECKUNIT,
       page: () => ChechkunitView(),
       binding: ChechkunitBinding(),
+    ),
+    GetPage(
+      name: _Paths.LISTFORKLIFT,
+      page: () => const ListforkliftView(),
+      binding: ListforkliftBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHECKREPORT,
+      page: () => const CheckreportView(),
+      binding: CheckreportBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADDUNIT,
+      page: () => AddunitView(),
+      binding: AddunitBinding(),
+    ),
+    GetPage(
+      name: _Paths.LISTOPERATOR,
+      page: () => const ListoperatorView(),
+      binding: ListoperatorBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHECKHISTORY,
+      page: () => const CheckhistoryView(),
+      binding: CheckhistoryBinding(),
     ),
   ];
 }

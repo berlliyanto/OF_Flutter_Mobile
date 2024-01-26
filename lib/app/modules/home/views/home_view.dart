@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:gap/gap.dart';
 
 import 'package:get/get.dart';
 import 'package:of_flutter_mobile/app/components/layout/background_layout.dart';
 import 'package:of_flutter_mobile/app/components/layout/main_layout.dart';
 import 'package:of_flutter_mobile/app/components/widgets/appbar/appbar.dart';
-import 'package:of_flutter_mobile/app/components/widgets/text/heading.dart';
+import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
 import 'package:of_flutter_mobile/app/components/widgets/tile/tile.dart';
 import 'package:of_flutter_mobile/app/constant/color.dart';
 import 'package:of_flutter_mobile/app/data/home_list.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -17,44 +17,48 @@ class HomeView extends GetView<HomeController> {
   HomeView({Key? key}) : super(key: key);
 
   final ColorPicker colors = ColorPicker();
+  final RefreshController refreshController =
+      RefreshController(initialRefresh: false);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(text: "Home", colors: colors),
+      appBar: appBar(text: "Home", colors: colors, drawerLeading: true),
       extendBodyBehindAppBar: true,
       drawer: const Drawer(),
       body: GetBuilder<HomeController>(builder: (builder) {
         return BackgroundLayout(
           showBottom: true,
           showTop: false,
-          showLogo: false,
+          showLogo: true,
           child: MainLayout(
-            mainAxis: MainAxisAlignment.start,
-            crossAxis: CrossAxisAlignment.start,
+            refreshController: refreshController,
+            onRefresh: () {
+              refreshController.refreshCompleted();
+            },
+            isScrollable: true,
             children: <Widget>[
-              const Gap(120),
-              const Heading(
-                  heading: "h1",
-                  text: "Welcome, User",
-                  textAlign: TextAlign.start),
+              title(title: "Welcome, User"),
               const Gap(20),
               SizedBox(
                 width: Get.width,
                 child: Column(
-                  children: listHome
-                      .map(
-                        (e) => Tile(
-                            routes: e.routes,
-                            title: e.title,
-                            icon: e.icon,
-                            colors: colors),
-                      )
-                      .toList(),
+                  children: listHome.asMap().entries.map((entry) {
+                    final index = entry.key;
+                    final data = entry.value;
+                    return Tile(
+                      routes: data.routes,
+                      title: data.title,
+                      icon: data.icon,
+                      colors: colors,
+                      paddingHV: const [10, 10],
+                      animationDuration: (index * 200) + 600,
+                    );
+                  }).toList(),
                 ),
               )
             ],
-          ).animate().fade(duration: 600.ms),
+          ),
         );
       }),
     );

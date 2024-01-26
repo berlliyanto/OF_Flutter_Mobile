@@ -3,9 +3,12 @@ import 'package:of_flutter_mobile/app/routes/app_pages.dart';
 
 List<ListHomeModel> listHome = [
   ListHomeModel(
-      routes: Routes.CHECHKUNIT,
+      routes: Routes.CHECKUNIT,
       title: "Forklift Check Unit",
       icon: Icons.checklist_sharp),
+  ListHomeModel(routes: "", title: "Coming Soon", icon: Icons.settings),
+  ListHomeModel(routes: "", title: "Coming Soon", icon: Icons.settings),
+  ListHomeModel(routes: "", title: "Coming Soon", icon: Icons.settings),
 ];
 
 class ListHomeModel {

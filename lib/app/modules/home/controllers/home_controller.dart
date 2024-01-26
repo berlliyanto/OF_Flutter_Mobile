@@ -5,7 +5,7 @@ class HomeController extends GetxController {
 
   final count = 0.obs;
 
-
+  Future<void> onRefresh() async {}
 
   void increment() => count.value++;
 }

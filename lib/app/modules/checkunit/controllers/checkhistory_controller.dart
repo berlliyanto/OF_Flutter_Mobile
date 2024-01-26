@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
-class ChechkunitController extends GetxController {
-  //TODO: Implement ChechkunitController
+class CheckhistoryController extends GetxController {
+  //TODO: Implement CheckhistoryController
 
   final count = 0.obs;
   @override

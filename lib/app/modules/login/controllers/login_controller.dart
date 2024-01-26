@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:of_flutter_mobile/app/controllers/auth_controller.dart';
-import 'package:of_flutter_mobile/app/dependency/global_state.dart';
 import 'package:of_flutter_mobile/app/routes/app_pages.dart';
 
 class LoginController extends AuthController {
-  final GlobalState globalState = Get.find<GlobalState>();
+  final usernameNode = FocusNode(), passwordNode = FocusNode();
+
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -15,6 +15,8 @@ class LoginController extends AuthController {
     isObscure.value = !isObscure.value;
     update();
   }
+
+  void nextNode() => passwordNode.requestFocus();
 
   void handleSubmit(GlobalKey<FormState> formKey) {
     if (formKey.currentState!.validate()) {

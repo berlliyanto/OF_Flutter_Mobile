@@ -16,6 +16,7 @@ class SplashView extends GetView<SplashController> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: BackgroundLayout(
+        showTop: true,
         showBottom: true,
         child: SizedBox(
           height: Get.height,

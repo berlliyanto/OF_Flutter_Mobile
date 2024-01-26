@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 class GlobalState extends GetxController {
-  Rx<Transition> pageTransition = Transition.noTransition.obs;
+  Rx<Transition> pageTransition = Transition.native.obs;
   RxInt transistionDuration = 600.obs;
 
   set setPageTransition(Transition transition) {

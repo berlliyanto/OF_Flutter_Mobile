@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      defaultTransition: globalState.getPageTransition,
+      defaultTransition: Transition.fadeIn,
       transitionDuration:
           Duration(milliseconds: globalState.getTransitionDuration),
       title: "Forklift App",

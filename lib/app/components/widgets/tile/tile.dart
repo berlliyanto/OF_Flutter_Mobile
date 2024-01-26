@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/heading.dart';
 import 'package:of_flutter_mobile/app/constant/color.dart';
@@ -8,12 +9,14 @@ class Tile extends StatelessWidget {
   final IconData icon;
   final ColorPicker colors;
   final List<double> paddingHV;
+  final double animationDuration;
   const Tile(
       {required this.routes,
       required this.title,
       required this.icon,
       required this.colors,
       this.paddingHV = const [10, 5],
+      this.animationDuration = 600,
       super.key});
 
   @override
@@ -21,6 +24,7 @@ class Tile extends StatelessWidget {
     return GestureDetector(
       onTap: () => Get.toNamed(routes),
       child: Container(
+        margin: const EdgeInsets.only(bottom: 20),
         padding: EdgeInsets.symmetric(
             horizontal: paddingHV[0], vertical: paddingHV[1]),
         alignment: Alignment.centerLeft,
@@ -41,7 +45,7 @@ class Tile extends StatelessWidget {
             Icon(icon, size: 30, color: colors.cyanDark),
           ],
         ),
-      ),
+      ).animate().slideX(duration: animationDuration.ms).fade(),
     );
   }
 }

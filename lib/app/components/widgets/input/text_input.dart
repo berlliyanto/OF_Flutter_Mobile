@@ -1,65 +1,84 @@
 import 'package:flutter/material.dart';
+import 'package:of_flutter_mobile/app/components/widgets/text/paragraph.dart';
 import 'package:of_flutter_mobile/app/constant/color.dart';
 
 class TextInput extends StatelessWidget {
-  final TextEditingController controller;
-  final String? Function(String? value)? validator;
-  final String? label;
-  final VoidCallback? onTap, onEditingComplete;
-  final Function(PointerDownEvent pointer)? onTapOutside;
-  final IconData prefixIcon;
+  final double width;
+  final ColorPicker colors;
+  final Function(String value) onChanged;
+  final VoidCallback onTap;
+  final String hint;
+  final dynamic errorText;
   final TextInputType keyboardType;
-
-  TextInput(
-      {required this.controller,
-      this.validator,
-      required this.label,
-      this.onTap,
-      this.onTapOutside,
-      this.onEditingComplete,
-      required this.prefixIcon,
+  final int? maxLength;
+  const TextInput(
+      {required this.width,
+      required this.colors,
+      required this.onChanged,
+      required this.hint,
+      required this.onTap,
+      this.errorText,
       this.keyboardType = TextInputType.text,
+      this.maxLength,
       super.key});
 
-  final colors = ColorPicker();
+  Widget showErrorText() {
+    if (errorText == null || errorText == "") {
+      return const SizedBox();
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(left: 5, top: 3),
+      child: Paragraph(
+        text: errorText,
+        color: const Color(0xFFE62E00),
+        fontSize: 12,
+        textAlign: TextAlign.start,
+      ),
+    );
+  }
+
+  Color setBorderColor() {
+    if (errorText == null || errorText == "") {
+      return colors.primaryBlack;
+    }
+
+    return const Color(0xFFE62E00);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      keyboardType: keyboardType,
-      onTapOutside: onTapOutside,
-      onTap: onTap,
-      onEditingComplete: onEditingComplete,
-      controller: controller,
-      validator: validator,
-      decoration: InputDecoration(
-        errorStyle: const TextStyle(fontSize: 12),
-        focusColor: colors.cyanDark,
-        focusedBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
-            borderSide: BorderSide(color: colors.cyanDark, width: 2)),
-        enabledBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(10),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: width,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: colors.whiteSmoke,
+            border: Border.all(color: setBorderColor(), width: 1),
+          ),
+          child: TextField(
+            maxLength: maxLength,
+            keyboardType: keyboardType,
+            onChanged: onChanged,
+            onTap: onTap,
+            decoration: InputDecoration(
+              counterText: "",
+              contentPadding: const EdgeInsets.only(left: 10),
+              border: InputBorder.none,
+              hintText: hint,
+              hintStyle: TextStyle(
+                color: colors.primaryBlack,
+                fontSize: 16,
+              ),
+            ),
           ),
         ),
-        errorBorder: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Color(0xFFE62E00),
-          ),
-          borderRadius: BorderRadius.all(
-            Radius.circular(10),
-          ),
-        ),
-        contentPadding: const EdgeInsets.only(left: 10),
-        border: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(10),
-          ),
-        ),
-        labelText: label,
-        prefixIcon: Icon(prefixIcon),
-      ),
+        showErrorText()
+      ],
     );
   }
 }

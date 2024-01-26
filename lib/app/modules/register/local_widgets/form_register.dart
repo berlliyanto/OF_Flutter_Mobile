@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:of_flutter_mobile/app/components/widgets/button/gradient_button.dart';
 import 'package:of_flutter_mobile/app/components/widgets/form/form_auth.dart';
 import 'package:of_flutter_mobile/app/components/widgets/input/password_input.dart';
-import 'package:of_flutter_mobile/app/components/widgets/input/text_input.dart';
+import 'package:of_flutter_mobile/app/components/widgets/input/text_input_auth.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/heading.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/paragraph.dart';
 import 'package:of_flutter_mobile/app/modules/register/controllers/register_controller.dart';
@@ -18,13 +18,16 @@ Widget formRegister(
     children: [
       Heading(heading: "h1", size: 26, text: title, textAlign: TextAlign.start),
       const Gap(15),
-      TextInput(
+      TextInputAuth(
+        keyboardType: TextInputType.text,
+        focusNode: builder.nameNode,
         controller: builder.nameController,
         label: "Name",
         prefixIcon: Icons.abc,
         onTap: () => builder.hideLogoOnFocus(),
         onEditingComplete: () => builder.showLogoOnUnfocus(),
         onTapOutside: (pointer) => builder.showLogoOnUnfocus(),
+        onSubmit: (value) => builder.nextNode("name"),
         validator: (value) {
           if (value == null || value.isEmpty) {
             return "Please enter your name";
@@ -33,7 +36,8 @@ Widget formRegister(
         },
       ),
       const Gap(15),
-      TextInput(
+      TextInputAuth(
+        focusNode: builder.emailNode,
         controller: builder.emailController,
         keyboardType: TextInputType.emailAddress,
         label: "Email",
@@ -41,6 +45,7 @@ Widget formRegister(
         onTap: () => builder.hideLogoOnFocus(),
         onEditingComplete: () => builder.showLogoOnUnfocus(),
         onTapOutside: (pointer) => builder.showLogoOnUnfocus(),
+        onSubmit: (value) => builder.nextNode("email"),
         validator: (value) {
           if (value == null || value.isEmpty) {
             return "Please enter your email";
@@ -49,13 +54,15 @@ Widget formRegister(
         },
       ),
       const Gap(15),
-      TextInput(
+      TextInputAuth(
+        focusNode: builder.usernameNode,
         controller: builder.usernameController,
         label: "Username",
         prefixIcon: Icons.person,
         onTap: () => builder.hideLogoOnFocus(),
         onEditingComplete: () => builder.showLogoOnUnfocus(),
         onTapOutside: (pointer) => builder.showLogoOnUnfocus(),
+        onSubmit: (value) => builder.nextNode("username"),
         validator: (value) {
           if (value == null || value.isEmpty) {
             return "Please enter your username";
@@ -65,6 +72,7 @@ Widget formRegister(
       ),
       const Gap(15),
       TextInputPassword(
+        focusNode: builder.passwordNode,
         controller: builder.passwordController,
         isObscure: builder.isObscure.value,
         label: "Password",

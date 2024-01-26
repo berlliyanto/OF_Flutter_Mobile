@@ -10,7 +10,12 @@ abstract class Routes {
   static const LOGIN = _Paths.LOGIN;
   static const REGISTER = _Paths.REGISTER;
   static const SPLASH = _Paths.SPLASH;
-  static const CHECHKUNIT = _Paths.CHECHKUNIT;
+  static const CHECKUNIT = _Paths.CHECKUNIT;
+  static const LISTFORKLIFT = _Paths.LISTFORKLIFT;
+  static const CHECKREPORT = _Paths.CHECKREPORT;
+  static const ADDUNIT = _Paths.ADDUNIT;
+  static const LISTOPERATOR = _Paths.LISTOPERATOR;
+  static const CHECKHISTORY = _Paths.CHECKHISTORY;
 }
 
 abstract class _Paths {
@@ -20,5 +25,10 @@ abstract class _Paths {
   static const LOGIN = '/login';
   static const REGISTER = '/register';
   static const SPLASH = '/splash';
-  static const CHECHKUNIT = '/chechkunit';
+  static const CHECKUNIT = '/checkunit';
+  static const LISTFORKLIFT = '/listforklift';
+  static const CHECKREPORT = '/checkreport';
+  static const ADDUNIT = '/addunit';
+  static const LISTOPERATOR = '/listoperator';
+  static const CHECKHISTORY = '/checkhistory';
 }

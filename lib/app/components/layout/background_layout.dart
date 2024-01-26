@@ -9,7 +9,7 @@ class BackgroundLayout extends StatelessWidget {
   final Widget child;
   BackgroundLayout(
       {this.showBottom = true,
-      this.showTop = true,
+      this.showTop = false,
       this.showLogo = true,
       required this.child,
       super.key});
@@ -27,7 +27,7 @@ class BackgroundLayout extends StatelessWidget {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [Colors.grey.shade300, Colors.white],
+              colors: [const Color(0xFFF5F5F5), Colors.grey.shade300],
             ),
           ),
         ),
@@ -81,11 +81,15 @@ class BackgroundLayout extends StatelessWidget {
           Positioned(
             left: Get.width / 2 - 40,
             bottom: 40,
-            child: const Hero(
+            child: Hero(
               tag: 'soekiman',
-              child: SizedBox(
-                child: Image(
-                  image: AssetImage("assets/images/logo-pt.png"),
+              child: Container(
+                height: 100,
+                width: 100,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/logo-pt.png"),
+                  ),
                 ),
               ),
             ),
