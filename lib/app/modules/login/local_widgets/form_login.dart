@@ -25,7 +25,7 @@ Widget formLogin(
         label: "Username",
         prefixIcon: Icons.person,
         onTap: () => builder.hideLogoOnFocus(),
-        onEditingComplete: () => builder.showLogoOnUnfocus(),
+        onEditingComplete: () => builder.hideLogoOnFocus(),
         onTapOutside: (pointer) => builder.showLogoOnUnfocus(),
         onSubmit: (value) => builder.nextNode(),
         validator: (value) {

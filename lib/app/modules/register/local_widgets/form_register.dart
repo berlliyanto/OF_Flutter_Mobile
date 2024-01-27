@@ -25,7 +25,7 @@ Widget formRegister(
         label: "Name",
         prefixIcon: Icons.abc,
         onTap: () => builder.hideLogoOnFocus(),
-        onEditingComplete: () => builder.showLogoOnUnfocus(),
+        onEditingComplete: () => builder.hideLogoOnFocus(),
         onTapOutside: (pointer) => builder.showLogoOnUnfocus(),
         onSubmit: (value) => builder.nextNode("name"),
         validator: (value) {
@@ -43,7 +43,7 @@ Widget formRegister(
         label: "Email",
         prefixIcon: Icons.email,
         onTap: () => builder.hideLogoOnFocus(),
-        onEditingComplete: () => builder.showLogoOnUnfocus(),
+        onEditingComplete: () => builder.hideLogoOnFocus(),
         onTapOutside: (pointer) => builder.showLogoOnUnfocus(),
         onSubmit: (value) => builder.nextNode("email"),
         validator: (value) {
@@ -60,7 +60,7 @@ Widget formRegister(
         label: "Username",
         prefixIcon: Icons.person,
         onTap: () => builder.hideLogoOnFocus(),
-        onEditingComplete: () => builder.showLogoOnUnfocus(),
+        onEditingComplete: () => builder.hideLogoOnFocus(),
         onTapOutside: (pointer) => builder.showLogoOnUnfocus(),
         onSubmit: (value) => builder.nextNode("username"),
         validator: (value) {

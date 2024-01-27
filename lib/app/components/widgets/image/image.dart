@@ -6,31 +6,24 @@ import 'package:gap/gap.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/heading.dart';
 import 'package:of_flutter_mobile/app/constant/color.dart';
 
-class ImageCard extends StatelessWidget {
-  final double width, height, fontSize;
-  final File? fileImage;
-  final dynamic url;
-  final VoidCallback onTap;
-  final ColorPicker colors;
-  final List<double> margins;
-
-  const ImageCard(
-      {this.fileImage,
-      this.url,
-      required this.height,
-      required this.width,
-      required this.onTap,
-      required this.colors,
-      this.margins = const [0, 0, 0, 0],
-      this.fontSize = 30,
-      super.key});
-
+Widget imageCard({
+  File? fileImage,
+  String? url,
+  required double height,
+  required double width,
+  required VoidCallback onTap,
+  required ColorPicker colors,
+  List<double> margins = const [0, 0, 0, 0],
+  double fontSize = 30,
+  double iconSize = 70,
+  String additionalText = '',
+}) {
   dynamic imageFromFile() {
-    if (url != null || url != "" || fileImage == null) {
-      return null;
+    if (url == null && fileImage != null) {
+      return DecorationImage(image: FileImage(fileImage), fit: BoxFit.fill);
     }
 
-    return DecorationImage(image: FileImage(fileImage!), fit: BoxFit.fill);
+    return null;
   }
 
   Widget imageFromAPI() {
@@ -45,21 +38,21 @@ class ImageCard extends StatelessWidget {
         children: [
           Icon(
             Icons.add_a_photo,
-            size: 70,
+            size: iconSize,
             color: colors.cyanDark,
           ),
-          const Gap(20),
+          const Gap(10),
           Heading(
               heading: "h1",
               size: fontSize,
-              text: "Tap to add image",
+              text: "Tap to add image $additionalText",
               textAlign: TextAlign.center),
         ],
       );
     }
 
     return CachedNetworkImage(
-      imageUrl: url,
+      imageUrl: url!,
       imageBuilder: (context, imageProvider) => Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -79,30 +72,27 @@ class ImageCard extends StatelessWidget {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        margin:
-            EdgeInsets.fromLTRB(margins[0], margins[1], margins[2], margins[3]),
-        width: width,
-        height: height,
-        decoration: BoxDecoration(
+  return GestureDetector(
+    onTap: onTap,
+    child: Container(
+      margin:
+          EdgeInsets.fromLTRB(margins[0], margins[1], margins[2], margins[3]),
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: fileImage != null ? Colors.transparent : colors.whiteSmoke,
+        image: imageFromFile(),
+        border: Border.all(color: colors.primaryBlack),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
           borderRadius: BorderRadius.circular(10),
-          color: colors.whiteSmoke,
-          image: imageFromFile(),
-          border: Border.all(color: colors.primaryBlack),
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            borderRadius: BorderRadius.circular(10),
-            onTap: onTap,
-            child: imageFromAPI(),
-          ),
+          onTap: onTap,
+          child: imageFromAPI(),
         ),
       ),
-    );
-  }
+    ),
+  );
 }

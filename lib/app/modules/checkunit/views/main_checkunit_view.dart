@@ -9,7 +9,7 @@ import 'package:of_flutter_mobile/app/components/widgets/appbar/appbar.dart';
 import 'package:of_flutter_mobile/app/components/widgets/grid/grid.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
 import 'package:of_flutter_mobile/app/constant/color.dart';
-import 'package:of_flutter_mobile/app/data/checkunit_list.dart';
+import 'package:of_flutter_mobile/app/source/menu/checkunit_list.dart';
 
 import '../controllers/main_checkunit_controller.dart';
 
@@ -22,7 +22,7 @@ class ChechkunitView extends GetView<ChechkunitController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(
-          text: "Forklift Check Unit", colors: colors, drawerLeading: true),
+          text: "FORKLIFT CHECK UNIT", colors: colors, drawerLeading: true),
       extendBodyBehindAppBar: true,
       drawer: const Drawer(),
       body: GetBuilder<ChechkunitController>(builder: (context) {

@@ -58,12 +58,12 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.LISTFORKLIFT,
-      page: () => const ListforkliftView(),
+      page: () => ListforkliftView(),
       binding: ListforkliftBinding(),
     ),
     GetPage(
       name: _Paths.CHECKREPORT,
-      page: () => const CheckreportView(),
+      page: () => CheckreportView(),
       binding: CheckreportBinding(),
     ),
     GetPage(

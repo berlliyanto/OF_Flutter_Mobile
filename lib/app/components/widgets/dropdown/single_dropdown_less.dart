@@ -2,6 +2,43 @@ import 'package:flutter/material.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/paragraph.dart';
 import 'package:of_flutter_mobile/app/constant/color.dart';
 
+Widget singleDropdownLess({
+  required List<dynamic> data,
+  required String hint,
+  required double width,
+  required ColorPicker colors,
+  required dynamic value,
+  required Function(dynamic value) onChanged,
+}) {
+  return Container(
+    padding: const EdgeInsets.only(left: 10),
+    height: 50,
+    width: width,
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: colors.whiteSmoke,
+        border: Border.all(color: colors.primaryBlack)),
+    child: DropdownButton(
+      hint: Paragraph(
+        text: hint,
+        fontSize: 16,
+      ),
+      isExpanded: true,
+      items: data
+          .map(
+            (e) => DropdownMenuItem(
+              value: e['id'],
+              child: Text(e['name']),
+            ),
+          )
+          .toList(),
+      onChanged: onChanged,
+      value: value,
+      underline: const SizedBox(),
+    ),
+  );
+}
+
 class SingleDropdownLess extends StatelessWidget {
   final String hint;
   final List<dynamic> data;

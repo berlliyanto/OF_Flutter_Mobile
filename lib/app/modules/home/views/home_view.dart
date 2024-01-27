@@ -8,7 +8,7 @@ import 'package:of_flutter_mobile/app/components/widgets/appbar/appbar.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
 import 'package:of_flutter_mobile/app/components/widgets/tile/tile.dart';
 import 'package:of_flutter_mobile/app/constant/color.dart';
-import 'package:of_flutter_mobile/app/data/home_list.dart';
+import 'package:of_flutter_mobile/app/source/menu/home_list.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../controllers/home_controller.dart';

@@ -1,23 +1,21 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:of_flutter_mobile/app/source/datatable/listforklift_source.dart';
 
 class ListforkliftController extends GetxController {
-  //TODO: Implement ListforkliftController
+  final ListForkliftSource source = ListForkliftSource();
+  var isFocus = false.obs;
+  var currentPage = 1.obs;
+  var perPage = 10.obs;
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  void handleOnFocus() {
+    isFocus.value = true;
+    update();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  void handleOnUnFocus(PointerDownEvent event) {
+    FocusManager.instance.primaryFocus?.unfocus();
+    isFocus.value = false;
+    update();
   }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

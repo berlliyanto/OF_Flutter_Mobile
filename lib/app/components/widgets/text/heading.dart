@@ -5,12 +5,14 @@ class Heading extends StatelessWidget {
   final Color color;
   final TextAlign textAlign;
   final double size;
+  final FontWeight fontWeight;
   const Heading(
       {required this.heading,
       required this.text,
       this.color = const Color(0xFF181823),
-      required this.textAlign,
+      this.textAlign = TextAlign.left,
       this.size = 0,
+      this.fontWeight = FontWeight.bold,
       super.key});
 
   double get getFontSize {
@@ -46,7 +48,7 @@ class Heading extends StatelessWidget {
       style: TextStyle(
         color: getColor,
         fontSize: getFontSize,
-        fontWeight: FontWeight.bold,
+        fontWeight: fontWeight,
         decoration: TextDecoration.none,
         fontFamily: 'Lato',
       ),

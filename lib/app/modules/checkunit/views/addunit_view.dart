@@ -13,6 +13,7 @@ import 'package:of_flutter_mobile/app/components/widgets/input/text_input.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/heading.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
 import 'package:of_flutter_mobile/app/constant/color.dart';
+import 'package:of_flutter_mobile/app/utils/validator.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../controllers/addunit_controller.dart';
@@ -27,7 +28,7 @@ class AddunitView extends GetView<AddunitController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(text: "Add Unit", colors: colors),
+      appBar: appBar(text: "ADD UNIT", colors: colors),
       extendBodyBehindAppBar: true,
       body: GetBuilder<AddunitController>(
         builder: (builder) => BackgroundLayout(
@@ -40,14 +41,14 @@ class AddunitView extends GetView<AddunitController> {
             refreshController: refreshController,
             children: <Widget>[
               title(title: "Add Forklift"),
-              const Gap(20),
-              ImageCard(
+              const Gap(10),
+              imageCard(
                 height: 200,
                 width: Get.width,
-                onTap: () {},
+                onTap: () => builder.openSheetImage(),
                 colors: colors,
                 margins: const [35, 0, 35, 0],
-                fileImage: null,
+                fileImage: builder.image,
                 url: null,
               ).animate().slideY(duration: 400.ms),
               const Gap(10),
@@ -56,7 +57,7 @@ class AddunitView extends GetView<AddunitController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    child: SingleDropdownLess(
+                    child: singleDropdownLess(
                         hint: "Code",
                         data: const [
                           {'id': 1, 'name': 'SOE'},
@@ -64,10 +65,9 @@ class AddunitView extends GetView<AddunitController> {
                         ],
                         width: Get.width * 0.5,
                         colors: colors,
-                        onChanged: (value) {
-                          print(value);
-                        },
-                        value: null),
+                        onChanged: (value) =>
+                            builder.handleOnChange(value, "code"),
+                        value: dropdownValue(builder.valueCode.value)),
                   ),
                   const Gap(10),
                   const Heading(
@@ -79,16 +79,20 @@ class AddunitView extends GetView<AddunitController> {
                       keyboardType: TextInputType.number,
                       width: Get.width * 0.5,
                       colors: colors,
-                      onChanged: (value) {},
+                      onChanged: (value) =>
+                          builder.handleOnChange(value, "number"),
                       hint: "Number",
-                      onTap: () {},
+                      onTap: () => builder.handleOnFocus(),
+                      onTapOutside: (pointer) =>
+                          builder.handleOnUnFocus(pointer),
                       errorText: "",
+                      isFocus: builder.isFocus.value,
                     ),
                   )
                 ],
               ).animate().slideY(),
               const Gap(10),
-              SingleDropdownLess(
+              singleDropdownLess(
                       hint: "Operation Location",
                       data: const [
                         {'id': 1, 'name': 'FGWH'},
@@ -97,14 +101,13 @@ class AddunitView extends GetView<AddunitController> {
                       ],
                       width: Get.width,
                       colors: colors,
-                      onChanged: (value) {
-                        print(value);
-                      },
-                      value: null)
+                      onChanged: (value) =>
+                          builder.handleOnChange(value, "location"),
+                      value: dropdownValue(builder.valueLocation.value))
                   .animate()
                   .slideY(),
               const Gap(10),
-              SingleDropdownLess(
+              singleDropdownLess(
                       hint: "PIC",
                       data: const [
                         {'id': 1, 'name': 'YULI'},
@@ -112,16 +115,15 @@ class AddunitView extends GetView<AddunitController> {
                       ],
                       width: Get.width,
                       colors: colors,
-                      onChanged: (value) {
-                        print(value);
-                      },
-                      value: null)
+                      onChanged: (value) =>
+                          builder.handleOnChange(value, "pic"),
+                      value: dropdownValue(builder.valuePIC.value))
                   .animate()
                   .slideY(),
               const Gap(10),
               GradientButton(
                       colors: [colors.primaryBlack, colors.primaryBlack],
-                      onPressed: () {},
+                      onPressed: () => builder.handleSubmit(),
                       text: "Submit Unit")
                   .animate()
                   .slideY()

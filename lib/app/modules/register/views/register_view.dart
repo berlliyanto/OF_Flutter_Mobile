@@ -25,7 +25,7 @@ class RegisterView extends GetView<RegisterController> {
         return BackgroundLayout(
           showTop: true,
           showBottom: true,
-          showLogo: false,
+          showLogo: builder.isLogoVisible.value,
           child: MainLayout(
             refreshController: refreshController,
             onRefresh: () {
