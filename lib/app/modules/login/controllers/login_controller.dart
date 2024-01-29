@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:of_flutter_mobile/app/components/widgets/toast/toast.dart';
 import 'package:of_flutter_mobile/app/controllers/auth_controller.dart';
 import 'package:of_flutter_mobile/app/routes/app_pages.dart';
+import 'package:of_flutter_mobile/app/services/auth/auth_service.dart';
+import 'package:of_flutter_mobile/app/utils/token.dart';
 
 class LoginController extends AuthController {
   final usernameNode = FocusNode(), passwordNode = FocusNode();
@@ -10,6 +14,7 @@ class LoginController extends AuthController {
   TextEditingController passwordController = TextEditingController();
 
   var isObscure = true.obs;
+  var isLoading = false.obs;
 
   void toggleObscure() {
     isObscure.value = !isObscure.value;
@@ -18,11 +23,25 @@ class LoginController extends AuthController {
 
   void nextNode() => passwordNode.requestFocus();
 
-  void handleSubmit(GlobalKey<FormState> formKey) {
+  void handleSubmit(GlobalKey<FormState> formKey) async {
     if (formKey.currentState!.validate()) {
-      Get.offAllNamed(Routes.HOME);
+      Map<String, dynamic> data = {
+        "username": usernameController.text,
+        "password": passwordController.text
+      };
+      isLoading.value = true;
+      update();
+      EasyLoading.show(status: "Login...");
+      final response = await AuthService().login(data: data);
+      if (response.data != null) {
+        setToken(response.data['token']);
+        Get.offAllNamed(Routes.HOME);
+      }
+      EasyLoading.dismiss();
+      isLoading.value = false;
+      update();
     } else {
-      print('Form is invalid');
+      toast(message: "Form is Invalid");
     }
   }
 }

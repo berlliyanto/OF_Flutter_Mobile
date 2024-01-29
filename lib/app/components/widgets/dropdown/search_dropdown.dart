@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
-import 'package:of_flutter_mobile/app/constant/color.dart';
+import 'package:of_flutter_mobile/app/theme/color.dart';
 
 Widget searchDropdown({
   required String hint,

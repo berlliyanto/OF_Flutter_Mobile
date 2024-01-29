@@ -5,9 +5,11 @@ import 'package:get/get.dart';
 import 'package:of_flutter_mobile/app/components/layout/background_layout.dart';
 import 'package:of_flutter_mobile/app/components/layout/main_layout.dart';
 import 'package:of_flutter_mobile/app/components/widgets/appbar/appbar.dart';
+import 'package:of_flutter_mobile/app/components/widgets/drawer/drawer.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
 import 'package:of_flutter_mobile/app/components/widgets/tile/tile.dart';
-import 'package:of_flutter_mobile/app/constant/color.dart';
+import 'package:of_flutter_mobile/app/dependency/global_state.dart';
+import 'package:of_flutter_mobile/app/theme/color.dart';
 import 'package:of_flutter_mobile/app/source/menu/home_list.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -20,12 +22,19 @@ class HomeView extends GetView<HomeController> {
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
 
+  final GlobalState globalState = Get.find<GlobalState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(text: "Home", colors: colors, drawerLeading: true),
       extendBodyBehindAppBar: true,
-      drawer: const Drawer(),
+      extendBody: true,
+      drawer: drawer(
+        colors: colors,
+        currentActiveMenu: "Home",
+        onTap: (route) => globalState.handleDrawerMenu(route),
+      ),
       body: GetBuilder<HomeController>(builder: (builder) {
         return BackgroundLayout(
           showBottom: true,

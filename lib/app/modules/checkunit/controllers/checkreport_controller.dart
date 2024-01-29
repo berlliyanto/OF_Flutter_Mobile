@@ -6,8 +6,9 @@ import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/state_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:of_flutter_mobile/app/components/widgets/bottomsheet/bottomsheet_image.dart';
+import 'package:of_flutter_mobile/app/components/widgets/snackbar/snackbar.dart';
 import 'package:of_flutter_mobile/app/components/widgets/toast/toast.dart';
-import 'package:of_flutter_mobile/app/constant/color.dart';
+import 'package:of_flutter_mobile/app/theme/color.dart';
 import 'package:of_flutter_mobile/app/modules/checkunit/local_widgets/multi_checkunit.dart';
 import 'package:of_flutter_mobile/app/modules/checkunit/local_widgets/single_checkunit.dart';
 import 'package:of_flutter_mobile/app/source/checkunit/checkunit_item.dart';
@@ -41,10 +42,16 @@ class CheckreportController extends GetxController {
         data["end_time"] = shiftToHour(value)[1];
         break;
       case "pallet":
-        data["pallet_id"] = value;
+        data["pallet_amount"] = value;
         break;
       case "forklift_hour_meter":
         data["forklift_hour_meter"] = value;
+        break;
+      case "forklift_notes":
+        data["forklift_notes"] = value;
+        break;
+      case "safety_notes":
+        data["safety_notes"] = value;
         break;
       default:
     }
@@ -71,7 +78,7 @@ class CheckreportController extends GetxController {
   }
 
   void onTypeAheadSelected(Map<String, dynamic> value) {
-    data["unit_id"] = value['id'];
+    data["forklift_id"] = value['id'];
     textController.text = value['name'];
   }
 
@@ -122,9 +129,14 @@ class CheckreportController extends GetxController {
   }
 
   void handleSubmit() async {
+    if (data.length < 49) {
+      snackbar(
+          title: "Warning", message: "Please fill all fields", type: "warning");
+      return;
+    }
     data['man_hour'] = differenceTime(startTime.value, endTime.value);
     FormData formData = FormData.fromMap(data);
-    print(formData.fields);
+    print(formData.length);
   }
 
   @override

@@ -15,7 +15,7 @@ import 'package:of_flutter_mobile/app/components/widgets/image/image.dart';
 import 'package:of_flutter_mobile/app/components/widgets/input/text_input.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/heading.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
-import 'package:of_flutter_mobile/app/constant/color.dart';
+import 'package:of_flutter_mobile/app/theme/color.dart';
 import 'package:of_flutter_mobile/app/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -48,7 +48,7 @@ class CheckreportView extends GetView<CheckreportController> {
                 icon: FontAwesomeIcons.clockRotateLeft,
                 onPressed: () => Get.toNamed(Routes.CHECKHISTORY),
                 withLeading: true,
-              ).animate().slideY(duration: 100.ms),
+              ).animate().slideY(duration: 150.ms, begin: -0.1, end: 0),
               const Gap(10),
               singleDropdownLess(
                 data: [
@@ -113,7 +113,7 @@ class CheckreportView extends GetView<CheckreportController> {
                         text: "Pallet Amount",
                         textAlign: TextAlign.start),
                   ),
-                  Expanded(
+                  Flexible(
                     child: TextInput(
                       keyboardType: TextInputType.number,
                       width: Get.width,
@@ -121,8 +121,6 @@ class CheckreportView extends GetView<CheckreportController> {
                       onChanged: (value) =>
                           builder.onChangedInput("pallet", value),
                       hint: "Pallet Amount",
-                      onTapOutside: (value) =>
-                          FocusManager.instance.primaryFocus!.unfocus(),
                     ),
                   ),
                 ],
@@ -181,14 +179,13 @@ class CheckreportView extends GetView<CheckreportController> {
                   ),
                   Expanded(
                     child: TextInput(
-                        keyboardType: TextInputType.number,
-                        width: Get.width,
-                        colors: colors,
-                        onChanged: (value) => builder.onChangedInput(
-                            "forklift_hour_meter", value),
-                        hint: "Forklift Hour Meter",
-                        onTapOutside: (value) =>
-                            FocusManager.instance.primaryFocus!.unfocus()),
+                      keyboardType: TextInputType.number,
+                      width: Get.width,
+                      colors: colors,
+                      onChanged: (value) =>
+                          builder.onChangedInput("forklift_hour_meter", value),
+                      hint: "Forklift Hour Meter",
+                    ),
                   ),
                 ],
               ).animate().slideY(duration: 400.ms),
@@ -263,10 +260,9 @@ class CheckreportView extends GetView<CheckreportController> {
                 keyboardType: TextInputType.multiline,
                 width: Get.width,
                 colors: colors,
-                onChanged: (value) {},
+                onChanged: (value) =>
+                    builder.onChangedInput("forklift_notes", value),
                 hint: "Input Catatan Khusus Unit",
-                onTapOutside: (value) =>
-                    FocusManager.instance.primaryFocus?.unfocus(),
               ),
               const Gap(10),
               TextInput(
@@ -275,7 +271,8 @@ class CheckreportView extends GetView<CheckreportController> {
                 keyboardType: TextInputType.multiline,
                 width: Get.width,
                 colors: colors,
-                onChanged: (value) {},
+                onChanged: (value) =>
+                    builder.onChangedInput("safety_notes", value),
                 hint: "Input Catatan Khusus Safety Features",
                 onTapOutside: (value) =>
                     FocusManager.instance.primaryFocus?.unfocus(),

@@ -11,8 +11,11 @@ import 'package:of_flutter_mobile/app/components/widgets/datatable/datatable.dar
 import 'package:of_flutter_mobile/app/components/widgets/datatable/datatable_header.dart';
 import 'package:of_flutter_mobile/app/components/widgets/dropdown/single_dropdown_less.dart';
 import 'package:of_flutter_mobile/app/components/widgets/input/text_input.dart';
+import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_bigrectangle.dart';
+import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_tile.dart';
+import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_twintile.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
-import 'package:of_flutter_mobile/app/constant/color.dart';
+import 'package:of_flutter_mobile/app/theme/color.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../controllers/listforklift_controller.dart';
@@ -23,6 +26,69 @@ class ListforkliftView extends GetView<ListforkliftController> {
   final ColorPicker colors = ColorPicker();
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
+
+  List<Widget> body() {
+    if (controller.isLoading.value) {
+      return [
+        skeletonTile(),
+        const Gap(10),
+        skeletonTwinTile(),
+        const Gap(10),
+        skeletonBigRectangle()
+      ];
+    }
+
+    return [
+      TextInput(
+        keyboardType: TextInputType.streetAddress,
+        width: Get.width,
+        colors: colors,
+        withSuffix: true,
+        suffixIcon: FontAwesomeIcons.magnifyingGlass,
+        onChanged: (value) => controller.handleOnChange(value, "unit_code"),
+        hint: "Search Unit Code",
+        onTapOutside: (pointer) => controller.handleOnUnFocus(pointer),
+      ).animate().slideY(),
+      const Gap(10),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            child: singleDropdownLess(
+                data: controller.locationModel,
+                hint: "Location",
+                width: Get.width,
+                colors: colors,
+                value: controller.location.value == 0
+                    ? null
+                    : controller.location.value,
+                onChanged: (value) =>
+                    controller.handleOnChange(value, "location_id")),
+          ).animate().slideX(begin: -1, end: 0),
+          const Gap(10),
+          Expanded(
+            child: singleDropdownLess(
+              data: controller.picModel,
+              hint: "PIC",
+              width: Get.width,
+              colors: colors,
+              value: controller.pic.value == 0 ? null : controller.pic.value,
+              onChanged: (value) => controller.handleOnChange(value, "pic_id"),
+            ),
+          ).animate().slideX(begin: 1, end: 0),
+        ],
+      ),
+      const Gap(10),
+      dataTable(
+        dataColumns: datatableHeader(
+          ["No", "Unit Code", "Location", "Hour Mtr", "PIC", "Action"],
+        ),
+        source: controller.source,
+        rowsPerPage: controller.meta.perPage,
+      ).animate().fade(),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +104,7 @@ class ListforkliftView extends GetView<ListforkliftController> {
             isScrollable: true,
             refreshController: refreshController,
             onRefresh: () async {
+              await builder.fetchAllData();
               refreshController.refreshCompleted();
             },
             children: [
@@ -47,60 +114,9 @@ class ListforkliftView extends GetView<ListforkliftController> {
                 onPressed: () {},
                 icon: FontAwesomeIcons.solidFileExcel,
                 iconColor: Colors.green,
-              ).animate().slideY(),
+              ).animate().slideY(duration: 150.ms, begin: -0.1, end: 0),
               const Gap(10),
-              TextInput(
-                keyboardType: TextInputType.streetAddress,
-                width: Get.width,
-                colors: colors,
-                withSuffix: true,
-                suffixIcon: Icons.search,
-                onChanged: (value) {},
-                hint: "Search Unit Code",
-                onTap: () => builder.handleOnFocus(),
-                onTapOutside: (pointer) => builder.handleOnUnFocus(pointer),
-              ).animate().slideY(),
-              const Gap(10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: singleDropdownLess(
-                        data: [
-                          {'id': 1, 'name': 'SOE'},
-                          {'id': 2, 'name': 'CKU'}
-                        ],
-                        hint: "Location",
-                        width: Get.width,
-                        colors: colors,
-                        value: null,
-                        onChanged: (value) {}),
-                  ).animate().slideX(begin: -1, end: 0),
-                  const Gap(10),
-                  Expanded(
-                    child: singleDropdownLess(
-                      data: [
-                        {'id': 1, 'name': 'SOE'},
-                        {'id': 2, 'name': 'CKU'}
-                      ],
-                      hint: "PIC",
-                      width: Get.width,
-                      colors: colors,
-                      value: null,
-                      onChanged: (value) {},
-                    ),
-                  ).animate().slideX(begin: 1, end: 0),
-                ],
-              ),
-              const Gap(10),
-              dataTable(
-                dataColumns: datatableHeader(
-                  ["No", "Unit Code", "Location", "Hour Mtr", "PIC", "Action"],
-                ),
-                source: builder.source,
-                rowsPerPage: builder.perPage.value,
-              ).animate().fade(),
+              ...body()
             ],
           ),
         );

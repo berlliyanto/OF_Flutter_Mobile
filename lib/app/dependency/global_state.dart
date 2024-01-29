@@ -1,20 +1,22 @@
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:of_flutter_mobile/app/routes/app_pages.dart';
+import 'package:of_flutter_mobile/app/services/auth/auth_service.dart';
+import 'package:of_flutter_mobile/app/utils/token.dart';
 
 class GlobalState extends GetxController {
-  Rx<Transition> pageTransition = Transition.native.obs;
-  RxInt transistionDuration = 600.obs;
+  void handleDrawerMenu(dynamic route) async {
+    if (route != null) {
+      Get.toNamed(route);
+      return;
+    }
 
-  set setPageTransition(Transition transition) {
-    pageTransition.value = transition;
-    update();
+    EasyLoading.show(status: "Logout...");
+    final response = await AuthService().logout();
+    if (response.data != null) {
+      removeToken();
+      Get.offAllNamed(Routes.LOGIN);
+    }
+    EasyLoading.dismiss();
   }
-
-  set setTransitionDuration(int duration) {
-    transistionDuration.value = duration;
-
-    update();
-  }
-
-  Transition get getPageTransition => pageTransition.value;
-  int get getTransitionDuration => transistionDuration.value;
 }

@@ -1,28 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:of_flutter_mobile/app/constant/color.dart';
+import 'package:of_flutter_mobile/app/models/forklift_model.dart';
+import 'package:of_flutter_mobile/app/theme/color.dart';
 
 class ListForkliftSource extends DataTableSource {
-  final List<Map<String, dynamic>> data = [
-    {
-      'unit_code': 'SOE 1902',
-      'location': 'FGWH',
-      'hour_mtr': 90,
-      'pic': 'YULI',
-    },
-    {
-      'unit_code': 'SOE 1902',
-      'location': 'FGWH',
-      'hour_mtr': 90,
-      'pic': 'YULI',
-    },
-    {
-      'unit_code': 'SOE 1902',
-      'location': 'FGWH',
-      'hour_mtr': 90,
-      'pic': 'YULI',
-    },
-  ];
+  final List<ForkliftModel> data = [];
 
   final ColorPicker colors = ColorPicker();
 
@@ -30,35 +12,25 @@ class ListForkliftSource extends DataTableSource {
   int currentPage = 1;
   int perPage = 10;
 
-  void updateData(List<Map<String, dynamic>> newData) {
+  void updateData(List<ForkliftModel> newData) {
     data.clear();
     data.addAll(newData);
     notifyListeners();
   }
 
-  // void updateDataFromController(List<AssignmentModel> tasks) {
-  //   final newData = tasks.map((item) {
-  //     return AssignmentModel(
-  //       id: item.id,
-  //       assignBy: item.assignBy,
-  //       codeCS: item.codeCS,
-  //       area: item.area,
-  //       location: item.location,
-  //       tasks: item.tasks,
-  //       tasksDetail: item.tasksDetail,
-  //       status: item.status,
-  //       duration: item.duration,
-  //       supervisorId: item.supervisorId,
-  //       checkedSupervisorAt: item.checkedSupervisorAt,
-  //       verifiedDanoneAt: item.verifiedDanoneAt,
-  //       createdAt: item.createdAt,
-  //       startAt: item.startAt,
-  //       finishAt: item.finishAt,
-  //     );
-  //   }).toList();
+  void updateDataFromController(List<ForkliftModel> tasks) {
+    final newData = tasks.map((item) {
+      return ForkliftModel(
+          id: item.id,
+          unitCode: item.unitCode,
+          image: item.image,
+          location: item.location,
+          hourMeter: item.hourMeter,
+          pic: item.pic);
+    }).toList();
 
-  //   updateData(newData);
-  // }
+    updateData(newData);
+  }
 
   // void sort<T>(
   //   Comparable<T> Function(AssignmentModel) getField,
@@ -111,19 +83,19 @@ class ListForkliftSource extends DataTableSource {
           ),
         ),
         DataCell(
-          Text(dataRow['unit_code']),
+          Text(dataRow.unitCode),
         ),
         DataCell(
-          Text(dataRow['location']),
+          Text(dataRow.location.name),
         ),
         DataCell(
           Text(
-            dataRow['hour_mtr'].toString(),
+            dataRow.hourMeter != null ? dataRow.hourMeter.toString() : "0",
           ),
         ),
         DataCell(
           Text(
-            dataRow['pic'],
+            dataRow.pic.name,
           ),
         ),
         DataCell(Row(

@@ -10,9 +10,12 @@ import 'package:of_flutter_mobile/app/components/widgets/button/gradient_button.
 import 'package:of_flutter_mobile/app/components/widgets/dropdown/single_dropdown_less.dart';
 import 'package:of_flutter_mobile/app/components/widgets/image/image.dart';
 import 'package:of_flutter_mobile/app/components/widgets/input/text_input.dart';
+import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_rectangle.dart';
+import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_tile.dart';
+import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_twintile.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/heading.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
-import 'package:of_flutter_mobile/app/constant/color.dart';
+import 'package:of_flutter_mobile/app/theme/color.dart';
 import 'package:of_flutter_mobile/app/utils/validator.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -25,6 +28,93 @@ class AddunitView extends GetView<AddunitController> {
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
 
+  List<Widget> body() {
+    if (controller.isLoading.value) {
+      return [
+        skeletonRectangle(),
+        const Gap(10),
+        skeletonTwinTile(),
+        const Gap(10),
+        skeletonTile(),
+        const Gap(10),
+        skeletonTile(),
+        const Gap(10),
+        skeletonTile()
+      ];
+    }
+
+    return [
+      imageCard(
+        height: 200,
+        width: Get.width,
+        onTap: () => controller.openSheetImage(),
+        colors: colors,
+        margins: const [35, 0, 35, 0],
+        fileImage: controller.image,
+        url: null,
+      ).animate().fadeIn(),
+      const Gap(10),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: singleDropdownLess(
+                hint: "Code",
+                data: controller.codeModel,
+                width: Get.width * 0.5,
+                colors: colors,
+                onChanged: (value) => controller.handleOnChange(value, "code"),
+                value: dropdownValue(controller.valueCode.value)),
+          ),
+          const Gap(10),
+          const Heading(heading: "h1", text: "-", textAlign: TextAlign.center),
+          const Gap(10),
+          Expanded(
+            child: TextInput(
+              maxLength: 4,
+              keyboardType: TextInputType.number,
+              width: Get.width * 0.5,
+              colors: colors,
+              onChanged: (value) => controller.handleOnChange(value, "number"),
+              hint: "Number",
+              onTapOutside: (pointer) => controller.handleOnUnFocus(pointer),
+              errorText: "",
+            ),
+          )
+        ],
+      ).animate().fadeIn(),
+      const Gap(10),
+      singleDropdownLess(
+              hint: "Operation Location",
+              data: controller.locationModel,
+              width: Get.width,
+              colors: colors,
+              onChanged: (value) =>
+                  controller.handleOnChange(value, "location"),
+              value: dropdownValue(controller.valueLocation.value))
+          .animate()
+          .fadeIn(),
+      const Gap(10),
+      singleDropdownLess(
+              hint: "PIC",
+              data: controller.picModel,
+              width: Get.width,
+              colors: colors,
+              onChanged: (value) => controller.handleOnChange(value, "pic"),
+              value: dropdownValue(controller.valuePIC.value))
+          .animate()
+          .fadeIn(),
+      const Gap(10),
+      GradientButton(
+              colors: [colors.primaryBlack, colors.primaryBlack],
+              onPressed: () => controller.handleSubmit(),
+              text: "Submit Unit")
+          .animate()
+          .fadeIn()
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,98 +125,17 @@ class AddunitView extends GetView<AddunitController> {
           showLogo: false,
           child: MainLayout(
             isScrollable: true,
-            onRefresh: () {
+            onRefresh: () async {
+              await builder.fetchAllData();
               refreshController.refreshCompleted();
             },
             refreshController: refreshController,
             children: <Widget>[
-              title(title: "Add Forklift"),
-              const Gap(10),
-              imageCard(
-                height: 200,
-                width: Get.width,
-                onTap: () => builder.openSheetImage(),
-                colors: colors,
-                margins: const [35, 0, 35, 0],
-                fileImage: builder.image,
-                url: null,
-              ).animate().slideY(duration: 400.ms),
-              const Gap(10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: singleDropdownLess(
-                        hint: "Code",
-                        data: const [
-                          {'id': 1, 'name': 'SOE'},
-                          {'id': 2, 'name': 'CKU'},
-                        ],
-                        width: Get.width * 0.5,
-                        colors: colors,
-                        onChanged: (value) =>
-                            builder.handleOnChange(value, "code"),
-                        value: dropdownValue(builder.valueCode.value)),
-                  ),
-                  const Gap(10),
-                  const Heading(
-                      heading: "h1", text: "-", textAlign: TextAlign.center),
-                  const Gap(10),
-                  Expanded(
-                    child: TextInput(
-                      maxLength: 4,
-                      keyboardType: TextInputType.number,
-                      width: Get.width * 0.5,
-                      colors: colors,
-                      onChanged: (value) =>
-                          builder.handleOnChange(value, "number"),
-                      hint: "Number",
-                      onTap: () => builder.handleOnFocus(),
-                      onTapOutside: (pointer) =>
-                          builder.handleOnUnFocus(pointer),
-                      errorText: "",
-                      isFocus: builder.isFocus.value,
-                    ),
-                  )
-                ],
-              ).animate().slideY(),
-              const Gap(10),
-              singleDropdownLess(
-                      hint: "Operation Location",
-                      data: const [
-                        {'id': 1, 'name': 'FGWH'},
-                        {'id': 2, 'name': 'PRODUKSI'},
-                        {'id': 3, 'name': 'WIN'},
-                      ],
-                      width: Get.width,
-                      colors: colors,
-                      onChanged: (value) =>
-                          builder.handleOnChange(value, "location"),
-                      value: dropdownValue(builder.valueLocation.value))
+              title(title: "Add Forklift")
                   .animate()
-                  .slideY(),
+                  .slideY(duration: 150.ms, begin: -0.1, end: 0),
               const Gap(10),
-              singleDropdownLess(
-                      hint: "PIC",
-                      data: const [
-                        {'id': 1, 'name': 'YULI'},
-                        {'id': 2, 'name': 'ODI'},
-                      ],
-                      width: Get.width,
-                      colors: colors,
-                      onChanged: (value) =>
-                          builder.handleOnChange(value, "pic"),
-                      value: dropdownValue(builder.valuePIC.value))
-                  .animate()
-                  .slideY(),
-              const Gap(10),
-              GradientButton(
-                      colors: [colors.primaryBlack, colors.primaryBlack],
-                      onPressed: () => builder.handleSubmit(),
-                      text: "Submit Unit")
-                  .animate()
-                  .slideY()
+              ...body()
             ],
           ),
         ),

@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/heading.dart';
-import 'package:of_flutter_mobile/app/constant/color.dart';
+import 'package:of_flutter_mobile/app/theme/color.dart';
 
 class GridItem extends StatelessWidget {
   final String title, image1, image2, routes;

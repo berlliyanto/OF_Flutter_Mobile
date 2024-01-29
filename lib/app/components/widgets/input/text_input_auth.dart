@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:of_flutter_mobile/app/constant/color.dart';
+import 'package:of_flutter_mobile/app/theme/color.dart';
 
 class TextInputAuth extends StatelessWidget {
   final TextEditingController controller;

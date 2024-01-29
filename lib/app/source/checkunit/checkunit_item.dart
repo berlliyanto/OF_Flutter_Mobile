@@ -1,9 +1,9 @@
 Map<String, dynamic> checkunitItem = {
   'body': [
-    {'key': 'depan', 'title': 'Depan'},
-    {'key': 'belakang', 'title': 'Belakang'},
-    {'key': 'kanan', 'title': 'Kanan'},
-    {'key': 'kiri', 'title': 'Kiri'},
+    {'key': 'body_depan', 'title': 'Depan'},
+    {'key': 'body_belakang', 'title': 'Belakang'},
+    {'key': 'body_kanan', 'title': 'Kanan'},
+    {'key': 'body_kiri', 'title': 'Kiri'},
   ],
   'camera_depan': {
     'key': 'camera_depan',
@@ -11,7 +11,7 @@ Map<String, dynamic> checkunitItem = {
   },
   'monitor_layar': {'key': 'monitor_layar', 'title': 'Monitor / Layar'},
   'lampu': [
-    {'key': 'utama', 'title': 'Utama'},
+    {'key': 'lampu_utama', 'title': 'Utama'},
     {'key': 'lampu_sign', 'title': 'Lampu Sign'},
     {'key': 'lampu_rotary', 'title': 'Lampu Rotary'},
     {'key': 'blue_spot_light', 'title': 'Blue Spot Light'},
@@ -98,11 +98,11 @@ Map<String, dynamic> checkunitItem = {
     'title': 'Fork',
   },
   'safety_features': [
-    {'key': 'sensor_fork', 'title': 'Sensor Fork'},
-    {'key': 'sensor_rfid', 'title': 'Sensor RFID'},
-    {'key': 'kartu_akses', 'title': 'Kartu Akses'},
-    {'key': 'tombol_battery', 'title': 'Tombol Battery'},
-    {'key': 'tombol_emergency', 'title': 'Tombol Emergency'},
-    {'key': 'penutup_charger', 'title': 'Penutup Charger'},
+    {'key': 'safety_sensor_fork', 'title': 'Sensor Fork'},
+    {'key': 'safety_sensor_rfid', 'title': 'Sensor RFID'},
+    {'key': 'safety_kartu_akses', 'title': 'Kartu Akses'},
+    {'key': 'safety_tombol_battery', 'title': 'Tombol Battery'},
+    {'key': 'safety_tombol_emergency', 'title': 'Tombol Emergency'},
+    {'key': 'safety_penutup_charger', 'title': 'Penutup Charger'},
   ]
 };

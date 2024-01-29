@@ -6,9 +6,11 @@ import 'package:get/get.dart';
 import 'package:of_flutter_mobile/app/components/layout/background_layout.dart';
 import 'package:of_flutter_mobile/app/components/layout/main_layout.dart';
 import 'package:of_flutter_mobile/app/components/widgets/appbar/appbar.dart';
+import 'package:of_flutter_mobile/app/components/widgets/drawer/drawer.dart';
 import 'package:of_flutter_mobile/app/components/widgets/grid/grid.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
-import 'package:of_flutter_mobile/app/constant/color.dart';
+import 'package:of_flutter_mobile/app/dependency/global_state.dart';
+import 'package:of_flutter_mobile/app/theme/color.dart';
 import 'package:of_flutter_mobile/app/source/menu/checkunit_list.dart';
 
 import '../controllers/main_checkunit_controller.dart';
@@ -17,6 +19,7 @@ class ChechkunitView extends GetView<ChechkunitController> {
   ChechkunitView({Key? key}) : super(key: key);
 
   final ColorPicker colors = ColorPicker();
+  final GlobalState globalState = Get.find<GlobalState>();
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +27,11 @@ class ChechkunitView extends GetView<ChechkunitController> {
       appBar: appBar(
           text: "FORKLIFT CHECK UNIT", colors: colors, drawerLeading: true),
       extendBodyBehindAppBar: true,
-      drawer: const Drawer(),
+      drawer: drawer(
+        colors: colors,
+        currentActiveMenu: "Forklift Check Unit",
+        onTap: (route) => globalState.handleDrawerMenu(route),
+      ),
       body: GetBuilder<ChechkunitController>(builder: (context) {
         return BackgroundLayout(
           child: MainLayout(

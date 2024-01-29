@@ -96,7 +96,7 @@ Widget formRegister(
           const Paragraph(text: "Already have an operator account?"),
           const Gap(5),
           GestureDetector(
-            onTap: () => Get.toNamed('/login'),
+            onTap: () => Get.offNamed('/login'),
             child: const Paragraph(
               text: "Sign In",
               fontWeight: FontWeight.bold,
@@ -105,10 +105,13 @@ Widget formRegister(
         ],
       ),
       const Gap(15),
-      GradientButton(colors: [
-        Color(builder.colorPicker.colors.cyanDark),
-        Color(builder.colorPicker.colors.cyan)
-      ], onPressed: () => builder.handleSubmit(formKey), text: title)
+      GradientButton(
+          colors: builder.isLoading.value
+              ? builder.colorsLoading
+              : [builder.colorPicker.cyanDark, builder.colorPicker.cyan],
+          onPressed: () =>
+              builder.isLoading.value ? null : builder.handleSubmit(formKey),
+          text: builder.isLoading.value ? "Loading..." : "Sign Up")
     ],
   );
 }

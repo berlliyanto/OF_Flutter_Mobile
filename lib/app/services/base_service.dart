@@ -1,20 +1,37 @@
 import 'package:dio/dio.dart';
+import 'package:get/utils.dart';
 import 'package:of_flutter_mobile/app/components/widgets/snackbar/snackbar.dart';
-import 'package:of_flutter_mobile/app/config/config.dart';
+import 'package:of_flutter_mobile/app/config/app_config.dart';
 import 'package:of_flutter_mobile/app/utils/error_handler.dart';
-import 'package:of_flutter_mobile/app/utils/get_token.dart';
+import 'package:of_flutter_mobile/app/utils/token.dart';
 
 class BaseServices {
-  final baseUrl = AppConfig().getBaseUrl;
   Dio dio = Dio();
+  final baseUrl = AppConfig().getBaseUrl;
+
+  BaseServices() {
+    dio = Dio(
+      BaseOptions(
+        baseUrl: baseUrl,
+        receiveDataWhenStatusError: true,
+        connectTimeout: 30.seconds,
+        receiveTimeout: 30.seconds,
+      ),
+    );
+  }
 
   String token = getToken();
 
   Future<Response> post(
-      {required String path, required Map<String, dynamic> data}) async {
+      {required String path,
+      required Map<String, dynamic> data,
+      String query = ""}) async {
     try {
-      final response =
-          await dio.post("$baseUrl$path", data: data, options: setOptions());
+      final response = await dio.post(
+        "$path?$query",
+        data: data,
+        options: setOptions(),
+      );
 
       if (response.statusCode == 200) {
         return response;
@@ -36,8 +53,7 @@ class BaseServices {
 
   Future<Response> get({required String path, String query = ""}) async {
     try {
-      final response =
-          await dio.get("$baseUrl$path?$query", options: setOptions());
+      final response = await dio.get("$path?$query", options: setOptions());
 
       if (response.statusCode == 200) {
         return response;
@@ -62,8 +78,8 @@ class BaseServices {
       required Map<String, dynamic> data,
       String query = ""}) async {
     try {
-      final response = await dio.put("$baseUrl$path?$query",
-          data: data, options: setOptions());
+      final response =
+          await dio.put("$path?$query", data: data, options: setOptions());
 
       if (response.statusCode == 200) {
         return response;
@@ -85,8 +101,7 @@ class BaseServices {
 
   Future<Response> delete({required String path, String id = ""}) async {
     try {
-      final response =
-          await dio.delete("$baseUrl$path/$id", options: setOptions());
+      final response = await dio.delete("$path/$id", options: setOptions());
 
       if (response.statusCode == 200) {
         return response;
@@ -107,13 +122,10 @@ class BaseServices {
   }
 
   Future<Response> postFormData(
-      {required FormData data,
-      required String path,
-      String id = "",
-      String query = ""}) async {
+      {required FormData data, required String path, String query = ""}) async {
     try {
       final response = await dio.post(
-        "$baseUrl$path/$id?$query",
+        "$path?$query",
         data: data,
         options: Options(
           headers: {
@@ -136,6 +148,7 @@ class BaseServices {
             message: response.data['message'].toString());
       }
     } on DioException catch (error) {
+      print(error.response!.data);
       checkException(error,
           error.response != null ? error.response!.data['message'] : "Error");
       return Response(statusCode: 400, requestOptions: RequestOptions());

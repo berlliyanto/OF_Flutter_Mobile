@@ -16,6 +16,7 @@ abstract class Routes {
   static const ADDUNIT = _Paths.ADDUNIT;
   static const LISTOPERATOR = _Paths.LISTOPERATOR;
   static const CHECKHISTORY = _Paths.CHECKHISTORY;
+  static const USERPROFILE = _Paths.USERPROFILE;
 }
 
 abstract class _Paths {
@@ -31,4 +32,5 @@ abstract class _Paths {
   static const ADDUNIT = '/addunit';
   static const LISTOPERATOR = '/listoperator';
   static const CHECKHISTORY = '/checkhistory';
+  static const USERPROFILE = '/userprofile';
 }

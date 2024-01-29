@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:of_flutter_mobile/app/routes/app_pages.dart';
 
-List<ListHomeModel> listHome = [
-  ListHomeModel(
+List<ListMenuModel> listHome = [
+  ListMenuModel(
       routes: Routes.CHECKUNIT,
       title: "Forklift Check Unit",
-      icon: Icons.checklist_sharp),
-  ListHomeModel(routes: "", title: "Coming Soon", icon: Icons.settings),
-  ListHomeModel(routes: "", title: "Coming Soon", icon: Icons.settings),
-  ListHomeModel(routes: "", title: "Coming Soon", icon: Icons.settings),
+      icon: FontAwesomeIcons.listCheck),
+  ListMenuModel(routes: "", title: "Coming Soon", icon: FontAwesomeIcons.gears),
+  ListMenuModel(routes: "", title: "Coming Soon", icon: FontAwesomeIcons.gears),
+  ListMenuModel(routes: "", title: "Coming Soon", icon: FontAwesomeIcons.gears),
 ];
 
-class ListHomeModel {
-  final String title, routes;
+class ListMenuModel {
+  final String title;
+  dynamic routes;
   final IconData icon;
 
-  ListHomeModel({
+  ListMenuModel({
     required this.title,
     required this.routes,
     required this.icon,
