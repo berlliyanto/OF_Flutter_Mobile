@@ -11,3 +11,14 @@ dynamic dropdownValue(int value) {
 
   return value;
 }
+
+bool checkQueryIsExist(String query, List<String> queryKey) {
+  bool condition = false;
+  for (var element in queryKey) {
+    if (query.contains(element)) {
+      condition = true;
+    }
+  }
+
+  return condition;
+}

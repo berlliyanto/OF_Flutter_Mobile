@@ -14,8 +14,10 @@ import 'package:of_flutter_mobile/app/components/widgets/input/text_input.dart';
 import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_bigrectangle.dart';
 import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_tile.dart';
 import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_twintile.dart';
+import 'package:of_flutter_mobile/app/components/widgets/text/paragraph.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
+import 'package:of_flutter_mobile/app/utils/validator.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../controllers/listforklift_controller.dart';
@@ -40,6 +42,7 @@ class ListforkliftView extends GetView<ListforkliftController> {
 
     return [
       TextInput(
+        controller: controller.searchController,
         keyboardType: TextInputType.streetAddress,
         width: Get.width,
         colors: colors,
@@ -56,7 +59,7 @@ class ListforkliftView extends GetView<ListforkliftController> {
         children: [
           Expanded(
             child: singleDropdownLess(
-                data: controller.locationModel,
+                data: controller.listLocation,
                 hint: "Location",
                 width: Get.width,
                 colors: colors,
@@ -69,7 +72,7 @@ class ListforkliftView extends GetView<ListforkliftController> {
           const Gap(10),
           Expanded(
             child: singleDropdownLess(
-              data: controller.picModel,
+              data: controller.listPic,
               hint: "PIC",
               width: Get.width,
               colors: colors,
@@ -80,12 +83,30 @@ class ListforkliftView extends GetView<ListforkliftController> {
         ],
       ),
       const Gap(10),
+      if (checkQueryIsExist(
+          controller.query.value, ["unit_code", "pic_id", "location_id"]))
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            GestureDetector(
+              onTap: () => controller.resetQuery(),
+              child: Paragraph(
+                text: "Clear ",
+                color: colors.primaryBlack,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       dataTable(
         dataColumns: datatableHeader(
           ["No", "Unit Code", "Location", "Hour Mtr", "PIC", "Action"],
         ),
         source: controller.source,
         rowsPerPage: controller.meta.perPage,
+        onPageChanged: (value) => controller.onPageChanged(value),
+        onRowsPerPageChanged: (value) =>
+            controller.onRowsPerPageChanged(value!),
       ).animate().fade(),
     ];
   }

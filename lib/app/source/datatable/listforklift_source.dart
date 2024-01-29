@@ -66,13 +66,23 @@ class ListForkliftSource extends DataTableSource {
 
   @override
   DataRow? getRow(int index) {
-    final dataRow = data[index];
+    if (index >= totalRow || data.isEmpty) {
+      return null;
+    }
+
+    int newIndex = (index + (currentPage - 1) * perPage) % perPage;
+    if (newIndex >= data.length) {
+      return null;
+    }
+
+    final currentRow = data[newIndex];
+
     return DataRow(
       color: MaterialStateColor.resolveWith((Set<MaterialState> states) {
         if (states.contains(MaterialState.selected)) {
           return Theme.of(Get.context!).colorScheme.primary.withOpacity(0.08);
         }
-        return data.indexOf(dataRow) % 2 == 0
+        return data.indexOf(currentRow) % 2 == 0
             ? colors.cyanDark.withOpacity(0.1)
             : colors.whiteSmoke;
       }),
@@ -83,19 +93,21 @@ class ListForkliftSource extends DataTableSource {
           ),
         ),
         DataCell(
-          Text(dataRow.unitCode),
+          Text(currentRow.unitCode),
         ),
         DataCell(
-          Text(dataRow.location.name),
+          Text(currentRow.location.name),
         ),
         DataCell(
           Text(
-            dataRow.hourMeter != null ? dataRow.hourMeter.toString() : "0",
+            currentRow.hourMeter != null
+                ? currentRow.hourMeter.toString()
+                : "0",
           ),
         ),
         DataCell(
           Text(
-            dataRow.pic.name,
+            currentRow.pic.name,
           ),
         ),
         DataCell(Row(
@@ -111,7 +123,7 @@ class ListForkliftSource extends DataTableSource {
   bool get isRowCountApproximate => false;
 
   @override
-  int get rowCount => data.length;
+  int get rowCount => totalRow;
 
   @override
   int get selectedRowCount => 0;

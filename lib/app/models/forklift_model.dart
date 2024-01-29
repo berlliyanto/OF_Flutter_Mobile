@@ -3,9 +3,9 @@ import 'package:of_flutter_mobile/app/models/pic_model.dart';
 
 class ForkliftModel {
   late int id;
-  late String unitCode, image;
+  late String unitCode;
   late LocationModel location;
-  late dynamic hourMeter;
+  late dynamic hourMeter, image;
   late PicModel pic;
 
   ForkliftModel({

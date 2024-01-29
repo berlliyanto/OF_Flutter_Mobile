@@ -120,11 +120,13 @@ class TextInput extends StatelessWidget {
   final FocusNode? focusNode;
   final int? maxLines;
   final String? label;
+  final TextEditingController? controller;
   const TextInput(
       {required this.width,
       required this.colors,
       required this.onChanged,
       required this.hint,
+      this.controller,
       this.onTapOutside,
       this.onTap,
       this.focusNode,
@@ -198,6 +200,7 @@ class TextInput extends StatelessWidget {
               border: Border.all(color: setBorderColor(), width: 1),
             ),
             child: TextField(
+              controller: controller,
               focusNode: focusNode,
               maxLength: maxLength,
               maxLines: maxLines,

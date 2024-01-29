@@ -26,6 +26,7 @@ class BaseServices {
       {required String path,
       required Map<String, dynamic> data,
       String query = ""}) async {
+    print("POST : $path?$query");
     try {
       final response = await dio.post(
         "$path?$query",
@@ -52,6 +53,7 @@ class BaseServices {
   }
 
   Future<Response> get({required String path, String query = ""}) async {
+    print("GET : $path?$query");
     try {
       final response = await dio.get("$path?$query", options: setOptions());
 
@@ -77,6 +79,8 @@ class BaseServices {
       {required String path,
       required Map<String, dynamic> data,
       String query = ""}) async {
+    print("PUT : $path?$query");
+
     try {
       final response =
           await dio.put("$path?$query", data: data, options: setOptions());
@@ -100,6 +104,7 @@ class BaseServices {
   }
 
   Future<Response> delete({required String path, String id = ""}) async {
+    print("POST : $path/$id");
     try {
       final response = await dio.delete("$path/$id", options: setOptions());
 
@@ -123,6 +128,8 @@ class BaseServices {
 
   Future<Response> postFormData(
       {required FormData data, required String path, String query = ""}) async {
+    print("POST FORMDATA : $path?$query");
+
     try {
       final response = await dio.post(
         "$path?$query",

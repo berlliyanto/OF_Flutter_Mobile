@@ -8,6 +8,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:of_flutter_mobile/app/components/widgets/bottomsheet/bottomsheet_image.dart';
 import 'package:of_flutter_mobile/app/components/widgets/snackbar/snackbar.dart';
 import 'package:of_flutter_mobile/app/components/widgets/toast/toast.dart';
+import 'package:of_flutter_mobile/app/models/shift_model.dart';
+import 'package:of_flutter_mobile/app/services/shift/shit_service.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
 import 'package:of_flutter_mobile/app/modules/checkunit/local_widgets/multi_checkunit.dart';
 import 'package:of_flutter_mobile/app/modules/checkunit/local_widgets/single_checkunit.dart';
@@ -24,22 +26,26 @@ class CheckreportController extends GetxController {
     {'id': 3, 'name': 'Option 3'},
   ];
 
+  List<dynamic> listShift = [];
   Map<String, dynamic> data = {};
   File? imageFront, imageBack, imageLeft, imageRight;
   var startTime = "Start Time".obs;
   var endTime = "End Time".obs;
+  var isLoading = false.obs;
+  var shiftLoading = false.obs;
 
-  void onChangedInput(String type, dynamic value) {
+  void onChangedInput(String type, dynamic value) async {
     switch (type) {
       case "location":
         data["location_id"] = value;
         break;
       case "shift":
+        ShiftModel shift = await showShift(value);
         data["shift_id"] = value;
-        startTime.value = shiftToHour(value)[0];
-        endTime.value = shiftToHour(value)[1];
-        data["start_time"] = shiftToHour(value)[0];
-        data["end_time"] = shiftToHour(value)[1];
+        startTime.value = shift.startTime;
+        endTime.value = shift.endTime;
+        data["start_time"] = shift.startTime;
+        data["end_time"] = shift.endTime;
         break;
       case "pallet":
         data["pallet_amount"] = value;
@@ -139,10 +145,37 @@ class CheckreportController extends GetxController {
     print(formData.length);
   }
 
+  Future<void> getShift() async {
+    final response = await ShiftService().indexShift();
+    if (response.data != null) {
+      listShift = response.data['data'];
+    }
+  }
+
+  Future<ShiftModel> showShift(int id) async {
+    shiftLoading.value = true;
+    update();
+    final response = await ShiftService().showShift(id);
+    if (response.data != null) {
+      shiftLoading.value = false;
+      update();
+      return ShiftModel.fromJson(response.data['data']);
+    }
+    return ShiftModel(id: id, name: "", startTime: "00:00", endTime: "00:00");
+  }
+
+  Future fetchAllAPI() async {
+    isLoading.value = true;
+    update();
+    await getShift();
+    isLoading.value = false;
+    update();
+  }
+
   @override
   void onInit() async {
     super.onInit();
-    print("object");
+    fetchAllAPI();
   }
 
   @override

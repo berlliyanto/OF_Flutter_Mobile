@@ -7,7 +7,6 @@ import 'package:of_flutter_mobile/app/components/layout/background_layout.dart';
 import 'package:of_flutter_mobile/app/components/layout/main_layout.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/heading.dart';
 import 'package:of_flutter_mobile/app/modules/register/local_widgets/form_register.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../controllers/register_controller.dart';
 
@@ -15,8 +14,6 @@ class RegisterView extends GetView<RegisterController> {
   RegisterView({Key? key}) : super(key: key);
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final RefreshController refreshController =
-      RefreshController(initialRefresh: false);
 
   @override
   Widget build(BuildContext context) {
@@ -27,16 +24,11 @@ class RegisterView extends GetView<RegisterController> {
           showBottom: true,
           showLogo: builder.isLogoVisible.value,
           child: MainLayout(
-            refreshController: refreshController,
-            onRefresh: () {
-              refreshController.refreshCompleted();
-            },
-            isScrollable: true,
             crossAxis: CrossAxisAlignment.start,
-            mainAxis: MainAxisAlignment.center,
+            mainAxis: MainAxisAlignment.start,
             paddingLR: 15,
             children: <Widget>[
-              const Gap(100),
+              Gap(Get.height * 0.11),
               const Hero(
                 tag: "h1_auth",
                 child: Heading(

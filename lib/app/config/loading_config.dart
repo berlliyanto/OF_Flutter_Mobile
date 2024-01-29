@@ -3,7 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 void configLoading() {
   EasyLoading.instance
-    ..displayDuration = const Duration(milliseconds: 2000)
+    ..displayDuration = const Duration(milliseconds: 1500)
     ..indicatorType = EasyLoadingIndicatorType.cubeGrid
     ..loadingStyle = EasyLoadingStyle.dark
     ..indicatorSize = 45.0

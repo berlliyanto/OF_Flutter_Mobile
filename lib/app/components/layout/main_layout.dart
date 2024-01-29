@@ -22,27 +22,20 @@ class MainLayout extends StatelessWidget {
       this.margins = const [0, 0, 0, 0],
       super.key});
 
-  Widget mainScrollable({required Widget child}) {
+  Widget mainScrollable() {
     if (isScrollable) {
       return SmartRefresher(
-        controller: refreshController!,
-        onRefresh: onRefresh,
-        header: const WaterDropMaterialHeader(
-          offset: 100,
-          backgroundColor: Color(0xFF19A7CE),
-          distance: 50,
-        ),
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: paddingLR),
-          margin: EdgeInsets.fromLTRB(
-              margins[0], margins[1], margins[2], margins[3]),
-          height: Get.height,
-          width: Get.width,
-          child: SingleChildScrollView(
-            child: child,
+          controller: refreshController!,
+          onRefresh: onRefresh,
+          header: const WaterDropMaterialHeader(
+            offset: 100,
+            backgroundColor: Color(0xFF19A7CE),
+            distance: 50,
           ),
-        ),
-      );
+          child: ListView(
+            padding: EdgeInsets.symmetric(horizontal: paddingLR),
+            children: children,
+          ));
     }
 
     return Container(
@@ -51,18 +44,16 @@ class MainLayout extends StatelessWidget {
           EdgeInsets.fromLTRB(margins[0], margins[1], margins[2], margins[3]),
       height: Get.height,
       width: Get.width,
-      child: child,
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return mainScrollable(
       child: Column(
         mainAxisAlignment: mainAxis,
         crossAxisAlignment: crossAxis,
         children: children,
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return mainScrollable();
   }
 }

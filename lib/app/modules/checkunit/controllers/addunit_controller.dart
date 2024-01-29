@@ -97,7 +97,7 @@ class AddunitController extends GetxController {
     final response = await ForkliftService().storeForklift(formData);
     if (response.data != null) {
       EasyLoading.dismiss();
-      toast(message: response.data['message']);
+      EasyLoading.showSuccess(response.data['message']);
       Get.toNamed(Routes.LISTFORKLIFT);
     }
   }

@@ -24,14 +24,18 @@ Widget singleDropdownLess({
         fontSize: 16,
       ),
       isExpanded: true,
-      items: data
-          .map(
-            (e) => DropdownMenuItem(
-              value: e['id'],
-              child: Text(e['name']),
-            ),
-          )
-          .toList(),
+      items: data.map((e) {
+        String name = "";
+        if (e['name'].contains("Shift")) {
+          name = e['id'].toString();
+        } else {
+          name = e['name'];
+        }
+        return DropdownMenuItem(
+          value: e['id'],
+          child: Text(name),
+        );
+      }).toList(),
       onChanged: onChanged,
       value: value,
       underline: const SizedBox(),
