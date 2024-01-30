@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
 
@@ -16,6 +18,20 @@ Widget searchDropdown({
   return TypeAheadField<Map<String, dynamic>>(
     suggestionsCallback: suggestionsCallback,
     controller: textEditingController,
+    debounceDuration: 500.ms,
+    loadingBuilder: (context) {
+      return Column(
+        children: [
+          const Gap(150),
+          Center(
+            child: CircularProgressIndicator(
+              backgroundColor: colors.cyanDark,
+              color: colors.cyan,
+            ),
+          ),
+        ],
+      );
+    },
     builder: (context, controller, focusNode) {
       return Container(
           width: Get.width,

@@ -11,5 +11,5 @@ void configLoading() {
     ..maskColor = Colors.black.withOpacity(0.1)
     ..maskType = EasyLoadingMaskType.black
     ..userInteractions = true
-    ..dismissOnTap = false;
+    ..dismissOnTap = true;
 }

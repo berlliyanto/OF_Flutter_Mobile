@@ -2,13 +2,18 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/state_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:of_flutter_mobile/app/components/widgets/bottomsheet/bottomsheet_image.dart';
 import 'package:of_flutter_mobile/app/components/widgets/snackbar/snackbar.dart';
 import 'package:of_flutter_mobile/app/components/widgets/toast/toast.dart';
+import 'package:of_flutter_mobile/app/models/forklift_model.dart';
 import 'package:of_flutter_mobile/app/models/shift_model.dart';
+import 'package:of_flutter_mobile/app/routes/app_pages.dart';
+import 'package:of_flutter_mobile/app/services/checklist/checklist_service.dart';
+import 'package:of_flutter_mobile/app/services/forklift/forklift_service.dart';
 import 'package:of_flutter_mobile/app/services/shift/shit_service.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
 import 'package:of_flutter_mobile/app/modules/checkunit/local_widgets/multi_checkunit.dart';
@@ -17,47 +22,59 @@ import 'package:of_flutter_mobile/app/source/checkunit/checkunit_item.dart';
 import 'package:of_flutter_mobile/app/utils/formatter.dart';
 import 'package:dio/dio.dart';
 import 'package:of_flutter_mobile/app/utils/picker.dart';
+import 'package:of_flutter_mobile/app/utils/query_builder.dart';
 
 class CheckreportController extends GetxController {
-  final TextEditingController textController = TextEditingController();
-  final List<Map<String, dynamic>> options = [
-    {'id': 1, 'name': 'Option 1'},
-    {'id': 2, 'name': 'Option 2'},
-    {'id': 3, 'name': 'Option 3'},
-  ];
+  final TextEditingController searchDropDownController =
+      TextEditingController();
+  final TextEditingController palletController = TextEditingController();
+  final TextEditingController forkliftHMController = TextEditingController();
+  final TextEditingController unitNotesController = TextEditingController();
+  final TextEditingController safetyNotesController = TextEditingController();
+  final List<Map<String, dynamic>> listForklifts = [];
 
   List<dynamic> listShift = [];
   Map<String, dynamic> data = {};
+  Map<String, dynamic> items = {};
+  Map<String, dynamic> docs = {};
+  Map<String, dynamic> main = {};
   File? imageFront, imageBack, imageLeft, imageRight;
   var startTime = "Start Time".obs;
   var endTime = "End Time".obs;
   var isLoading = false.obs;
   var shiftLoading = false.obs;
+  var activeQuery = "page=1&per_page=10".obs;
 
   void onChangedInput(String type, dynamic value) async {
     switch (type) {
       case "location":
-        data["location_id"] = value;
+        main["location_id"] = value;
         break;
       case "shift":
         ShiftModel shift = await showShift(value);
-        data["shift_id"] = value;
+        main["shift_id"] = value;
         startTime.value = shift.startTime;
         endTime.value = shift.endTime;
-        data["start_time"] = shift.startTime;
-        data["end_time"] = shift.endTime;
+        main["start_time"] = shift.startTime;
+        main["end_time"] = shift.endTime;
         break;
       case "pallet":
-        data["pallet_amount"] = value;
+        main["pallet_amount"] = palletController.text;
         break;
       case "forklift_hour_meter":
-        data["forklift_hour_meter"] = value;
+        main["forklift_hour_meter"] = value;
         break;
       case "forklift_notes":
-        data["forklift_notes"] = value;
+        if (value.length == 0) {
+          docs.remove("forklift_notes");
+        }
+        docs["forklift_notes"] = forkliftHMController.text;
         break;
       case "safety_notes":
-        data["safety_notes"] = value;
+        if (value.length == 0) {
+          docs.remove("safety_notes");
+        }
+        docs["safety_notes"] = safetyNotesController.text;
         break;
       default:
     }
@@ -70,10 +87,10 @@ class CheckreportController extends GetxController {
     if (time != null) {
       String timeFormatted = formatTime(time.hour, time.minute);
       if (type == "start") {
-        data["start_time"] = timeFormatted;
+        main["start_time"] = timeFormatted;
         startTime.value = timeFormatted;
       } else if (type == "end") {
-        data["end_time"] = timeFormatted;
+        main["end_time"] = timeFormatted;
         endTime.value = timeFormatted;
       } else {
         toast(message: "Something went wrong");
@@ -84,15 +101,16 @@ class CheckreportController extends GetxController {
   }
 
   void onTypeAheadSelected(Map<String, dynamic> value) {
-    data["forklift_id"] = value['id'];
-    textController.text = value['name'];
+    main["forklift_id"] = value['id'];
+    searchDropDownController.text = value['name'];
   }
 
   Future suggestions(String query) async {
-    return options
-        .where((element) =>
-            element['name'].toLowerCase().contains(query.toLowerCase()))
-        .toList();
+    listForklifts.clear();
+    String newQuery =
+        queryBuilder(activeQuery: activeQuery.value, query: "unit_code=$query");
+    await indexForklift(query: newQuery);
+    return listForklifts;
   }
 
   void openSheetImage(String type) async {
@@ -110,19 +128,19 @@ class CheckreportController extends GetxController {
       if (image != null) {
         if (type == "front") {
           imageFront = image;
-          data["image_front"] = await MultipartFile.fromFile(imageFront!.path,
+          docs["image_front"] = await MultipartFile.fromFile(imageFront!.path,
               filename: "image_front");
         } else if (type == "back") {
           imageBack = image;
-          data["image_back"] = await MultipartFile.fromFile(imageBack!.path,
+          docs["image_back"] = await MultipartFile.fromFile(imageBack!.path,
               filename: "image_back");
         } else if (type == "left") {
           imageLeft = image;
-          data["image_left"] = await MultipartFile.fromFile(imageLeft!.path,
+          docs["image_left"] = await MultipartFile.fromFile(imageLeft!.path,
               filename: "image_left");
         } else if (type == "right") {
           imageRight = image;
-          data["image_right"] = await MultipartFile.fromFile(imageRight!.path,
+          docs["image_right"] = await MultipartFile.fromFile(imageRight!.path,
               filename: "image_right");
         }
       } else {
@@ -135,14 +153,44 @@ class CheckreportController extends GetxController {
   }
 
   void handleSubmit() async {
-    if (data.length < 49) {
+    if (!startTime.value.contains(":")) {
       snackbar(
-          title: "Warning", message: "Please fill all fields", type: "warning");
+        title: "Warning",
+        message: "Please fill shift fields",
+        type: "warning",
+      );
       return;
     }
-    data['man_hour'] = differenceTime(startTime.value, endTime.value);
+
+    main['man_hour'] = differenceTime(startTime.value, endTime.value);
+    data['main'] = main;
+    data['items'] = items;
+    data['docs'] = docs;
+
+    if (data['main'].length < 7 ||
+        data['items'].length < 37 ||
+        data['docs'].length < 4) {
+      snackbar(
+        title: "Warning",
+        message: "Please fill all fields",
+        type: "warning",
+      );
+      return;
+    }
     FormData formData = FormData.fromMap(data);
-    print(formData.length);
+    EasyLoading.show(status: "Saving...");
+    final response = await CheckListService().storeCheckList(data: formData);
+    if (response.data != null) {
+      snackbar(
+        title: "Success",
+        message: response.data['message'],
+        type: "success",
+      );
+
+      // EasyLoading.dismiss();
+      Get.toNamed(Routes.CHECKHISTORY, arguments: {'isAfterPost': true});
+    }
+    EasyLoading.dismiss();
   }
 
   Future<void> getShift() async {
@@ -164,10 +212,27 @@ class CheckreportController extends GetxController {
     return ShiftModel(id: id, name: "", startTime: "00:00", endTime: "00:00");
   }
 
+  Future<void> indexForklift({String query = ""}) async {
+    final response = await ForkliftService().indexForklift(query: query);
+    if (response.data != null) {
+      List<ForkliftModel> listForkliftModel = (response.data['data'] as List)
+          .map((e) => ForkliftModel.fromJson(e))
+          .toList();
+      for (var item in listForkliftModel) {
+        listForklifts.add({
+          "id": item.id,
+          "name": item.unitCode,
+        });
+      }
+      update();
+    }
+  }
+
   Future fetchAllAPI() async {
     isLoading.value = true;
     update();
     await getShift();
+    await indexForklift(query: "${activeQuery.value}&");
     isLoading.value = false;
     update();
   }
@@ -181,7 +246,7 @@ class CheckreportController extends GetxController {
   @override
   void onClose() {
     super.onClose();
-    textController.dispose();
+    searchDropDownController.dispose();
     imageFront = null;
     imageBack = null;
     imageLeft = null;
@@ -198,17 +263,17 @@ class CheckreportController extends GetxController {
       }
       if (values is List) {
         return multiCheckUnit(
-          data: data,
+          data: items,
           key: key,
           title: titleMulti,
           itemList: values,
           length: index + 1,
           onTapOk: (isChecked, key) {
-            data[key['key']] = true;
+            items[key['key']] = true;
             update();
           },
           onTapNotOk: (isChecked, key) {
-            data[key['key']] = false;
+            items[key['key']] = false;
             update();
           },
         );
@@ -217,22 +282,22 @@ class CheckreportController extends GetxController {
           key: key,
           title: values['title'],
           length: index + 1,
-          valueOK: data[key] == null
+          valueOK: items[key] == null
               ? false
-              : data[key] == true
+              : items[key] == true
                   ? true
                   : false,
-          valueNotOk: data[key] == null
+          valueNotOk: items[key] == null
               ? false
-              : data[key] == true
+              : items[key] == true
                   ? false
                   : true,
           onTapOk: (value) {
-            data[key] = true;
+            items[key] = true;
             update();
           },
           onTapNotOk: (value) {
-            data[key] = false;
+            items[key] = false;
             update();
           },
         ).animate().slideY(duration: (400 + index * 50).ms);

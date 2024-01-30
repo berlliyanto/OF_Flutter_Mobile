@@ -58,7 +58,7 @@ class CheckreportView extends GetView<CheckreportController> {
           return await controller.suggestions(pattern);
         },
         onSelected: (data) => controller.onTypeAheadSelected(data!),
-        textEditingController: controller.textController,
+        textEditingController: controller.searchDropDownController,
       ).animate().slideY(duration: 200.ms),
       const Gap(10),
       Row(
@@ -96,6 +96,7 @@ class CheckreportView extends GetView<CheckreportController> {
           ),
           Flexible(
             child: TextInput(
+              controller: controller.palletController,
               keyboardType: TextInputType.number,
               width: Get.width,
               colors: colors,
@@ -160,6 +161,7 @@ class CheckreportView extends GetView<CheckreportController> {
           ),
           Expanded(
             child: TextInput(
+              controller: controller.forkliftHMController,
               keyboardType: TextInputType.number,
               width: Get.width,
               colors: colors,
@@ -236,6 +238,7 @@ class CheckreportView extends GetView<CheckreportController> {
       ),
       const Divider(),
       TextInput(
+        controller: controller.unitNotesController,
         maxLines: null,
         label: "Catatan Khusus Unit",
         keyboardType: TextInputType.multiline,
@@ -247,6 +250,7 @@ class CheckreportView extends GetView<CheckreportController> {
       ),
       const Gap(10),
       TextInput(
+        controller: controller.safetyNotesController,
         maxLines: null,
         label: "Catatan Khusus Safety Features",
         keyboardType: TextInputType.multiline,

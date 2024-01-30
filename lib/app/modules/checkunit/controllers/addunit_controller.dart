@@ -61,6 +61,17 @@ class AddunitController extends GetxController {
     update();
   }
 
+  void reset() {
+    numberCodeController.clear();
+    valueCode.value = 0;
+    valueLocation.value = 0;
+    valuePIC.value = 0;
+    number.value = 0;
+    image = null;
+    data = {};
+    update();
+  }
+
   void openSheetImage() async {
     bottomSheetImage(
         onTapCamera: () =>
@@ -98,7 +109,14 @@ class AddunitController extends GetxController {
     if (response.data != null) {
       EasyLoading.dismiss();
       EasyLoading.showSuccess(response.data['message']);
-      Get.toNamed(Routes.LISTFORKLIFT);
+      final param = await Get.toNamed(
+        Routes.LISTFORKLIFT,
+        arguments: {'isRefresh': true},
+      );
+      if (param) {
+        reset();
+        await fetchAllData();
+      }
     }
   }
 

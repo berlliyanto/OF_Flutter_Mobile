@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/paragraph.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
 
@@ -8,8 +9,20 @@ PreferredSizeWidget appBar({
   bool drawerLeading = false,
 }) {
   dynamic leading() {
+    // final arg = Get.arguments;
+    // bool isRefresh = arg != null ? arg['isRefresh'] : false;
     if (!drawerLeading) {
       return null;
+      // Builder(
+      //   builder: (context) => IconButton(
+      //     onPressed: () => Get.back(result: isRefresh),
+      //     icon: Icon(
+      //       Icons.arrow_back,
+      //       color: colors.primaryBlack,
+      //       size: 30,
+      //     ),
+      //   ),
+      // );
     }
 
     return Builder(
