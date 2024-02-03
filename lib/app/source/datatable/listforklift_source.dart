@@ -21,12 +21,19 @@ class ListForkliftSource extends DataTableSource {
   void updateDataFromController(List<ForkliftModel> tasks) {
     final newData = tasks.map((item) {
       return ForkliftModel(
-          id: item.id,
-          unitCode: item.unitCode,
-          image: item.image,
-          location: item.location,
-          hourMeter: item.hourMeter,
-          pic: item.pic);
+        id: item.id,
+        codeId: item.codeId,
+        codeNumber: item.codeNumber,
+        locationId: item.locationId,
+        picId: item.picId,
+        unitCode: item.unitCode,
+        image: item.image,
+        location: item.location,
+        hourMeter: item.hourMeter,
+        pic: item.pic,
+        createdAt: item.createdAt,
+        updatedAt: item.updatedAt,
+      );
     }).toList();
 
     updateData(newData);

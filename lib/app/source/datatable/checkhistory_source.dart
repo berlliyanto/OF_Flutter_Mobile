@@ -1,43 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:of_flutter_mobile/app/models/checklist_model.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
+import 'package:of_flutter_mobile/app/utils/formatter.dart';
 
 class CheckHistorySource extends DataTableSource {
-  final List<Map<String, dynamic>> data = [
-    {
-      'form_code': 'CL000000123',
-      'created_at': '2023-01-01 00:00:00',
-      'unit_code': "SOE 1902",
-      'hour_meter': 8.9,
-      'operator': "Agus",
-      'shift': 1,
-      'pallet_amount': 20,
-      'verification_supervisor': "2023-01-01 00:00:00",
-      'verification_user': "2023-01-01 00:00:00",
-    },
-    {
-      'form_code': 'CL000000123',
-      'created_at': '2023-01-01 00:00:00',
-      'unit_code': "SOE 1902",
-      'hour_meter': 8.9,
-      'operator': "Agus",
-      'shift': 1,
-      'pallet_amount': 20,
-      'verification_supervisor': "2023-01-01 00:00:00",
-      'verification_user': "2023-01-01 00:00:00",
-    },
-    {
-      'form_code': 'CL000000123',
-      'created_at': '2023-01-01 00:00:00',
-      'unit_code': "SOE 1902",
-      'hour_meter': 8.9,
-      'operator': "Agus",
-      'shift': 1,
-      'pallet_amount': 20,
-      'verification_supervisor': "2023-01-01 00:00:00",
-      'verification_user': "2023-01-01 00:00:00",
-    },
-  ];
+  final List<ChecklistModel> data = [];
 
   final ColorPicker colors = ColorPicker();
 
@@ -45,35 +13,33 @@ class CheckHistorySource extends DataTableSource {
   int currentPage = 1;
   int perPage = 10;
 
-  void updateData(List<Map<String, dynamic>> newData) {
+  void updateData(List<ChecklistModel> newData) {
     data.clear();
     data.addAll(newData);
     notifyListeners();
   }
 
-  // void updateDataFromController(List<AssignmentModel> tasks) {
-  //   final newData = tasks.map((item) {
-  //     return AssignmentModel(
-  //       id: item.id,
-  //       assignBy: item.assignBy,
-  //       codeCS: item.codeCS,
-  //       area: item.area,
-  //       location: item.location,
-  //       tasks: item.tasks,
-  //       tasksDetail: item.tasksDetail,
-  //       status: item.status,
-  //       duration: item.duration,
-  //       supervisorId: item.supervisorId,
-  //       checkedSupervisorAt: item.checkedSupervisorAt,
-  //       verifiedDanoneAt: item.verifiedDanoneAt,
-  //       createdAt: item.createdAt,
-  //       startAt: item.startAt,
-  //       finishAt: item.finishAt,
-  //     );
-  //   }).toList();
+  void updateDataFromController(List<ChecklistModel> tasks) {
+    final newData = tasks.map((item) {
+      return ChecklistModel(
+        id: item.id,
+        formCode: item.formCode,
+        unitCode: item.unitCode,
+        palletAmount: item.palletAmount,
+        createdAt: item.createdAt,
+        updatedAt: item.updatedAt,
+        operator: item.operator,
+        forklift: item.forklift,
+        docs: item.docs,
+        items: item.items,
+        shift: item.shift,
+        verificationSupervisor: item.verificationSupervisor,
+        verificationUser: item.verificationUser,
+      );
+    }).toList();
 
-  //   updateData(newData);
-  // }
+    updateData(newData);
+  }
 
   // void sort<T>(
   //   Comparable<T> Function(AssignmentModel) getField,
@@ -126,44 +92,49 @@ class CheckHistorySource extends DataTableSource {
           ),
         ),
         DataCell(
-          Text(dataRow['form_code']),
+          Text(dataRow.formCode.toString()),
         ),
         DataCell(
-          Text(dataRow['created_at']),
+          Text(formatDate(dataRow.createdAt)),
         ),
         DataCell(
           Text(
-            dataRow['unit_code'].toString(),
+            dataRow.unitCode.toString(),
           ),
         ),
         DataCell(
           Text(
-            dataRow['hour_meter'].toString(),
+            dataRow.forklift.hourMeter.toString(),
           ),
         ),
         DataCell(
           Text(
-            dataRow['operator'],
+            dataRow.operator.name,
           ),
         ),
         DataCell(
           Text(
-            dataRow['shift'].toString(),
+            dataRow.shift.id.toString(),
           ),
         ),
         DataCell(
           Text(
-            dataRow['pallet_amount'].toString(),
+            dataRow.forklift.location.name.toString(),
           ),
         ),
         DataCell(
           Text(
-            dataRow['verification_supervisor'].toString(),
+            dataRow.palletAmount.toString(),
           ),
         ),
         DataCell(
           Text(
-            dataRow['verification_user'].toString(),
+            dataRow.verificationSupervisor.toString(),
+          ),
+        ),
+        DataCell(
+          Text(
+            dataRow.verificationUser.toString(),
           ),
         ),
         DataCell(Row(

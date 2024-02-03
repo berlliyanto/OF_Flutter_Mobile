@@ -34,7 +34,13 @@ double differenceTime(String startTime, String endTime) {
   List<int> start = startTime.split(":").map(int.parse).toList();
   List<int> end = endTime.split(":").map(int.parse).toList();
 
-  int totalMinutes = (end[0] + 24) * 60 + end[1] - start[0] * 60 - start[1];
+  int totalMinutes = (end[0] * 60 + end[1]) - (start[0] * 60 + start[1]);
+
+  // If the total minutes is negative, add 24 hours (1440 minutes)
+  if (totalMinutes < 0) {
+    totalMinutes += 1440;
+  }
+
   double totalTimeInDecimal = totalMinutes / 60.0;
 
   double roundedTime = double.parse(totalTimeInDecimal.toStringAsFixed(1));

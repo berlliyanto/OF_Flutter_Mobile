@@ -5,4 +5,8 @@ class CheckListService extends BaseServices {
   Future<Response> storeCheckList({required FormData data}) async {
     return await postFormData(path: '/checklist/store', data: data);
   }
+
+  Future<Response> indexCheckList({String query = ""}) async {
+    return await get(path: '/checklist/index', query: query);
+  }
 }

@@ -12,8 +12,12 @@ import 'package:of_flutter_mobile/app/components/widgets/datatable/datatable_hea
 import 'package:of_flutter_mobile/app/components/widgets/dropdown/search_dropdown.dart';
 import 'package:of_flutter_mobile/app/components/widgets/dropdown/single_dropdown_less.dart';
 import 'package:of_flutter_mobile/app/components/widgets/input/text_input.dart';
+import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_bigrectangle.dart';
+import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_tile.dart';
+import 'package:of_flutter_mobile/app/components/widgets/text/paragraph.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
+import 'package:of_flutter_mobile/app/utils/validator.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../controllers/checkhistory_controller.dart';
@@ -24,6 +28,111 @@ class CheckhistoryView extends GetView<CheckhistoryController> {
   final ColorPicker colors = ColorPicker();
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
+
+  List<Widget> body() {
+    if (controller.isLoading.value) {
+      return [
+        skeletonTile(),
+        const Gap(10),
+        skeletonTile(),
+        const Gap(10),
+        skeletonTile(),
+        const Gap(10),
+        skeletonBigRectangle()
+      ];
+    }
+
+    return [
+      TextInput(
+        controller: controller.searchController,
+        width: Get.width,
+        colors: colors,
+        onChanged: (value) => controller.onChangedInput("search", value),
+        hint: "Search",
+        withSuffix: true,
+        suffixIcon: FontAwesomeIcons.magnifyingGlass,
+        onTapOutside: (event) => FocusManager.instance.primaryFocus!.unfocus(),
+      ).animate().slideY(),
+      const Gap(10),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            child: singleDropdownLess(
+              data: controller.listLocation,
+              hint: "Location",
+              width: Get.width,
+              colors: colors,
+              value: dropdownValue(controller.valueLocation.value),
+              onChanged: (value) {
+                if (!controller.isAllLocationChecked.value) {
+                  controller.onChangedInput("location", value);
+                }
+              },
+            ),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Checkbox(
+                value: controller.isAllLocationChecked.value,
+                onChanged: (value) =>
+                    controller.onChangedInput("all_location", value),
+              )
+            ],
+          )
+        ],
+      ).animate().slideY(),
+      const Gap(10),
+      searchDropdown(
+        hint: "Select Forklift Unit",
+        colors: colors,
+        suggestionsCallback: (pattern) async {
+          return await controller.suggestions(pattern);
+        },
+        onSelected: (data) => controller.onTypeAheadSelected(data!),
+        textEditingController: controller.unitController,
+      ).animate().slideY(),
+      const Gap(10),
+      if (checkQueryIsExist(
+          controller.activeQuery.value, ["search", "location_id", "unit_code"]))
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            GestureDetector(
+              onTap: () => controller.resetQuery(),
+              child: Paragraph(
+                text: "Clear ",
+                color: colors.primaryBlack,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      dataTable(
+        dataColumns: datatableHeader([
+          "No",
+          "Kode Form",
+          "Tanggal Checklist",
+          "Kode Unit",
+          "Hour Meter",
+          "Operator",
+          "Shift",
+          "Lokasi",
+          "Jumlah Pallet",
+          "Verifikasi Supervisor",
+          "Verifikasi User",
+          "Action"
+        ]),
+        source: controller.source,
+        rowsPerPage: 10,
+        onPageChanged: (value) => controller.onPageChanged(value),
+        onRowsPerPageChanged: (value) =>
+            controller.onRowsPerPageChanged(value!),
+      ).animate().fade(),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,77 +160,7 @@ class CheckhistoryView extends GetView<CheckhistoryController> {
                   onPressed: () {},
                 ).animate().slideY(duration: 150.ms, begin: -0.1, end: 0),
                 const Gap(10),
-                TextInput(
-                  width: Get.width,
-                  colors: colors,
-                  onChanged: (value) {},
-                  hint: "Search",
-                  withSuffix: true,
-                  suffixIcon: FontAwesomeIcons.magnifyingGlass,
-                  onTapOutside: (event) =>
-                      FocusManager.instance.primaryFocus!.unfocus(),
-                ).animate().slideY(),
-                const Gap(10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: singleDropdownLess(
-                        data: [
-                          {'id': 1, 'name': 'Option 1'},
-                          {'id': 2, 'name': 'Option 2'},
-                          {'id': 3, 'name': 'Option 3'},
-                        ],
-                        hint: "Location",
-                        width: Get.width,
-                        colors: colors,
-                        value: builder.locationId.value == 0
-                            ? null
-                            : builder.locationId,
-                        onChanged: (value) =>
-                            builder.onChangedInput("location", value),
-                      ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Checkbox(
-                          value: false,
-                          onChanged: (v) {},
-                        )
-                      ],
-                    )
-                  ],
-                ).animate().slideY(),
-                const Gap(10),
-                searchDropdown(
-                  hint: "Select Forklift Unit",
-                  colors: colors,
-                  suggestionsCallback: (pattern) async {
-                    return await builder.suggestions(pattern);
-                  },
-                  onSelected: (data) => builder.onTypeAheadSelected(data!),
-                  textEditingController: builder.textController,
-                ).animate().slideY(),
-                const Gap(10),
-                dataTable(
-                  dataColumns: datatableHeader([
-                    "No",
-                    "Kode Form",
-                    "Tanggal Checklist",
-                    "Kode Unit",
-                    "Hour Meter",
-                    "Operator",
-                    "Shift",
-                    "Jumlah Pallet",
-                    "Verifikasi Supervisor",
-                    "Verifikasi User",
-                    "Action"
-                  ]),
-                  source: builder.source,
-                  rowsPerPage: 10,
-                ).animate().fade(),
+                ...body(),
                 const Gap(10)
               ],
             ),

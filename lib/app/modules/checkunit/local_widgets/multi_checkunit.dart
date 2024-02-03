@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/paragraph.dart';
+import 'package:of_flutter_mobile/app/utils/validator.dart';
 
 Widget multiCheckUnit({
   required String key,
@@ -11,14 +12,6 @@ Widget multiCheckUnit({
   required Function(bool? value, Map<String, dynamic> data) onTapOk,
   required Function(bool? value, Map<String, dynamic> data) onTapNotOk,
 }) {
-  bool isChecked(String itemKey, bool isOk) {
-    if (data[itemKey] == null) {
-      return false;
-    } else {
-      return isOk ? data[itemKey]! : !data[itemKey]!;
-    }
-  }
-
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,11 +60,11 @@ Widget multiCheckUnit({
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Checkbox(
-                            value: isChecked(item['key'] ?? '', true),
+                            value: isChecked(data, item['key'] ?? '', true),
                             onChanged: (value) => onTapOk(value, item)),
                         const Gap(45),
                         Checkbox(
-                            value: isChecked(item['key'] ?? '', false),
+                            value: isChecked(data, item['key'] ?? '', false),
                             onChanged: (value) => onTapNotOk(value, item)),
                         const Gap(65),
                       ],

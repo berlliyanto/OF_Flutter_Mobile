@@ -25,3 +25,16 @@ String queryBuilder({required String activeQuery, String query = ""}) {
     return '$activeQuery&$query';
   }
 }
+
+String removeQuery(String queryString, String filter) {
+  List<String> parts = queryString.split('&');
+  List<String> filteredParts = [];
+
+  for (String part in parts) {
+    if (!part.contains(filter)) {
+      filteredParts.add(part);
+    }
+  }
+
+  return filteredParts.join('&');
+}

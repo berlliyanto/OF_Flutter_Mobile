@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -16,6 +18,17 @@ void main() async {
   SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown],
   );
+
+  FlutterError.onError = (details) {
+    log(details.exceptionAsString(), stackTrace: details.stack);
+
+    Get.dialog(
+      AlertDialog(
+        title: const Text('Error'),
+        content: Text(details.exceptionAsString()),
+      ),
+    );
+  };
 
   await GetStorage.init();
   runApp(MyApp());

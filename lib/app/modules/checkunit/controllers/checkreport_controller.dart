@@ -31,8 +31,8 @@ class CheckreportController extends GetxController {
   final TextEditingController forkliftHMController = TextEditingController();
   final TextEditingController unitNotesController = TextEditingController();
   final TextEditingController safetyNotesController = TextEditingController();
-  final List<Map<String, dynamic>> listForklifts = [];
 
+  List<Map<String, dynamic>> listForklifts = [];
   List<dynamic> listShift = [];
   Map<String, dynamic> data = {};
   Map<String, dynamic> items = {};
@@ -55,8 +55,8 @@ class CheckreportController extends GetxController {
         main["shift_id"] = value;
         startTime.value = shift.startTime;
         endTime.value = shift.endTime;
-        main["start_time"] = shift.startTime;
-        main["end_time"] = shift.endTime;
+        main["man_hour_start"] = shift.startTime;
+        main["man_hour_end"] = shift.endTime;
         break;
       case "pallet":
         main["pallet_amount"] = palletController.text;
@@ -87,10 +87,10 @@ class CheckreportController extends GetxController {
     if (time != null) {
       String timeFormatted = formatTime(time.hour, time.minute);
       if (type == "start") {
-        main["start_time"] = timeFormatted;
+        main["man_hour_start"] = timeFormatted;
         startTime.value = timeFormatted;
       } else if (type == "end") {
-        main["end_time"] = timeFormatted;
+        main["man_hour_end"] = timeFormatted;
         endTime.value = timeFormatted;
       } else {
         toast(message: "Something went wrong");
@@ -129,19 +129,19 @@ class CheckreportController extends GetxController {
         if (type == "front") {
           imageFront = image;
           docs["image_front"] = await MultipartFile.fromFile(imageFront!.path,
-              filename: "image_front");
+              filename: "image_front_${DateTime.now().millisecondsSinceEpoch}");
         } else if (type == "back") {
           imageBack = image;
           docs["image_back"] = await MultipartFile.fromFile(imageBack!.path,
-              filename: "image_back");
+              filename: "image_back_${DateTime.now().millisecondsSinceEpoch}");
         } else if (type == "left") {
           imageLeft = image;
           docs["image_left"] = await MultipartFile.fromFile(imageLeft!.path,
-              filename: "image_left");
+              filename: "image_left_${DateTime.now().millisecondsSinceEpoch}");
         } else if (type == "right") {
           imageRight = image;
           docs["image_right"] = await MultipartFile.fromFile(imageRight!.path,
-              filename: "image_right");
+              filename: "image_right_${DateTime.now().millisecondsSinceEpoch}");
         }
       } else {
         toast(message: "Pick image canceled");
@@ -177,6 +177,7 @@ class CheckreportController extends GetxController {
       );
       return;
     }
+
     FormData formData = FormData.fromMap(data);
     EasyLoading.show(status: "Saving...");
     final response = await CheckListService().storeCheckList(data: formData);
@@ -187,7 +188,6 @@ class CheckreportController extends GetxController {
         type: "success",
       );
 
-      // EasyLoading.dismiss();
       Get.toNamed(Routes.CHECKHISTORY, arguments: {'isAfterPost': true});
     }
     EasyLoading.dismiss();
@@ -269,11 +269,11 @@ class CheckreportController extends GetxController {
           itemList: values,
           length: index + 1,
           onTapOk: (isChecked, key) {
-            items[key['key']] = true;
+            items[key['key']] = 1;
             update();
           },
           onTapNotOk: (isChecked, key) {
-            items[key['key']] = false;
+            items[key['key']] = 0;
             update();
           },
         );
@@ -284,20 +284,20 @@ class CheckreportController extends GetxController {
           length: index + 1,
           valueOK: items[key] == null
               ? false
-              : items[key] == true
+              : items[key] == 1
                   ? true
                   : false,
           valueNotOk: items[key] == null
               ? false
-              : items[key] == true
+              : items[key] == 1
                   ? false
                   : true,
           onTapOk: (value) {
-            items[key] = true;
+            items[key] = 1;
             update();
           },
           onTapNotOk: (value) {
-            items[key] = false;
+            items[key] = 0;
             update();
           },
         ).animate().slideY(duration: (400 + index * 50).ms);
