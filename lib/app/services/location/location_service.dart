@@ -5,4 +5,8 @@ class LocationService extends BaseServices {
   Future<Response> indexLocation() async {
     return await get(path: '/location/index');
   }
+
+  Future<Response> showLocation(int id) async {
+    return await get(path: '/location/show', query: "forklift_id=$id");
+  }
 }

@@ -16,6 +16,7 @@ import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_tile.
 import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_twintile.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/paragraph.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
+import 'package:of_flutter_mobile/app/modules/checkunit/controllers/addunit_controller.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
 import 'package:of_flutter_mobile/app/utils/validator.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -118,27 +119,35 @@ class ListforkliftView extends GetView<ListforkliftController> {
           appBar(text: "LIST FORKLIFT", colors: colors, drawerLeading: false),
       extendBodyBehindAppBar: true,
       body: GetBuilder<ListforkliftController>(builder: (builder) {
-        return BackgroundLayout(
-          showBottom: false,
-          showLogo: false,
-          child: MainLayout(
-            isScrollable: true,
-            refreshController: refreshController,
-            onRefresh: () async {
-              await builder.fetchAllData();
-              refreshController.refreshCompleted();
-            },
-            children: [
-              title(
-                title: "List Forklift",
-                withLeading: true,
-                onPressed: () {},
-                icon: FontAwesomeIcons.solidFileExcel,
-                iconColor: Colors.green,
-              ).animate().slideY(duration: 150.ms, begin: -0.1, end: 0),
-              const Gap(10),
-              ...body()
-            ],
+        return PopScope(
+          onPopInvoked: (didPop) {
+            if (Get.isRegistered<AddunitController>()) {
+              final controller = Get.find<AddunitController>();
+              controller.reset();
+            }
+          },
+          child: BackgroundLayout(
+            showBottom: false,
+            showLogo: false,
+            child: MainLayout(
+              isScrollable: true,
+              refreshController: refreshController,
+              onRefresh: () async {
+                await builder.fetchAllData();
+                refreshController.refreshCompleted();
+              },
+              children: [
+                title(
+                  title: "List Forklift",
+                  withLeading: true,
+                  onPressed: () {},
+                  icon: FontAwesomeIcons.solidFileExcel,
+                  iconColor: Colors.green,
+                ).animate().slideY(duration: 150.ms, begin: -0.1, end: 0),
+                const Gap(10),
+                ...body()
+              ],
+            ),
           ),
         );
       }),

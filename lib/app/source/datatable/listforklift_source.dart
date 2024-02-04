@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:of_flutter_mobile/app/models/forklift_model.dart';
+import 'package:of_flutter_mobile/app/routes/app_pages.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
 
 class ListForkliftSource extends DataTableSource {
@@ -31,6 +32,7 @@ class ListForkliftSource extends DataTableSource {
         location: item.location,
         hourMeter: item.hourMeter,
         pic: item.pic,
+        code: item.code,
         lastCheckList: item.lastCheckList,
         createdAt: item.createdAt,
         updatedAt: item.updatedAt,
@@ -101,10 +103,10 @@ class ListForkliftSource extends DataTableSource {
           ),
         ),
         DataCell(
-          Text(currentRow.unitCode),
+          Text(currentRow.unitCode!),
         ),
         DataCell(
-          Text(currentRow.location.name),
+          Text(currentRow.location!.name),
         ),
         DataCell(
           Text(
@@ -115,12 +117,19 @@ class ListForkliftSource extends DataTableSource {
         ),
         DataCell(
           Text(
-            currentRow.pic.name,
+            currentRow.pic!.name,
           ),
         ),
         DataCell(Row(
           children: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.remove_red_eye))
+            IconButton(
+                onPressed: () {
+                  Get.toNamed(
+                    Routes.ADDUNIT,
+                    arguments: {'id': currentRow.id, 'isDetail': true},
+                  );
+                },
+                icon: const Icon(Icons.remove_red_eye))
           ],
         )),
       ],

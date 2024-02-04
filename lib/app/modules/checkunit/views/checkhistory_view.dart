@@ -16,6 +16,7 @@ import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_bigre
 import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_tile.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/paragraph.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
+import 'package:of_flutter_mobile/app/modules/checkunit/controllers/checkreport_controller.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
 import 'package:of_flutter_mobile/app/utils/validator.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -142,27 +143,37 @@ class CheckhistoryView extends GetView<CheckhistoryController> {
       extendBodyBehindAppBar: true,
       body: GetBuilder<CheckhistoryController>(
         builder: (builder) {
-          return BackgroundLayout(
-            showLogo: false,
-            showBottom: false,
-            child: MainLayout(
-              isScrollable: true,
-              refreshController: refreshController,
-              onRefresh: () async {
-                refreshController.refreshCompleted();
-              },
-              children: [
-                title(
-                  title: "Checklist History",
-                  withLeading: true,
-                  icon: FontAwesomeIcons.solidFileExcel,
-                  iconColor: Colors.green,
-                  onPressed: () {},
-                ).animate().slideY(duration: 150.ms, begin: -0.1, end: 0),
-                const Gap(10),
-                ...body(),
-                const Gap(10)
-              ],
+          return PopScope(
+            onPopInvoked: (didPop) {
+              if (didPop) {
+                if (Get.isRegistered<CheckreportController>()) {
+                  final controller = Get.find<CheckreportController>();
+                  controller.reset();
+                }
+              }
+            },
+            child: BackgroundLayout(
+              showLogo: false,
+              showBottom: false,
+              child: MainLayout(
+                isScrollable: true,
+                refreshController: refreshController,
+                onRefresh: () async {
+                  refreshController.refreshCompleted();
+                },
+                children: [
+                  title(
+                    title: "Checklist History",
+                    withLeading: true,
+                    icon: FontAwesomeIcons.solidFileExcel,
+                    iconColor: Colors.green,
+                    onPressed: () {},
+                  ).animate().slideY(duration: 150.ms, begin: -0.1, end: 0),
+                  const Gap(10),
+                  ...body(),
+                  const Gap(10)
+                ],
+              ),
             ),
           );
         },

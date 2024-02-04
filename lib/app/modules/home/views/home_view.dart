@@ -11,6 +11,8 @@ import 'package:of_flutter_mobile/app/components/widgets/tile/tile.dart';
 import 'package:of_flutter_mobile/app/dependency/global_state.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
 import 'package:of_flutter_mobile/app/source/menu/home_list.dart';
+import 'package:of_flutter_mobile/app/utils/greeting.dart';
+import 'package:of_flutter_mobile/app/utils/token.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../controllers/home_controller.dart';
@@ -47,7 +49,7 @@ class HomeView extends GetView<HomeController> {
             },
             isScrollable: true,
             children: <Widget>[
-              title(title: "Welcome, User"),
+              title(title: "${greeting()}, ${getUser()['name']}", size: 22),
               const Gap(20),
               SizedBox(
                 width: Get.width,

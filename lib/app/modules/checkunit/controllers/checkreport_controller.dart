@@ -11,10 +11,13 @@ import 'package:of_flutter_mobile/app/components/widgets/bottomsheet/bottomsheet
 import 'package:of_flutter_mobile/app/components/widgets/snackbar/snackbar.dart';
 import 'package:of_flutter_mobile/app/components/widgets/toast/toast.dart';
 import 'package:of_flutter_mobile/app/models/forklift_model.dart';
+import 'package:of_flutter_mobile/app/models/location_model.dart';
 import 'package:of_flutter_mobile/app/models/shift_model.dart';
+import 'package:of_flutter_mobile/app/modules/checkunit/local_widgets/preview_dialog.dart';
 import 'package:of_flutter_mobile/app/routes/app_pages.dart';
 import 'package:of_flutter_mobile/app/services/checklist/checklist_service.dart';
 import 'package:of_flutter_mobile/app/services/forklift/forklift_service.dart';
+import 'package:of_flutter_mobile/app/services/location/location_service.dart';
 import 'package:of_flutter_mobile/app/services/shift/shit_service.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
 import 'package:of_flutter_mobile/app/modules/checkunit/local_widgets/multi_checkunit.dart';
@@ -24,6 +27,7 @@ import 'package:of_flutter_mobile/app/utils/formatter.dart';
 import 'package:dio/dio.dart';
 import 'package:of_flutter_mobile/app/utils/picker.dart';
 import 'package:of_flutter_mobile/app/utils/query_builder.dart';
+import 'package:of_flutter_mobile/app/utils/token.dart';
 
 class CheckreportController extends GetxController {
   final TextEditingController searchDropDownController =
@@ -40,11 +44,17 @@ class CheckreportController extends GetxController {
   Map<String, dynamic> docs = {};
   Map<String, dynamic> main = {};
   File? imageFront, imageBack, imageLeft, imageRight;
+
   var startTime = "Start Time".obs;
   var endTime = "End Time".obs;
   var isLoading = false.obs;
   var shiftLoading = false.obs;
   var activeQuery = "page=1&per_page=10".obs;
+  var unitGoodCount = 0.obs;
+  var safetyGoodCount = 0.obs;
+
+  int unitTotal = 31;
+  int safetyTotal = 6;
 
   void onChangedInput(String type, dynamic value) async {
     switch (type) {
@@ -101,6 +111,25 @@ class CheckreportController extends GetxController {
     update();
   }
 
+  void reset() {
+    data = {};
+    imageBack = null;
+    imageFront = null;
+    imageLeft = null;
+    imageRight = null;
+    docs = {};
+    main = {};
+    items = {};
+    searchDropDownController.clear();
+    palletController.clear();
+    forkliftHMController.clear();
+    safetyNotesController.clear();
+    unitNotesController.clear();
+    startTime.value = "Start Time";
+    endTime.value = "End Time";
+    update();
+  }
+
   void onTypeAheadSelected(Map<String, dynamic> value) {
     main["forklift_id"] = value['id'];
     searchDropDownController.text = value['name'];
@@ -154,6 +183,8 @@ class CheckreportController extends GetxController {
   }
 
   void handleSubmit() async {
+    unitGoodCount.value = 0;
+    safetyGoodCount.value = 0;
     if (!startTime.value.contains(":")) {
       snackbar(
         title: "Warning",
@@ -179,19 +210,53 @@ class CheckreportController extends GetxController {
       return;
     }
 
-    FormData formData = FormData.fromMap(data);
-    EasyLoading.show(status: "Saving...");
-    final response = await CheckListService().storeCheckList(data: formData);
-    if (response.data != null) {
-      snackbar(
-        title: "Success",
-        message: response.data['message'],
-        type: "success",
-      );
+    items.forEach((key, value) {
+      if (key.contains("safety")) {
+        if (value == 1) {
+          safetyGoodCount.value += 1;
+        }
+      } else {
+        if (value == 1) {
+          unitGoodCount.value += 1;
+        }
+      }
+    });
+    EasyLoading.show(status: 'loading...');
+    final responseLocation =
+        await LocationService().showLocation(data["main"]["forklift_id"]);
+    if (responseLocation.data != null) {
+      EasyLoading.dismiss();
+      final LocationModel locationModel =
+          LocationModel.fromJson(responseLocation.data['data']);
+      previewDialog(
+        data: data,
+        unitCount: unitGoodCount.value,
+        safetyCount: safetyGoodCount.value,
+        name: [
+          searchDropDownController.text,
+          locationModel.name,
+          getUser()['name']
+        ],
+        onOkPress: () async {
+          FormData formData = FormData.fromMap(data);
+          EasyLoading.show(status: "Saving...");
+          final response =
+              await CheckListService().storeCheckList(data: formData);
+          if (response.data != null) {
+            snackbar(
+              title: "Success",
+              message: response.data['message'],
+              type: "success",
+            );
 
-      Get.toNamed(Routes.CHECKHISTORY, arguments: {'isAfterPost': true});
+            Get.toNamed(Routes.CHECKHISTORY, arguments: {'isAfterPost': true});
+          }
+          EasyLoading.dismiss();
+        },
+      );
+    } else {
+      EasyLoading.dismiss();
     }
-    EasyLoading.dismiss();
   }
 
   Future<void> getShift() async {

@@ -103,10 +103,10 @@ class BaseServices {
     }
   }
 
-  Future<Response> delete({required String path, String id = ""}) async {
-    print("POST : $path/$id");
+  Future<Response> delete({required String path, String query = ""}) async {
+    print("POST : $path?$query");
     try {
-      final response = await dio.delete("$path/$id", options: setOptions());
+      final response = await dio.delete("$path?$query", options: setOptions());
 
       if (response.statusCode == 200) {
         return response;
@@ -155,6 +155,7 @@ class BaseServices {
             message: response.data['message'].toString());
       }
     } on DioException catch (error) {
+      print(error.response!.data);
       checkException(error,
           error.response != null ? error.response!.data['message'] : "Error");
       return Response(statusCode: 400, requestOptions: RequestOptions());

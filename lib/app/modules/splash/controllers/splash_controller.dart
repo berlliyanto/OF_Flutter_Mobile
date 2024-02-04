@@ -7,7 +7,6 @@ class SplashController extends GetxController {
     super.onInit();
     Future.delayed(const Duration(seconds: 2), () {
       String token = getToken();
-      print(token);
       if (token.isEmpty || token == "") {
         Get.offNamed('/login');
       } else {

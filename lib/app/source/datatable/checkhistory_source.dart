@@ -30,6 +30,7 @@ class CheckHistorySource extends DataTableSource {
         updatedAt: item.updatedAt,
         operator: item.operator,
         forklift: item.forklift,
+        forkliftHourMeter: item.forkliftHourMeter,
         docs: item.docs,
         items: item.items,
         shift: item.shift,
@@ -104,24 +105,24 @@ class CheckHistorySource extends DataTableSource {
         ),
         DataCell(
           Text(
-            dataRow.forklift.hourMeter != null
-                ? dataRow.forklift.hourMeter.toString()
+            dataRow.forkliftHourMeter != null
+                ? dataRow.forkliftHourMeter.toString()
                 : "-",
           ),
         ),
         DataCell(
           Text(
-            dataRow.operator.name,
+            dataRow.operator!.name,
           ),
         ),
         DataCell(
           Text(
-            dataRow.shift.id.toString(),
+            dataRow.shift!.id.toString(),
           ),
         ),
         DataCell(
           Text(
-            dataRow.forklift.location.name.toString(),
+            dataRow.forklift!.location!.name.toString(),
           ),
         ),
         DataCell(

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -8,8 +9,10 @@ import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:of_flutter_mobile/app/components/widgets/bottomsheet/bottomsheet_image.dart';
+import 'package:of_flutter_mobile/app/components/widgets/dialog/awesome_dialog.dart';
 import 'package:of_flutter_mobile/app/components/widgets/snackbar/snackbar.dart';
 import 'package:of_flutter_mobile/app/components/widgets/toast/toast.dart';
+import 'package:of_flutter_mobile/app/models/forklift_model.dart';
 import 'package:of_flutter_mobile/app/routes/app_pages.dart';
 import 'package:of_flutter_mobile/app/services/code/code_service.dart';
 import 'package:of_flutter_mobile/app/services/forklift/forklift_service.dart';
@@ -17,6 +20,7 @@ import 'package:of_flutter_mobile/app/services/location/location_service.dart';
 import 'package:of_flutter_mobile/app/services/pic/pic.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
 import 'package:of_flutter_mobile/app/utils/picker.dart';
+import 'package:of_flutter_mobile/app/utils/url_files.dart';
 
 class AddunitController extends GetxController {
   TextEditingController numberCodeController = TextEditingController();
@@ -24,12 +28,16 @@ class AddunitController extends GetxController {
   List<dynamic> locationModel = [];
   List<dynamic> picModel = [];
   File? image;
+  dynamic urlImage;
+  ForkliftModel forkliftModel = ForkliftModel(id: 0);
 
+  var arg = Get.arguments;
   var valueCode = 0.obs;
   var valueLocation = 0.obs;
   var valuePIC = 0.obs;
   var number = 0.obs;
   var isLoading = false.obs;
+  var isEditMode = false.obs;
 
   Map<String, dynamic> data = {};
 
@@ -39,6 +47,13 @@ class AddunitController extends GetxController {
   }
 
   void handleOnChange(dynamic value, String type) {
+    if (arg != null &&
+        arg["isDetail"] &&
+        arg["id"] != null &&
+        !isEditMode.value) {
+      return;
+    }
+
     switch (type) {
       case "code":
         valueCode.value = value;
@@ -74,6 +89,11 @@ class AddunitController extends GetxController {
   }
 
   void openSheetImage() async {
+    if (arg != null && !isEditMode.value) {
+      Get.toNamed(Routes.ZOOMIMAGE,
+          arguments: {"type": "forklift", "image": forkliftModel.image});
+      return;
+    }
     bottomSheetImage(
         onTapCamera: () =>
             getImage(ImageSource.camera).then((value) => Get.back()),
@@ -110,15 +130,58 @@ class AddunitController extends GetxController {
     if (response.data != null) {
       EasyLoading.dismiss();
       EasyLoading.showSuccess(response.data['message']);
-      final param = await Get.toNamed(
-        Routes.LISTFORKLIFT,
-        arguments: {'isRefresh': true},
-      );
-      if (param) {
-        reset();
-        await fetchAllData();
-      }
+      Get.back(result: "addunit");
     }
+  }
+
+  void handleEdit() {
+    isEditMode.value = !isEditMode.value;
+    update();
+  }
+
+  void handleUpdate() async {
+    if (!isEditMode.value) {
+      snackbar(
+          title: "Warning",
+          message: "Change to edit mode first",
+          type: "warning");
+      return;
+    }
+
+    FormData formData = FormData.fromMap(data);
+    EasyLoading.show(status: "Updating...");
+    final response =
+        await ForkliftService().updateForklift(arg["id"], formData);
+    if (response.data != null) {
+      EasyLoading.dismiss();
+      EasyLoading.showSuccess(response.data['message']);
+
+      reset();
+      await fetchAllData();
+    } else {
+      EasyLoading.dismiss();
+    }
+  }
+
+  void handleDelete() async {
+    awesomeDialog(
+      title: "Are you sure want to delete?",
+      desc:
+          "Delete forklift will delete all checklist data related to this forklift",
+      type: DialogType.question,
+      callback: () async {
+        EasyLoading.show(status: "Deleting...");
+        final response = await ForkliftService().destroyForklift(arg["id"]);
+        if (response.data != null) {
+          EasyLoading.dismiss();
+          EasyLoading.showSuccess(response.data['message']);
+          Get.back();
+          Get.back();
+        } else {
+          EasyLoading.dismiss();
+        }
+      },
+    );
   }
 
   Future getCode() async {
@@ -142,12 +205,42 @@ class AddunitController extends GetxController {
     }
   }
 
+  Future showForklift() async {
+    if (arg != null) {
+      if (arg["id"] != null && arg['isDetail']) {
+        final response = await ForkliftService().showForklift(arg["id"]);
+        if (response.data != null) {
+          forkliftModel = ForkliftModel.fromJson(response.data['data']);
+          valueCode.value = forkliftModel.codeId!;
+          valueLocation.value = forkliftModel.locationId!;
+          valuePIC.value = forkliftModel.picId!;
+          numberCodeController.text = forkliftModel.codeNumber!.toString();
+          urlImage = urlImageBuilder(
+              transaction: "show",
+              type: "forklift",
+              image: forkliftModel.image!);
+          data["code_id"] = forkliftModel.codeId;
+          data["code_number"] = forkliftModel.codeNumber;
+          data["location_id"] = forkliftModel.locationId;
+          data["pic_id"] = forkliftModel.picId;
+          update();
+        }
+      }
+      isEditMode.value = false;
+      update();
+    } else {
+      isEditMode.value = true;
+      update();
+    }
+  }
+
   Future fetchAllData() async {
     isLoading.value = true;
     update();
     await getCode();
     await getLocation();
     await getPic();
+    await showForklift();
     isLoading.value = false;
     update();
   }
@@ -159,9 +252,9 @@ class AddunitController extends GetxController {
   }
 
   @override
-  void dispose() {
+  void onClose() {
+    super.onClose();
     numberCodeController.dispose();
-    super.dispose();
   }
 
   Widget get clearImageButton {
