@@ -31,6 +31,7 @@ class ListForkliftSource extends DataTableSource {
         location: item.location,
         hourMeter: item.hourMeter,
         pic: item.pic,
+        lastCheckList: item.lastCheckList,
         createdAt: item.createdAt,
         updatedAt: item.updatedAt,
       );

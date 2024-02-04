@@ -5,6 +5,7 @@ import 'package:of_flutter_mobile/app/components/widgets/toast/toast.dart';
 import 'package:of_flutter_mobile/app/controllers/auth_controller.dart';
 import 'package:of_flutter_mobile/app/routes/app_pages.dart';
 import 'package:of_flutter_mobile/app/services/auth/auth_service.dart';
+import 'package:of_flutter_mobile/app/utils/formatter.dart';
 
 class RegisterController extends AuthController {
   final usernameNode = FocusNode(),
@@ -43,7 +44,7 @@ class RegisterController extends AuthController {
     if (formKey.currentState!.validate()) {
       Map<String, dynamic> data = {
         "username": usernameController.text,
-        "name": nameController.text,
+        "name": capitalizeFirstChar(nameController.text),
         "email": emailController.text,
         "password": passwordController.text
       };

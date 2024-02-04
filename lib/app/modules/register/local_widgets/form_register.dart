@@ -32,6 +32,11 @@ Widget formRegister(
           if (value == null || value.isEmpty) {
             return "Please enter your name";
           }
+
+          if (value.contains(RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]'))) {
+            return "Name cannot contain special characters";
+          }
+
           return null;
         },
       ),
@@ -50,6 +55,11 @@ Widget formRegister(
           if (value == null || value.isEmpty) {
             return "Please enter your email";
           }
+
+          if (!GetUtils.isEmail(value)) {
+            return "Please enter a valid email";
+          }
+
           return null;
         },
       ),
@@ -67,6 +77,7 @@ Widget formRegister(
           if (value == null || value.isEmpty) {
             return "Please enter your username";
           }
+
           return null;
         },
       ),
@@ -85,6 +96,11 @@ Widget formRegister(
           if (value == null || value.isEmpty) {
             return "Please enter your password";
           }
+
+          if (value.length < 6) {
+            return "Password must be at least 6 characters";
+          }
+
           return null;
         },
       ),

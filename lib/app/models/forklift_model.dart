@@ -7,7 +7,7 @@ class ForkliftModel {
   late LocationModel location;
   late dynamic hourMeter, image;
   late PicModel pic;
-  late DateTime? createdAt, updatedAt;
+  late DateTime? createdAt, updatedAt, lastCheckList;
 
   ForkliftModel({
     required this.id,
@@ -22,6 +22,7 @@ class ForkliftModel {
     required this.pic,
     required this.createdAt,
     required this.updatedAt,
+    required this.lastCheckList,
   });
 
   factory ForkliftModel.fromJson(Map<String, dynamic> json) {
@@ -36,6 +37,9 @@ class ForkliftModel {
       location: LocationModel.fromJson(json['location']),
       pic: PicModel.fromJson(json['pic']),
       image: json['image'],
+      lastCheckList: json['last_checklist'] == null
+          ? null
+          : DateTime.parse(json['last_checklist']),
       createdAt: json["created_at"] == null
           ? null
           : DateTime.parse(json["created_at"]),

@@ -104,7 +104,9 @@ class CheckHistorySource extends DataTableSource {
         ),
         DataCell(
           Text(
-            dataRow.forklift.hourMeter.toString(),
+            dataRow.forklift.hourMeter != null
+                ? dataRow.forklift.hourMeter.toString()
+                : "-",
           ),
         ),
         DataCell(
@@ -129,12 +131,16 @@ class CheckHistorySource extends DataTableSource {
         ),
         DataCell(
           Text(
-            dataRow.verificationSupervisor.toString(),
+            dataRow.verificationSupervisor != null
+                ? dataRow.verificationSupervisor.toString()
+                : "-",
           ),
         ),
         DataCell(
           Text(
-            dataRow.verificationUser.toString(),
+            dataRow.verificationUser != null
+                ? dataRow.verificationUser.toString()
+                : "-",
           ),
         ),
         DataCell(Row(
@@ -150,7 +156,7 @@ class CheckHistorySource extends DataTableSource {
   bool get isRowCountApproximate => false;
 
   @override
-  int get rowCount => data.length;
+  int get rowCount => totalRow;
 
   @override
   int get selectedRowCount => 0;

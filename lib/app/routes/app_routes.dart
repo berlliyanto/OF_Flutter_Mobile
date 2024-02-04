@@ -17,6 +17,7 @@ abstract class Routes {
   static const LISTOPERATOR = _Paths.LISTOPERATOR;
   static const CHECKHISTORY = _Paths.CHECKHISTORY;
   static const USERPROFILE = _Paths.USERPROFILE;
+  static const ZOOMIMAGE = _Paths.ZOOMIMAGE;
 }
 
 abstract class _Paths {
@@ -33,4 +34,5 @@ abstract class _Paths {
   static const LISTOPERATOR = '/listoperator';
   static const CHECKHISTORY = '/checkhistory';
   static const USERPROFILE = '/userprofile';
+  static const ZOOMIMAGE = '/zoomimage';
 }

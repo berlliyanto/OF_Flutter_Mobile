@@ -24,6 +24,7 @@ class RegisterView extends GetView<RegisterController> {
           showBottom: true,
           showLogo: builder.isLogoVisible.value,
           child: MainLayout(
+            isScrollable: true,
             crossAxis: CrossAxisAlignment.start,
             mainAxis: MainAxisAlignment.start,
             paddingLR: 15,

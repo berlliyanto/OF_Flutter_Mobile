@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:of_flutter_mobile/app/utils/zoom_image.dart';
 
 import '../modules/checkunit/bindings/addunit_binding.dart';
 import '../modules/checkunit/bindings/checkhistory_binding.dart';
@@ -87,6 +88,10 @@ class AppPages {
       name: _Paths.USERPROFILE,
       page: () => const UserprofileView(),
       binding: UserprofileBinding(),
+    ),
+    GetPage(
+      name: _Paths.ZOOMIMAGE,
+      page: () => ZoomImageView(),
     ),
   ];
 }

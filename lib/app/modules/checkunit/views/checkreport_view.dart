@@ -176,10 +176,17 @@ class CheckreportView extends GetView<CheckreportController> {
       ...controller.buildCheckUnitItems,
       const Divider(),
       const Gap(10),
-      const Heading(
-          heading: "h2",
-          text: "Forklift Documentation",
-          textAlign: TextAlign.start),
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Heading(
+              heading: "h2",
+              text: "Forklift Documentation",
+              textAlign: TextAlign.start),
+          controller.clearImageButton
+        ],
+      ),
       const Gap(10),
       Container(
         padding: const EdgeInsets.all(10),

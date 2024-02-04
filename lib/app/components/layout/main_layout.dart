@@ -24,7 +24,8 @@ class MainLayout extends StatelessWidget {
 
   Widget mainScrollable() {
     if (isScrollable) {
-      return SmartRefresher(
+      if (refreshController != null && onRefresh != null) {
+        return SmartRefresher(
           controller: refreshController!,
           onRefresh: onRefresh,
           header: const WaterDropMaterialHeader(
@@ -35,7 +36,13 @@ class MainLayout extends StatelessWidget {
           child: ListView(
             padding: EdgeInsets.symmetric(horizontal: paddingLR),
             children: children,
-          ));
+          ),
+        );
+      }
+      return ListView(
+        padding: EdgeInsets.symmetric(horizontal: paddingLR),
+        children: children,
+      );
     }
 
     return Container(

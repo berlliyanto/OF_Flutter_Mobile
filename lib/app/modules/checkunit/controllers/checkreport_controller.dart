@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/state_manager.dart';
 import 'package:image_picker/image_picker.dart';
@@ -305,5 +306,29 @@ class CheckreportController extends GetxController {
 
       return Container();
     });
+  }
+
+  Widget get clearImageButton {
+    if (imageBack == null &&
+        imageFront == null &&
+        imageLeft == null &&
+        imageRight == null) {
+      return const SizedBox();
+    }
+    return IconButton(
+      tooltip: "Clear Images",
+      onPressed: () {
+        imageBack = null;
+        imageFront = null;
+        imageLeft = null;
+        imageRight = null;
+        update();
+      },
+      icon: const Icon(
+        FontAwesomeIcons.trash,
+        size: 20,
+        color: Colors.red,
+      ),
+    );
   }
 }

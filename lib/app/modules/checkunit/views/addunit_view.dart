@@ -53,6 +53,9 @@ class AddunitView extends GetView<AddunitController> {
         fileImage: controller.image,
         url: null,
       ).animate().fadeIn(),
+      Center(
+        child: controller.clearImageButton,
+      ),
       const Gap(10),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -107,9 +110,9 @@ class AddunitView extends GetView<AddunitController> {
           .fadeIn(),
       const Gap(10),
       GradientButton(
-              colors: [colors.primaryBlack, colors.primaryBlack],
+              colors: [colors.cyan, colors.cyanDark],
               onPressed: () => controller.handleSubmit(),
-              text: "Submit Unit")
+              text: "Submit")
           .animate()
           .fadeIn()
     ];

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:image_picker/image_picker.dart';
@@ -161,5 +162,23 @@ class AddunitController extends GetxController {
   void dispose() {
     numberCodeController.dispose();
     super.dispose();
+  }
+
+  Widget get clearImageButton {
+    if (image == null) {
+      return const SizedBox();
+    }
+    return IconButton(
+      tooltip: "Clear Image",
+      onPressed: () {
+        image = null;
+        update();
+      },
+      icon: const Icon(
+        FontAwesomeIcons.trash,
+        size: 20,
+        color: Colors.red,
+      ),
+    );
   }
 }
