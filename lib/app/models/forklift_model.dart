@@ -1,28 +1,35 @@
+import 'package:of_flutter_mobile/app/models/checklist_model.dart';
+import 'package:of_flutter_mobile/app/models/code_model.dart';
 import 'package:of_flutter_mobile/app/models/location_model.dart';
 import 'package:of_flutter_mobile/app/models/pic_model.dart';
 
 class ForkliftModel {
-  late int id, codeId, locationId, picId, codeNumber;
-  late String unitCode;
-  late LocationModel location;
+  late int id;
+  late int? codeId, locationId, picId, codeNumber;
+  late String? unitCode;
+  late LocationModel? location;
   late dynamic hourMeter, image;
-  late PicModel pic;
+  late PicModel? pic;
+  late CodeModel? code;
+  late List<ChecklistModel>? checklists;
   late DateTime? createdAt, updatedAt, lastCheckList;
 
   ForkliftModel({
     required this.id,
-    required this.codeId,
-    required this.codeNumber,
-    required this.locationId,
-    required this.picId,
-    required this.unitCode,
-    required this.image,
-    required this.location,
-    required this.hourMeter,
-    required this.pic,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.lastCheckList,
+    this.codeId,
+    this.codeNumber,
+    this.locationId,
+    this.picId,
+    this.unitCode,
+    this.image,
+    this.location,
+    this.hourMeter,
+    this.pic,
+    this.code,
+    this.checklists,
+    this.createdAt,
+    this.updatedAt,
+    this.lastCheckList,
   });
 
   factory ForkliftModel.fromJson(Map<String, dynamic> json) {
@@ -34,8 +41,15 @@ class ForkliftModel {
       picId: json['pic_id'],
       unitCode: json['unit_code'],
       hourMeter: json['hour_meter'],
-      location: LocationModel.fromJson(json['location']),
-      pic: PicModel.fromJson(json['pic']),
+      code: json['codes'] == null ? null : CodeModel.fromJson(json['codes']),
+      location: json['locations'] == null
+          ? null
+          : LocationModel.fromJson(json['locations']),
+      pic: json['pics'] == null ? null : PicModel.fromJson(json['pics']),
+      checklists: json['checklists'] == null
+          ? []
+          : List<ChecklistModel>.from(
+              json['checklists'].map((x) => ChecklistModel.fromJson(x))),
       image: json['image'],
       lastCheckList: json['last_checklist'] == null
           ? null
@@ -58,8 +72,10 @@ class ForkliftModel {
     data['pic_id'] = picId;
     data['unit_code'] = unitCode;
     data['hour_meter'] = hourMeter;
-    data['location'] = location.toJson();
-    data['pic'] = pic.toJson();
+    data['location'] = location!.toJson();
+    data['pic'] = pic!.toJson();
+    data['code'] = code!.toJson();
+    data['checklists'] = checklists;
     data['image'] = image;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;

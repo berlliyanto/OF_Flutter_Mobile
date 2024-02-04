@@ -6,32 +6,36 @@ import 'package:of_flutter_mobile/app/models/shift_model.dart';
 
 class ChecklistModel {
   late int id;
-  late String unitCode, formCode;
-  late int palletAmount;
+  late String? unitCode, formCode, manHourStart, manHourEnd, forkliftHourMeter;
+  late int? palletAmount, manHour;
   late dynamic verificationSupervisor;
   late dynamic verificationUser;
-  late ForkliftModel forklift;
-  late OperatorModel operator;
-  late ShiftModel shift;
-  late ChecklistItemModel items;
-  late ChecklistDocModel docs;
+  late ForkliftModel? forklift;
+  late OperatorModel? operator;
+  late ShiftModel? shift;
+  late ChecklistItemModel? items;
+  late ChecklistDocModel? docs;
   late DateTime? createdAt;
   late DateTime? updatedAt;
 
   ChecklistModel({
     required this.id,
-    required this.unitCode,
-    required this.formCode,
-    required this.palletAmount,
-    required this.verificationSupervisor,
-    required this.verificationUser,
-    required this.forklift,
-    required this.operator,
-    required this.shift,
-    required this.items,
-    required this.docs,
-    required this.createdAt,
-    required this.updatedAt,
+    this.unitCode,
+    this.formCode,
+    this.palletAmount,
+    this.manHour,
+    this.manHourStart,
+    this.manHourEnd,
+    this.forkliftHourMeter,
+    this.verificationSupervisor,
+    this.verificationUser,
+    this.forklift,
+    this.operator,
+    this.shift,
+    this.items,
+    this.docs,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory ChecklistModel.fromJson(Map<String, dynamic> json) {
@@ -40,13 +44,26 @@ class ChecklistModel {
       formCode: json['form_code'],
       unitCode: json['unit_code'],
       palletAmount: json['pallet_amount'],
+      manHour: json['man_hour'],
+      manHourStart: json['man_hour_start'],
+      manHourEnd: json['man_hour_end'],
+      forkliftHourMeter: json['forklift_hour_meter'],
       verificationSupervisor: json['verification_supervisor'],
       verificationUser: json['verification_user'],
-      forklift: ForkliftModel.fromJson(json['forklift']),
-      operator: OperatorModel.fromJson(json['operator']),
-      shift: ShiftModel.fromJson(json['shift']),
-      items: ChecklistItemModel.fromJson(json['items']),
-      docs: ChecklistDocModel.fromJson(json['docs']),
+      forklift: json['forklifts'] == null
+          ? null
+          : ForkliftModel.fromJson(json['forklifts']),
+      operator: json['operators'] == null
+          ? null
+          : OperatorModel.fromJson(json['operators']),
+      shift:
+          json['shifts'] == null ? null : ShiftModel.fromJson(json['shifts']),
+      items: json['items'] == null
+          ? null
+          : ChecklistItemModel.fromJson(json['items']),
+      docs: json['docs'] == null
+          ? null
+          : ChecklistDocModel.fromJson(json['docs']),
       createdAt: json["created_at"] == null
           ? null
           : DateTime.parse(json["created_at"]),

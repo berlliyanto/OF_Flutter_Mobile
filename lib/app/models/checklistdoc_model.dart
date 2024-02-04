@@ -1,6 +1,6 @@
 class ChecklistDocModel {
   late int id;
-  late int checklistId;
+  late int? checklistId;
   late dynamic imageFront;
   late dynamic imageBack;
   late dynamic imageRight;
@@ -12,15 +12,15 @@ class ChecklistDocModel {
 
   ChecklistDocModel({
     required this.id,
-    required this.checklistId,
-    required this.imageFront,
-    required this.imageBack,
-    required this.imageRight,
-    required this.imageLeft,
-    required this.forkliftNotes,
-    required this.safetyNotes,
-    required this.createdAt,
-    required this.updatedAt,
+    this.checklistId,
+    this.imageFront,
+    this.imageBack,
+    this.imageRight,
+    this.imageLeft,
+    this.forkliftNotes,
+    this.safetyNotes,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory ChecklistDocModel.fromJson(Map<String, dynamic> json) {
