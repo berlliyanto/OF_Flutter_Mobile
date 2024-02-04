@@ -17,6 +17,8 @@ class ChecklistModel {
   late ChecklistDocModel? docs;
   late DateTime? createdAt;
   late DateTime? updatedAt;
+  late DateTime? formattedCreatedAt;
+  late DateTime? formattedupdatedAt;
 
   ChecklistModel({
     required this.id,
@@ -36,6 +38,8 @@ class ChecklistModel {
     this.docs,
     this.createdAt,
     this.updatedAt,
+    this.formattedCreatedAt,
+    this.formattedupdatedAt,
   });
 
   factory ChecklistModel.fromJson(Map<String, dynamic> json) {
@@ -70,6 +74,12 @@ class ChecklistModel {
       updatedAt: json["updated_at"] == null
           ? null
           : DateTime.parse(json["updated_at"]),
+      formattedCreatedAt: json['formatted_created_at'] == null
+          ? null
+          : DateTime.parse(json['formatted_created_at']),
+      formattedupdatedAt: json['formatted_updated_at'] == null
+          ? null
+          : DateTime.parse(json['formatted_updated_at']),
     );
   }
 }

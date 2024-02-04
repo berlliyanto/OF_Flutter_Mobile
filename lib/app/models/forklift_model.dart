@@ -56,7 +56,9 @@ class ForkliftModel {
           : DateTime.parse(json['last_checklist']),
       createdAt: json["created_at"] == null
           ? null
-          : DateTime.parse(json["created_at"]),
+          : DateTime.parse(
+              json["created_at"],
+            ),
       updatedAt: json["updated_at"] == null
           ? null
           : DateTime.parse(json["updated_at"]),

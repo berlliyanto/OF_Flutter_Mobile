@@ -176,7 +176,7 @@ class AddunitView extends GetView<AddunitController> {
                     row(title: "Man Hour :", value: e.manHour.toString()),
                     row(
                         title: "Checklist Date :",
-                        value: formatDate(e.createdAt)),
+                        value: formatDate(e.formattedCreatedAt)),
                   ],
                 ),
               );

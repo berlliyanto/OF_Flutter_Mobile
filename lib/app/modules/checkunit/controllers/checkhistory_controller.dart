@@ -108,6 +108,7 @@ class CheckhistoryController extends GetxController {
           .map((e) => ForkliftModel.fromJson(e))
           .toList();
       for (var item in listForkliftModel) {
+        print(item.updatedAt);
         listForklifts.add({
           "id": item.id,
           "name": item.unitCode,
