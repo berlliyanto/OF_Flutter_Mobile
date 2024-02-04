@@ -115,7 +115,7 @@ class TextInput extends StatelessWidget {
   final dynamic errorText;
   final TextInputType keyboardType;
   final int? maxLength;
-  final bool withSuffix, isFocus;
+  final bool withSuffix, isFocus, isEnabled;
   final IconData? suffixIcon;
   final FocusNode? focusNode;
   final int? maxLines;
@@ -138,6 +138,7 @@ class TextInput extends StatelessWidget {
       this.suffixIcon,
       this.maxLines = 1,
       this.label,
+      this.isEnabled = true,
       super.key});
 
   Widget showErrorText() {
@@ -200,6 +201,7 @@ class TextInput extends StatelessWidget {
               border: Border.all(color: setBorderColor(), width: 1),
             ),
             child: TextField(
+              enabled: isEnabled,
               controller: controller,
               focusNode: focusNode,
               maxLength: maxLength,

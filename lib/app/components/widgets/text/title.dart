@@ -18,11 +18,14 @@ Widget title(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Heading(
-            heading: "h1",
-            text: title,
-            textAlign: TextAlign.start,
-            size: size,
+          Expanded(
+            child: Heading(
+              heading: "h1",
+              text: title,
+              textAlign: TextAlign.start,
+              size: size,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
           if (withLeading)
             IconButton(

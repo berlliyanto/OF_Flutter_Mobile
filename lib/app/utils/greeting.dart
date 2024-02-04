@@ -2,12 +2,12 @@ String greeting() {
   DateTime now = DateTime.now();
   int currentHour = now.hour;
   if (currentHour >= 5 && currentHour < 12) {
-    return "Selamat Pagi";
+    return "Good Morning";
   } else if (currentHour >= 12 && currentHour < 16) {
-    return "Selamat Siang";
+    return "Good Afternoon";
   } else if (currentHour >= 16 && currentHour < 18) {
-    return "Selamat Sore";
+    return "Good Evening";
   } else {
-    return "Selamat Malam";
+    return "Good Night";
   }
 }

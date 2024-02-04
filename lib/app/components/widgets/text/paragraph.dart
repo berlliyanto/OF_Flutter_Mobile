@@ -6,12 +6,14 @@ class Paragraph extends StatelessWidget {
   final Color color;
   final TextAlign textAlign;
   final FontWeight fontWeight;
+  final TextOverflow overflow;
   const Paragraph(
       {required this.text,
       this.fontSize = 14,
       this.color = const Color(0xFF181823),
       this.textAlign = TextAlign.left,
       this.fontWeight = FontWeight.normal,
+      this.overflow = TextOverflow.clip,
       super.key});
 
   @override
@@ -25,6 +27,7 @@ class Paragraph extends StatelessWidget {
         fontFamily: "Lato",
         fontWeight: fontWeight,
       ),
+      overflow: overflow,
     );
   }
 }

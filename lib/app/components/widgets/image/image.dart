@@ -18,17 +18,9 @@ Widget imageCard({
   double iconSize = 70,
   String additionalText = '',
 }) {
-  dynamic imageFromFile() {
-    if (url == null && fileImage != null) {
-      return DecorationImage(image: FileImage(fileImage), fit: BoxFit.fill);
-    }
-
-    return null;
-  }
-
-  Widget imageFromAPI() {
-    if (fileImage != null && url == null) {
-      return const SizedBox();
+  Widget image() {
+    if (fileImage != null) {
+      return Image.file(fileImage, fit: BoxFit.fill);
     }
 
     if (fileImage == null && url == null) {
@@ -55,6 +47,7 @@ Widget imageCard({
       imageUrl: url!,
       imageBuilder: (context, imageProvider) => Container(
         decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
           image: DecorationImage(
             image: imageProvider,
             fit: BoxFit.cover,
@@ -82,7 +75,6 @@ Widget imageCard({
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: fileImage != null ? Colors.transparent : colors.whiteSmoke,
-        image: imageFromFile(),
         border: Border.all(color: colors.primaryBlack),
       ),
       child: Material(
@@ -90,7 +82,7 @@ Widget imageCard({
         child: InkWell(
           borderRadius: BorderRadius.circular(10),
           onTap: onTap,
-          child: imageFromAPI(),
+          child: image(),
         ),
       ),
     ),

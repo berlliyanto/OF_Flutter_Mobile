@@ -6,6 +6,7 @@ class Heading extends StatelessWidget {
   final TextAlign textAlign;
   final double size;
   final FontWeight fontWeight;
+  final TextOverflow overflow;
   const Heading(
       {required this.heading,
       required this.text,
@@ -13,6 +14,7 @@ class Heading extends StatelessWidget {
       this.textAlign = TextAlign.left,
       this.size = 0,
       this.fontWeight = FontWeight.bold,
+      this.overflow = TextOverflow.clip,
       super.key});
 
   double get getFontSize {
@@ -52,6 +54,7 @@ class Heading extends StatelessWidget {
         decoration: TextDecoration.none,
         fontFamily: 'Lato',
       ),
+      overflow: overflow,
     );
   }
 }

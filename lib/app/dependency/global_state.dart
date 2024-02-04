@@ -7,6 +7,9 @@ import 'package:of_flutter_mobile/app/utils/token.dart';
 class GlobalState extends GetxController {
   void handleDrawerMenu(dynamic route) async {
     if (route != null) {
+      if (route == Routes.HOME) {
+        Get.offAllNamed(Routes.HOME);
+      }
       Get.toNamed(route);
       return;
     }

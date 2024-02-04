@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:of_flutter_mobile/app/config/app_config.dart';
 import 'package:of_flutter_mobile/app/utils/file_downloader.dart';
+import 'package:of_flutter_mobile/app/utils/url_files.dart';
 
 class ZoomImageView extends StatelessWidget {
   ZoomImageView({super.key});
@@ -11,7 +11,7 @@ class ZoomImageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dynamic imageUrl = Get.arguments;
+    final dynamic arg = Get.arguments;
     return Scaffold(
       backgroundColor: Colors.black87,
       body: Stack(
@@ -25,9 +25,12 @@ class ZoomImageView extends StatelessWidget {
               height: double.infinity,
               width: Get.width,
               child: Hero(
-                tag: imageUrl,
+                tag: arg["image"],
                 child: CachedNetworkImage(
-                  imageUrl: "${AppConfig().getBaseUrl}/images/$imageUrl",
+                  imageUrl: urlImageBuilder(
+                      transaction: "show",
+                      type: arg["type"],
+                      image: arg["image"]),
                   imageBuilder: (context, imageProvider) => Container(
                     decoration: BoxDecoration(
                       image: DecorationImage(
@@ -65,7 +68,13 @@ class ZoomImageView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 IconButton(
-                    onPressed: () => controller.downloadImage(imageUrl),
+                    onPressed: () => controller.downloadImage(
+                          urlImageBuilder(
+                            transaction: "download",
+                            type: arg["type"],
+                            image: arg["image"],
+                          ),
+                        ),
                     icon: const Icon(
                       Icons.file_download_outlined,
                       color: Colors.white,

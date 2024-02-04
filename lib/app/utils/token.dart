@@ -23,3 +23,14 @@ void removeToken() {
   final box = GetStorage();
   box.remove("token");
 }
+
+dynamic getUser() {
+  final box = GetStorage();
+  if (box.read("user") == null) {
+    return "";
+  }
+
+  dynamic token = box.read("user");
+
+  return token;
+}

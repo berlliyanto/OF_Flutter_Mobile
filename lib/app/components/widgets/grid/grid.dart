@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/heading.dart';
+import 'package:of_flutter_mobile/app/routes/app_pages.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
 
 class GridItem extends StatelessWidget {
@@ -37,7 +38,12 @@ class GridItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.toNamed(routes),
+      onTap: () async {
+        final param = await Get.toNamed(routes);
+        if (param == "addunit") {
+          Get.toNamed(Routes.LISTFORKLIFT);
+        }
+      },
       child: Container(
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(

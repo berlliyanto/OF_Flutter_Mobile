@@ -1,44 +1,44 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:of_flutter_mobile/app/config/loading_config.dart';
 import 'package:of_flutter_mobile/app/dependency/dependency_injection.dart';
-import 'package:of_flutter_mobile/app/dependency/global_state.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'app/routes/app_pages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  DependencyInjection.init();
   SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown],
   );
+  await FlutterDownloader.initialize(
+    debug: true,
+    ignoreSsl: true,
+  );
 
-  FlutterError.onError = (details) {
-    log(details.exceptionAsString(), stackTrace: details.stack);
+  // FlutterError.onError = (details) {
+  //   log(details.exceptionAsString(), stackTrace: details.stack);
 
-    Get.dialog(
-      AlertDialog(
-        title: const Text('Error'),
-        content: Text(details.exceptionAsString()),
-      ),
-    );
-  };
+  //   Get.dialog(
+  //     AlertDialog(
+  //       title: const Text('Error'),
+  //       content: Text(details.exceptionAsString()),
+  //     ),
+  //   );
+  // };
 
   await GetStorage.init();
-  runApp(MyApp());
+  runApp(const MyApp());
+  DependencyInjection.init();
   configLoading();
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
-
-  final globalState = Get.find<GlobalState>();
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {

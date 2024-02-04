@@ -5,9 +5,11 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/paragraph.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
+import 'package:of_flutter_mobile/app/utils/token.dart';
 
 Widget drawerHeader({required ColorPicker colors}) {
   return Container(
+    padding: const EdgeInsets.symmetric(horizontal: 10),
     height: 200,
     width: Get.width,
     decoration: BoxDecoration(
@@ -32,13 +34,14 @@ Widget drawerHeader({required ColorPicker colors}) {
         ),
         const Gap(5),
         Paragraph(
-          text: "User",
+          text: getUser()['name'] ?? "",
           color: colors.whiteSmoke,
           fontSize: 20,
           fontWeight: FontWeight.bold,
+          overflow: TextOverflow.ellipsis,
         ),
         Paragraph(
-          text: "Supervisor",
+          text: getUser()['role'] ?? "",
           color: colors.whiteSmoke,
         ),
         const Gap(20)
