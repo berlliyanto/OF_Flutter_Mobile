@@ -5,6 +5,9 @@ import 'package:of_flutter_mobile/app/services/auth/auth_service.dart';
 import 'package:of_flutter_mobile/app/utils/token.dart';
 
 class GlobalState extends GetxController {
+  var name = "".obs;
+  var roleName = "".obs;
+
   void handleDrawerMenu(dynamic route) async {
     if (route != null) {
       if (route == Routes.HOME) {
@@ -21,5 +24,11 @@ class GlobalState extends GetxController {
       Get.offAllNamed(Routes.LOGIN);
     }
     EasyLoading.dismiss();
+  }
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
   }
 }
