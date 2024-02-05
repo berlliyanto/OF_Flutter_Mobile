@@ -32,8 +32,6 @@ class HomeView extends GetView<HomeController> {
       extendBodyBehindAppBar: true,
       extendBody: true,
       drawer: drawer(
-        name: controller.name.value,
-        roleName: controller.roleName.value,
         colors: colors,
         currentActiveMenu: "Home",
         onTap: (route) => globalState.handleDrawerMenu(route),

@@ -4,16 +4,15 @@ import 'package:of_flutter_mobile/app/components/widgets/drawer/drawer_item.dart
 import 'package:of_flutter_mobile/app/source/menu/drawer_list.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
 
-Drawer drawer(
-    {required ColorPicker colors,
-    required String currentActiveMenu,
-    required Function(dynamic route) onTap,
-    String name = "",
-    String roleName = ""}) {
+Drawer drawer({
+  required ColorPicker colors,
+  required String currentActiveMenu,
+  required Function(dynamic route) onTap,
+}) {
   return Drawer(
     child: Column(
       children: [
-        drawerHeader(colors: colors, name: name, roleName: roleName),
+        drawerHeader(colors: colors),
         Flexible(
           child: ListView.builder(
             padding: EdgeInsets.zero,

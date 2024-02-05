@@ -30,7 +30,19 @@ dynamic getUser() {
     return "";
   }
 
-  dynamic token = box.read("user");
+  Map<String, dynamic> user = {
+    "name": "",
+    "role": "",
+  };
 
-  return token;
+  dynamic storageUser = box.read("user");
+  if (storageUser["name"] != null) {
+    user["name"] = storageUser["name"];
+  }
+
+  if (storageUser["role"] != null) {
+    user["role"] = storageUser["role"];
+  }
+
+  return user;
 }
