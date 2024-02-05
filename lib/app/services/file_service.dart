@@ -8,17 +8,16 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class FileService extends BaseServices {
-  Future<void> downloadImage(String image) async {
+  Future<void> downloadImage(String url) async {
     final plugin = DeviceInfoPlugin();
     final android = await plugin.androidInfo;
-
     final storageStatus = android.version.sdkInt < 33
         ? await Permission.storage.request()
         : PermissionStatus.granted;
     if (storageStatus == PermissionStatus.granted) {
       Directory? directory = await getExternalStorageDirectory();
       await FlutterDownloader.enqueue(
-        url: "$baseUrl/download_image/$image",
+        url: url,
         headers: {},
         saveInPublicStorage: true,
         savedDir: directory!.path,

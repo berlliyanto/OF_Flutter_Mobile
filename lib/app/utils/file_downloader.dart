@@ -10,10 +10,8 @@ import 'package:of_flutter_mobile/app/services/file_service.dart';
 class FileDownloader extends GetxController {
   final ReceivePort _port = ReceivePort();
 
-  Future<void> downloadImage(String image) async {
-    await FileService().downloadImage(
-      image,
-    );
+  Future<void> downloadImage(String url) async {
+    await FileService().downloadImage(url);
     showToast("Download Running");
   }
 
@@ -25,7 +23,8 @@ class FileDownloader extends GetxController {
   void showToast(String msg) => Fluttertoast.showToast(msg: msg);
 
   void sendUpdate(String id, DownloadTaskStatus downloadStatus, int progress) {
-    final SendPort? send = IsolateNameServer.lookupPortByName('downloader');
+    final SendPort? send =
+        IsolateNameServer.lookupPortByName('forkliftdownloader');
 
     try {
       send?.send([id, downloadStatus, progress]);
@@ -38,7 +37,8 @@ class FileDownloader extends GetxController {
   void onInit() {
     super.onInit();
 
-    IsolateNameServer.registerPortWithName(_port.sendPort, 'downloader');
+    IsolateNameServer.registerPortWithName(
+        _port.sendPort, 'forkliftdownloader');
     _port.listen((dynamic data) {
       DownloadTaskStatus status = data[1];
       if (status == DownloadTaskStatus.complete) {
@@ -51,7 +51,7 @@ class FileDownloader extends GetxController {
 
   @override
   void dispose() {
-    IsolateNameServer.removePortNameMapping('downloader');
+    IsolateNameServer.removePortNameMapping('forkliftdownloader');
     super.dispose();
   }
 
