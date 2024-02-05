@@ -10,6 +10,7 @@ import 'package:of_flutter_mobile/app/components/widgets/drawer/drawer.dart';
 import 'package:of_flutter_mobile/app/components/widgets/grid/grid.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
 import 'package:of_flutter_mobile/app/dependency/global_state.dart';
+import 'package:of_flutter_mobile/app/modules/home/controllers/home_controller.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
 import 'package:of_flutter_mobile/app/source/menu/checkunit_list.dart';
 
@@ -20,6 +21,7 @@ class ChechkunitView extends GetView<ChechkunitController> {
 
   final ColorPicker colors = ColorPicker();
   final GlobalState globalState = Get.find<GlobalState>();
+  final HomeController homeController = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,8 @@ class ChechkunitView extends GetView<ChechkunitController> {
           text: "FORKLIFT CHECK UNIT", colors: colors, drawerLeading: true),
       extendBodyBehindAppBar: true,
       drawer: drawer(
+        name: homeController.name.value,
+        roleName: homeController.roleName.value,
         colors: colors,
         currentActiveMenu: "Forklift Check Unit",
         onTap: (route) => globalState.handleDrawerMenu(route),
