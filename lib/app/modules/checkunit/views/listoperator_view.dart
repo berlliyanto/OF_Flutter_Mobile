@@ -8,7 +8,9 @@ import 'package:of_flutter_mobile/app/components/layout/background_layout.dart';
 import 'package:of_flutter_mobile/app/components/layout/main_layout.dart';
 import 'package:of_flutter_mobile/app/components/widgets/appbar/appbar.dart';
 import 'package:of_flutter_mobile/app/components/widgets/input/text_input.dart';
+import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_tileUser.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
+import 'package:of_flutter_mobile/app/components/widgets/tile/tile_user.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -21,6 +23,29 @@ class ListoperatorView extends GetView<ListoperatorController> {
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
 
+  List<Widget> body() {
+    if (controller.isLoading.value) {
+      return [
+        skeletonTileUser(),
+        skeletonTileUser(),
+        skeletonTileUser(),
+        skeletonTileUser(),
+        skeletonTileUser(),
+        skeletonTileUser(),
+        skeletonTileUser(),
+        skeletonTileUser(),
+      ];
+    }
+
+    return controller.operators.map((e) {
+      return tileUser(
+          colors: colors,
+          name: e.name!,
+          role: e.roles!.name,
+          createdAt: e.createdAt);
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,11 +57,10 @@ class ListoperatorView extends GetView<ListoperatorController> {
             showBottom: false,
             showLogo: false,
             child: MainLayout(
+              scrollController: builder.scrollController,
               isScrollable: true,
               refreshController: refreshController,
-              onRefresh: () {
-                refreshController.refreshCompleted();
-              },
+              onRefresh: () => builder.refreshData(refreshController),
               children: [
                 title(title: "List Operator"),
                 const Gap(10),
@@ -47,9 +71,17 @@ class ListoperatorView extends GetView<ListoperatorController> {
                   colors: colors,
                   withSuffix: true,
                   suffixIcon: FontAwesomeIcons.magnifyingGlass,
-                  onChanged: (value) => controller.handleOnChange(value),
+                  onChanged: (value) =>
+                      controller.handleOnChange(value, "search"),
                   hint: "Search Name",
                 ).animate().slideY(),
+                const Gap(10),
+                ...body(),
+                if (builder.loadingScroll.value)
+                  const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                const Gap(10),
               ],
             ),
           );

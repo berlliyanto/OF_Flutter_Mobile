@@ -20,6 +20,7 @@ import 'package:of_flutter_mobile/app/components/widgets/text/heading.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
 import 'package:of_flutter_mobile/app/routes/app_pages.dart';
+import 'package:of_flutter_mobile/app/utils/validator.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../controllers/checkreport_controller.dart';
@@ -76,7 +77,7 @@ class CheckreportView extends GetView<CheckreportController> {
               hint: "Shift",
               width: Get.width,
               colors: colors,
-              value: controller.data["shift_id"],
+              value: dropdownValue(controller.valueShift.value),
               onChanged: (value) => controller.onChangedInput("shift", value),
             ),
           ),

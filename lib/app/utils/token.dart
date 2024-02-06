@@ -26,14 +26,13 @@ void removeToken() {
 
 dynamic getUser() {
   final box = GetStorage();
-  if (box.read("user") == null) {
-    return "";
-  }
-
   Map<String, dynamic> user = {
     "name": "",
     "role": "",
   };
+  if (box.read("user") == null) {
+    return {"name": "", "role": ""};
+  }
 
   dynamic storageUser = box.read("user");
   if (storageUser["name"] != null) {

@@ -52,6 +52,7 @@ class CheckreportController extends GetxController {
   var activeQuery = "page=1&per_page=10".obs;
   var unitGoodCount = 0.obs;
   var safetyGoodCount = 0.obs;
+  var valueShift = 0.obs;
 
   int unitTotal = 31;
   int safetyTotal = 6;
@@ -64,6 +65,7 @@ class CheckreportController extends GetxController {
       case "shift":
         ShiftModel shift = await showShift(value);
         main["shift_id"] = value;
+        valueShift.value = value;
         startTime.value = shift.startTime;
         endTime.value = shift.endTime;
         main["man_hour_start"] = shift.startTime;

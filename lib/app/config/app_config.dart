@@ -1,7 +1,7 @@
 class AppConfig {
   // Use this in development
-  // final String url = "http://192.168.100.171:8080/api";
-  final String url = "http://192.168.163.130:8080/api";
+  final String url = "http://192.168.100.171:8080/api";
+  // final String url = "http://192.168.163.130:8080/api";
 
   // Use this in production
   // final String url = "https://aplikasipms.com/operator-forklift/api";

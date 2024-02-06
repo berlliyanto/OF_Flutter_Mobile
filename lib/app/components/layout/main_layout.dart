@@ -11,6 +11,7 @@ class MainLayout extends StatelessWidget {
   final List<double> margins;
   final RefreshController? refreshController;
   final VoidCallback? onRefresh;
+  final ScrollController? scrollController;
   const MainLayout(
       {required this.children,
       this.refreshController,
@@ -20,6 +21,7 @@ class MainLayout extends StatelessWidget {
       this.paddingLR = 15,
       this.isScrollable = false,
       this.margins = const [0, 0, 0, 0],
+      this.scrollController,
       super.key});
 
   Widget mainScrollable() {
@@ -34,12 +36,14 @@ class MainLayout extends StatelessWidget {
             distance: 50,
           ),
           child: ListView(
+            controller: scrollController,
             padding: EdgeInsets.symmetric(horizontal: paddingLR),
             children: children,
           ),
         );
       }
       return ListView(
+        controller: scrollController,
         padding: EdgeInsets.symmetric(horizontal: paddingLR),
         children: children,
       );
