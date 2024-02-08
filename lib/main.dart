@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:of_flutter_mobile/app/components/widgets/snackbar/snackbar.dart';
 import 'package:of_flutter_mobile/app/config/loading_config.dart';
 import 'package:of_flutter_mobile/app/dependency/dependency_injection.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -20,16 +23,13 @@ void main() async {
     ignoreSsl: true,
   );
 
-  // FlutterError.onError = (details) {
-  //   log(details.exceptionAsString(), stackTrace: details.stack);
+  FlutterError.onError = (details) {
+    FlutterError.presentError(details);
+    log(details.exceptionAsString(), stackTrace: details.stack);
 
-  //   Get.dialog(
-  //     AlertDialog(
-  //       title: const Text('Error'),
-  //       content: Text(details.exceptionAsString()),
-  //     ),
-  //   );
-  // };
+    snackbar(
+        title: "Error", message: details.exceptionAsString(), type: "error");
+  };
 
   await GetStorage.init();
   runApp(const MyApp());
