@@ -159,6 +159,7 @@ class CheckhistoryView extends GetView<CheckhistoryController> {
                 isScrollable: true,
                 refreshController: refreshController,
                 onRefresh: () async {
+                  await builder.fetchAllAPI();
                   refreshController.refreshCompleted();
                 },
                 children: [

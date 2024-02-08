@@ -41,4 +41,17 @@ class ChecklistDocModel {
           : DateTime.parse(json["updated_at"]),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['checklist_id'] = checklistId;
+    data['image_front'] = imageFront;
+    data['image_back'] = imageBack;
+    data['image_right'] = imageRight;
+    data['image_left'] = imageLeft;
+    data['forklift_notes'] = forkliftNotes;
+    data['safety_notes'] = safetyNotes;
+    return data;
+  }
 }

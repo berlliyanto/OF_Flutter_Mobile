@@ -43,7 +43,7 @@ PreferredSizeWidget appBar({
         text: text,
         color: Colors.black87,
         fontWeight: FontWeight.bold,
-        fontSize: 24,
+        fontSize: 22,
       ),
       shadowColor: Colors.transparent,
       elevation: 0,

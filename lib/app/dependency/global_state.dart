@@ -20,6 +20,7 @@ class GlobalState extends GetxController {
     EasyLoading.show(status: "Logout...");
     final response = await AuthService().logout();
     if (response.data != null) {
+      removeUser();
       removeToken();
       Get.offAllNamed(Routes.LOGIN);
     }

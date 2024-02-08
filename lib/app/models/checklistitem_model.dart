@@ -134,4 +134,48 @@ class ChecklistItemModel {
           : DateTime.parse(json["updated_at"]),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['checklist_id'] = checklistId;
+    data['body_depan'] = bodyDepan;
+    data['body_belakang'] = bodyBelakang;
+    data['body_kanan'] = bodyKanan;
+    data['body_kiri'] = bodyKiri;
+    data['camera_depan'] = cameraDepan;
+    data['monitor_layar'] = monitorLayar;
+    data['lampu_utama'] = lampuUtama;
+    data['lampu_sign'] = lampuSign;
+    data['lampu_rotary'] = lampuRotary;
+    data['blue_spot_light'] = blueSpotLight;
+    data['red_line_light'] = redLineLight;
+    data['klakson'] = klakson;
+    data['tap_kartu'] = tapKartu;
+    data['seat_belt'] = seatBelt;
+    data['sirine_mundur'] = sirineMundur;
+    data['kondisi_apar'] = kondisiApar;
+    data['kondisi_ban_velg'] = kondisiBanVelg;
+    data['kotak_p3k'] = kotakP3K;
+    data['fungsi_steering'] = fungsiSteering;
+    data['fungsi_hidrolik'] = fungsiHidrolik;
+    data['fungsi_kontrol_panel'] = fungsiKontrolPanel;
+    data['dashboard'] = dashboard;
+    data['kebersihan_unit'] = kebersihanUnit;
+    data['socket_charger'] = socketCharger;
+    data['selang_hose'] = selangHose;
+    data['fungsi_pengereman'] = fungsiPengereman;
+    data['pedal_gas'] = pedalGas;
+    data['jok_kursi'] = jokKursi;
+    data['rantai'] = rantai;
+    data['back_rest'] = backRest;
+    data['fork'] = fork;
+    data['safety_sensor_fork'] = safetySensorFork;
+    data['safety_sensor_rfid'] = safetySensorRfid;
+    data['safety_kartu_akses'] = safetyKartuAkses;
+    data['safety_tombol_battery'] = safetyTombolBattery;
+    data['safety_tombol_emergency'] = safetyTombolEmergency;
+    data['safety_penutup_charger'] = safetyPenutupCharger;
+    return data;
+  }
 }

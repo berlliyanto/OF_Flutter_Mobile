@@ -8,8 +8,8 @@ import 'package:of_flutter_mobile/app/theme/color.dart';
 Widget tileUser(
     {required ColorPicker colors,
     required String name,
-    required String role,
-    String createdAt = ""}) {
+    String manHour = "",
+    dynamic lastCheck = ""}) {
   return Container(
     margin: const EdgeInsets.only(bottom: 10),
     width: Get.width,
@@ -51,8 +51,8 @@ Widget tileUser(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Paragraph(text: name),
-                    Paragraph(text: role),
-                    Paragraph(text: createdAt),
+                    Paragraph(text: manHour),
+                    Paragraph(text: lastCheck),
                   ],
                 ),
               )

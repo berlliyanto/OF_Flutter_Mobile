@@ -13,6 +13,7 @@ import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
 import 'package:of_flutter_mobile/app/components/widgets/tile/tile_user.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:animated_floating_buttons/animated_floating_buttons.dart';
 
 import '../controllers/listoperator_controller.dart';
 
@@ -22,6 +23,8 @@ class ListoperatorView extends GetView<ListoperatorController> {
   final ColorPicker colors = ColorPicker();
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
+  final GlobalKey<AnimatedFloatingActionButtonState> keyAnimate =
+      GlobalKey<AnimatedFloatingActionButtonState>();
 
   List<Widget> body() {
     if (controller.isLoading.value) {
@@ -41,8 +44,8 @@ class ListoperatorView extends GetView<ListoperatorController> {
       return tileUser(
           colors: colors,
           name: e.name!,
-          role: e.roles!.name,
-          createdAt: e.createdAt);
+          manHour: e.manHour!,
+          lastCheck: e.lastChecklist ?? "No checklist yet");
     }).toList();
   }
 
@@ -62,7 +65,21 @@ class ListoperatorView extends GetView<ListoperatorController> {
               refreshController: refreshController,
               onRefresh: () => builder.refreshData(refreshController),
               children: [
-                title(title: "List Operator"),
+                title(
+                  title: "List Operator",
+                  withLeading: true,
+                  icon: builder.sort.value == "asc"
+                      ? FontAwesomeIcons.arrowDownAZ
+                      : FontAwesomeIcons.arrowUpAZ,
+                  onPressed: () {
+                    if (builder.sort.value == "asc") {
+                      builder.sort.value = "desc";
+                    } else {
+                      builder.sort.value = "asc";
+                    }
+                    builder.handleOnChange(builder.sort.value, "sort");
+                  },
+                ),
                 const Gap(10),
                 TextInput(
                   controller: controller.searchController,

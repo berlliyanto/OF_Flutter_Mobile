@@ -20,6 +20,7 @@ import 'package:of_flutter_mobile/app/components/widgets/text/heading.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
 import 'package:of_flutter_mobile/app/routes/app_pages.dart';
+import 'package:of_flutter_mobile/app/utils/formatter.dart';
 import 'package:of_flutter_mobile/app/utils/validator.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -31,6 +32,135 @@ class CheckreportView extends GetView<CheckreportController> {
   final ColorPicker colors = ColorPicker();
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
+  final arg = Get.arguments;
+
+  List<Widget> topWidget() {
+    if (arg != null) {
+      return [
+        const Divider(),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              backgroundColor: colors.cyan,
+              radius: 8,
+            ),
+            const Gap(5),
+            Heading(
+              heading: "h2",
+              text: "Unit Code : ${controller.main['unit_code'] ?? ''}",
+            ),
+          ],
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              backgroundColor: colors.cyanDark,
+              radius: 8,
+            ),
+            const Gap(5),
+            Heading(
+              heading: "h2",
+              text:
+                  "Operator : ${controller.main.containsKey("operators") ? controller.main['operators']['name'] ?? '' : ''}",
+            ),
+          ],
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              backgroundColor: colors.green,
+              radius: 8,
+            ),
+            const Gap(5),
+            Heading(
+              heading: "h2",
+              text:
+                  "Location : ${controller.main.containsKey("forklifts") ? controller.main['forklifts']['location']['name'] ?? '' : ''}",
+            ),
+          ],
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              backgroundColor: colors.greenDark,
+              radius: 8,
+            ),
+            const Gap(5),
+            const Heading(
+              heading: "h2",
+              text: "Checklist Date :",
+            ),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 25),
+          child: Heading(
+            heading: "h3",
+            text: formatDate(controller.main['created_at']),
+          ),
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              backgroundColor: colors.yellow,
+              radius: 8,
+            ),
+            const Gap(5),
+            const Heading(
+              heading: "h2",
+              text: "Supervisor Verification :",
+            ),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 25),
+          child: Heading(
+            heading: "h3",
+            text: formatDate(controller.main['verification_supervisor']),
+          ),
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              backgroundColor: colors.yellowDark,
+              radius: 8,
+            ),
+            const Gap(5),
+            const Heading(
+              heading: "h2",
+              text: "User Verification :",
+            ),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 25),
+          child: Heading(
+            heading: "h3",
+            text: formatDate(controller.main['verification_user']),
+          ),
+        ),
+        const Divider(),
+      ];
+    }
+
+    return [
+      searchDropdown(
+        hint: "Select Forklift Unit",
+        colors: colors,
+        suggestionsCallback: (pattern) async {
+          return await controller.suggestions(pattern);
+        },
+        onSelected: (data) => controller.onTypeAheadSelected(data!),
+        textEditingController: controller.searchDropDownController,
+      ).animate().slideY(duration: 200.ms),
+    ];
+  }
 
   List<Widget> body() {
     if (controller.isLoading.value) {
@@ -52,15 +182,7 @@ class CheckreportView extends GetView<CheckreportController> {
     }
 
     return [
-      searchDropdown(
-        hint: "Select Forklift Unit",
-        colors: colors,
-        suggestionsCallback: (pattern) async {
-          return await controller.suggestions(pattern);
-        },
-        onSelected: (data) => controller.onTypeAheadSelected(data!),
-        textEditingController: controller.searchDropDownController,
-      ).animate().slideY(duration: 200.ms),
+      ...topWidget(),
       const Gap(10),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -78,7 +200,9 @@ class CheckreportView extends GetView<CheckreportController> {
               width: Get.width,
               colors: colors,
               value: dropdownValue(controller.valueShift.value),
-              onChanged: (value) => controller.onChangedInput("shift", value),
+              onChanged: (value) => arg != null
+                  ? null
+                  : controller.onChangedInput("shift", value),
             ),
           ),
         ],
@@ -97,6 +221,7 @@ class CheckreportView extends GetView<CheckreportController> {
           ),
           Flexible(
             child: TextInput(
+              isEnabled: arg == null,
               controller: controller.palletController,
               keyboardType: TextInputType.number,
               width: Get.width,
@@ -122,8 +247,9 @@ class CheckreportView extends GetView<CheckreportController> {
                 colors: colors.whiteSmoke,
                 borderColor: colors.primaryBlack,
                 textColor: colors.primaryBlack,
-                onPressed: () =>
-                    controller.onManHourPicked(Get.context!, "start"),
+                onPressed: () => arg != null
+                    ? null
+                    : controller.onManHourPicked(Get.context!, "start"),
                 textSize: 16,
                 fontWeight: FontWeight.normal,
                 text: controller.shiftLoading.value
@@ -138,8 +264,9 @@ class CheckreportView extends GetView<CheckreportController> {
                 colors: colors.whiteSmoke,
                 borderColor: colors.primaryBlack,
                 textColor: colors.primaryBlack,
-                onPressed: () =>
-                    controller.onManHourPicked(Get.context!, "end"),
+                onPressed: () => arg != null
+                    ? null
+                    : controller.onManHourPicked(Get.context!, "end"),
                 textSize: 16,
                 fontWeight: FontWeight.normal,
                 text: controller.shiftLoading.value
@@ -162,6 +289,7 @@ class CheckreportView extends GetView<CheckreportController> {
           ),
           Expanded(
             child: TextInput(
+              isEnabled: arg == null,
               controller: controller.forkliftHMController,
               keyboardType: TextInputType.number,
               width: Get.width,
@@ -209,43 +337,80 @@ class CheckreportView extends GetView<CheckreportController> {
             mainAxisSpacing: 10,
           ),
           children: [
-            imageCard(
-                fileImage: controller.imageFront,
-                additionalText: "(Sisi Depan)",
-                fontSize: 20,
-                height: 200,
-                width: Get.width,
-                onTap: () => controller.openSheetImage("front"),
-                colors: colors),
-            imageCard(
-                fileImage: controller.imageBack,
-                additionalText: "(Sisi Belakang)",
-                fontSize: 20,
-                height: 200,
-                width: Get.width,
-                onTap: () => controller.openSheetImage("back"),
-                colors: colors),
-            imageCard(
-                fileImage: controller.imageRight,
-                additionalText: "(Sisi Kanan)",
-                fontSize: 20,
-                height: 200,
-                width: Get.width,
-                onTap: () => controller.openSheetImage("right"),
-                colors: colors),
-            imageCard(
-                fileImage: controller.imageLeft,
-                additionalText: "(Sisi Kiri)",
-                fontSize: 20,
-                height: 200,
-                width: Get.width,
-                onTap: () => controller.openSheetImage("left"),
-                colors: colors),
+            Hero(
+              tag: arg != null ? controller.docs['image_front'] : "front",
+              child: imageCard(
+                  fileImage: controller.imageFront,
+                  url: controller.createUrlImage("front"),
+                  additionalText: "(Sisi Depan)",
+                  fontSize: 20,
+                  height: 200,
+                  width: Get.width,
+                  onTap: () => arg != null
+                      ? Get.toNamed(Routes.ZOOMIMAGE, arguments: {
+                          'type': 'checklist',
+                          'image': controller.docs['image_front']
+                        })
+                      : controller.openSheetImage("front"),
+                  colors: colors),
+            ),
+            Hero(
+              tag: arg != null ? controller.docs['image_back'] : "back",
+              child: imageCard(
+                  fileImage: controller.imageBack,
+                  url: controller.createUrlImage("back"),
+                  additionalText: "(Sisi Belakang)",
+                  fontSize: 20,
+                  height: 200,
+                  width: Get.width,
+                  onTap: () => arg != null
+                      ? Get.toNamed(Routes.ZOOMIMAGE, arguments: {
+                          'type': 'checklist',
+                          'image': controller.docs['image_back']
+                        })
+                      : controller.openSheetImage("back"),
+                  colors: colors),
+            ),
+            Hero(
+              tag: arg != null ? controller.docs['image_right'] : "right",
+              child: imageCard(
+                  fileImage: controller.imageRight,
+                  url: controller.createUrlImage("right"),
+                  additionalText: "(Sisi Kanan)",
+                  fontSize: 20,
+                  height: 200,
+                  width: Get.width,
+                  onTap: () => arg != null
+                      ? Get.toNamed(Routes.ZOOMIMAGE, arguments: {
+                          'type': 'checklist',
+                          'image': controller.docs['image_right']
+                        })
+                      : controller.openSheetImage("right"),
+                  colors: colors),
+            ),
+            Hero(
+              tag: arg != null ? controller.docs['image_left'] : "left",
+              child: imageCard(
+                  fileImage: controller.imageLeft,
+                  url: controller.createUrlImage("left"),
+                  additionalText: "(Sisi Kiri)",
+                  fontSize: 20,
+                  height: 200,
+                  width: Get.width,
+                  onTap: () => arg != null
+                      ? Get.toNamed(Routes.ZOOMIMAGE, arguments: {
+                          'type': 'checklist',
+                          'image': controller.docs['image_left']
+                        })
+                      : controller.openSheetImage("left"),
+                  colors: colors),
+            ),
           ],
         ),
       ),
       const Divider(),
       TextInput(
+        isEnabled: arg == null,
         controller: controller.unitNotesController,
         maxLines: null,
         label: "Catatan Khusus Unit",
@@ -258,6 +423,7 @@ class CheckreportView extends GetView<CheckreportController> {
       ),
       const Gap(10),
       TextInput(
+        isEnabled: arg == null,
         controller: controller.safetyNotesController,
         maxLines: null,
         label: "Catatan Khusus Safety Features",
@@ -270,9 +436,12 @@ class CheckreportView extends GetView<CheckreportController> {
       ),
       const Gap(10),
       GradientButton(
-        colors: [colors.cyan, colors.cyanDark],
-        onPressed: () => controller.handleSubmit(),
-        text: "Submit",
+        colors: arg == null
+            ? [colors.cyan, colors.cyanDark]
+            : [colors.green, colors.greenDark],
+        onPressed: () =>
+            arg == null ? controller.handleSubmit() : controller.handleVerify(),
+        text: arg == null ? "Submit" : "Verify",
       ),
       const Gap(10),
     ];
@@ -299,7 +468,7 @@ class CheckreportView extends GetView<CheckreportController> {
                 title: "Checklist Report",
                 icon: FontAwesomeIcons.clockRotateLeft,
                 onPressed: () => Get.toNamed(Routes.CHECKHISTORY),
-                withLeading: true,
+                withLeading: arg == null,
               ).animate().slideY(duration: 150.ms, begin: -0.1, end: 0),
               ...body(),
             ],

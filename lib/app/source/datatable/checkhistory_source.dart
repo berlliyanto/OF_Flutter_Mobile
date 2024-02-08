@@ -150,7 +150,7 @@ class CheckHistorySource extends DataTableSource {
             IconButton(
                 onPressed: () {
                   Get.toNamed(
-                    Routes.CHECKREPORT_DETAIL,
+                    Routes.CHECKREPORT,
                     arguments: {'id': dataRow.id},
                   );
                 },

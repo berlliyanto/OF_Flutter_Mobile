@@ -138,7 +138,7 @@ class CheckhistoryController extends GetxController {
     }
   }
 
-  void fetchAllAPI() async {
+  Future fetchAllAPI() async {
     isLoading.value = true;
     update();
     await getLocation();

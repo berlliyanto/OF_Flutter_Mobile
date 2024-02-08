@@ -1,6 +1,4 @@
 import 'package:get/get.dart';
-import 'package:of_flutter_mobile/app/modules/checkunit/bindings/checkreport_detail_binding.dart';
-import 'package:of_flutter_mobile/app/modules/checkunit/views/checkreport_detail_view.dart';
 
 import '../modules/checkunit/bindings/addunit_binding.dart';
 import '../modules/checkunit/bindings/checkhistory_binding.dart';
@@ -94,11 +92,6 @@ class AppPages {
     GetPage(
       name: _Paths.ZOOMIMAGE,
       page: () => ZoomImageView(),
-    ),
-    GetPage(
-      name: _Paths.CHECKREPORT_DETAIL,
-      page: () => CheckreportDetailView(),
-      binding: CheckreportDetailBinding(),
     ),
   ];
 }

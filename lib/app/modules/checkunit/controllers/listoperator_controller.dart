@@ -5,7 +5,10 @@ import 'package:of_flutter_mobile/app/services/user/user_service.dart';
 import 'package:of_flutter_mobile/app/utils/query_builder.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class ListoperatorController extends GetxController {
+class ListoperatorController extends GetxController
+    with GetSingleTickerProviderStateMixin {
+  late Animation<double> animation;
+  late AnimationController animationController;
   final TextEditingController searchController = TextEditingController();
   final scrollController = ScrollController();
 
@@ -13,8 +16,8 @@ class ListoperatorController extends GetxController {
   var loadingScroll = false.obs;
   var isLoadingScroll = false.obs;
   var page = 1.obs;
+  var sort = "asc".obs;
   var activeQuery = "page=1&per_page=10".obs;
-  var maxScroll = 0.0.obs;
 
   List<UserModel> operators = [];
 
@@ -30,6 +33,8 @@ class ListoperatorController extends GetxController {
     switch (type) {
       case "search":
         isLoadingScroll.value = false;
+        activeQuery.value =
+            queryBuilder(activeQuery: activeQuery.value, query: "page=1");
         activeQuery.value = queryBuilder(
             activeQuery: activeQuery.value, query: "search=$value");
       case "page":
@@ -37,6 +42,11 @@ class ListoperatorController extends GetxController {
         page.value += int.parse(value);
         activeQuery.value =
             queryBuilder(activeQuery: activeQuery.value, query: "page=$page");
+      case "sort":
+        isLoadingScroll.value = false;
+        activeQuery.value =
+            queryBuilder(activeQuery: activeQuery.value, query: "sort=$value");
+        update();
       default:
     }
   }
@@ -71,7 +81,8 @@ class ListoperatorController extends GetxController {
 
   void scrollListener() async {
     if (scrollController.position.pixels ==
-        scrollController.position.maxScrollExtent) {
+            scrollController.position.maxScrollExtent &&
+        !isLoadingScroll.value) {
       handleOnChange("1", "page");
     }
   }
@@ -83,7 +94,14 @@ class ListoperatorController extends GetxController {
     scrollController.addListener(scrollListener);
     debounce(activeQuery, time: const Duration(milliseconds: 500), (callback) {
       indexOperator(activeQuery.value);
-      maxScroll.value = scrollController.position.maxScrollExtent;
     });
+
+    animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    );
+    final curvedAnimation =
+        CurvedAnimation(curve: Curves.easeInOut, parent: animationController);
+    animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
   }
 }

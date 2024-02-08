@@ -121,6 +121,8 @@ class TextInput extends StatelessWidget {
   final int? maxLines;
   final String? label;
   final TextEditingController? controller;
+  final String? Function(String? value)? validator;
+
   const TextInput(
       {required this.width,
       required this.colors,
@@ -139,6 +141,7 @@ class TextInput extends StatelessWidget {
       this.maxLines = 1,
       this.label,
       this.isEnabled = true,
+      this.validator,
       super.key});
 
   Widget showErrorText() {
@@ -200,7 +203,8 @@ class TextInput extends StatelessWidget {
               color: colors.whiteSmoke,
               border: Border.all(color: setBorderColor(), width: 1),
             ),
-            child: TextField(
+            child: TextFormField(
+              validator: validator,
               enabled: isEnabled,
               controller: controller,
               focusNode: focusNode,

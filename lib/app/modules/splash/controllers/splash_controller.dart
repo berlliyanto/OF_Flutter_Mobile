@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:of_flutter_mobile/app/components/widgets/toast/toast.dart';
 import 'package:of_flutter_mobile/app/models/user_model.dart';
 import 'package:of_flutter_mobile/app/services/user/user_service.dart';
@@ -14,10 +13,8 @@ class SplashController extends GetxController {
     } else {
       final response = await UserService().userProfile();
       if (response.statusCode == 200) {
-        final box = GetStorage();
         final UserModel userModel = UserModel.fromJson(response.data['data']);
-        box.write(
-            "user", {"name": userModel.name, "role": userModel.roles!.name});
+        setUser({"name": userModel.name, "role": userModel.roles!.name});
         Get.offNamed('/home');
       } else {
         Get.offNamed('/login');

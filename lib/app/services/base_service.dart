@@ -155,9 +155,17 @@ class BaseServices {
             message: response.data['message'].toString());
       }
     } on DioException catch (error) {
-      print(error.response!.data);
       checkException(error,
           error.response != null ? error.response!.data['message'] : "Error");
+      return Response(
+          statusCode: error.response!.statusCode,
+          requestOptions: RequestOptions());
+    } on Exception catch (e) {
+      snackbar(
+        title: "Error",
+        message: e.toString(),
+        type: "error",
+      );
       return Response(statusCode: 400, requestOptions: RequestOptions());
     } catch (e) {
       return Response(statusCode: 400, requestOptions: RequestOptions());

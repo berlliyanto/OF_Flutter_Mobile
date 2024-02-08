@@ -11,8 +11,10 @@ void snackbar(
         return Colors.orange;
       case "error":
         return Colors.red;
-      default:
+      case "info":
         return Colors.blue;
+      default:
+        return Colors.transparent;
     }
   }
 

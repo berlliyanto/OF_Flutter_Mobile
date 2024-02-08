@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:get_storage/get_storage.dart';
 
 String getToken() {
@@ -21,7 +23,9 @@ void setToken(String token) {
 
 void removeToken() {
   final box = GetStorage();
-  box.remove("token");
+  if (box.read("token") != null) {
+    box.remove("token");
+  }
 }
 
 dynamic getUser() {
@@ -43,5 +47,26 @@ dynamic getUser() {
     user["role"] = storageUser["role"];
   }
 
+  log(user.toString());
+
   return user;
+}
+
+void setUser(Map<String, dynamic> user) {
+  if (user.isEmpty) {
+    log("Failed set user to storage");
+    return;
+  }
+
+  final box = GetStorage();
+  box.write("user", user);
+  log("Success set user to storage");
+}
+
+void removeUser() {
+  final box = GetStorage();
+  if (box.read("user") != null) {
+    box.remove("user");
+    log("Success remove user from storage");
+  }
 }
