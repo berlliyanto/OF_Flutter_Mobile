@@ -9,4 +9,8 @@ class CheckListService extends BaseServices {
   Future<Response> indexCheckList({String query = ""}) async {
     return await get(path: '/checklist/index', query: query);
   }
+
+  Future<Response> showCheckList({required int id}) async {
+    return await get(path: '/checklist/show/$id');
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
-import 'package:of_flutter_mobile/app/utils/zoom_image.dart';
+import 'package:of_flutter_mobile/app/modules/checkunit/bindings/checkreport_detail_binding.dart';
+import 'package:of_flutter_mobile/app/modules/checkunit/views/checkreport_detail_view.dart';
 
 import '../modules/checkunit/bindings/addunit_binding.dart';
 import '../modules/checkunit/bindings/checkhistory_binding.dart';
@@ -23,6 +24,7 @@ import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
 import '../modules/userprofile/bindings/userprofile_binding.dart';
 import '../modules/userprofile/views/userprofile_view.dart';
+import '../utils/zoom_image.dart';
 
 // ignore_for_file: constant_identifier_names
 
@@ -92,6 +94,11 @@ class AppPages {
     GetPage(
       name: _Paths.ZOOMIMAGE,
       page: () => ZoomImageView(),
+    ),
+    GetPage(
+      name: _Paths.CHECKREPORT_DETAIL,
+      page: () => CheckreportDetailView(),
+      binding: CheckreportDetailBinding(),
     ),
   ];
 }

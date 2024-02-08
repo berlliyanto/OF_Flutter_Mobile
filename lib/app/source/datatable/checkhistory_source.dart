@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:of_flutter_mobile/app/models/checklist_model.dart';
+import 'package:of_flutter_mobile/app/routes/app_pages.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
 import 'package:of_flutter_mobile/app/utils/formatter.dart';
 
@@ -146,7 +147,14 @@ class CheckHistorySource extends DataTableSource {
         ),
         DataCell(Row(
           children: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.remove_red_eye))
+            IconButton(
+                onPressed: () {
+                  Get.toNamed(
+                    Routes.CHECKREPORT_DETAIL,
+                    arguments: {'id': dataRow.id},
+                  );
+                },
+                icon: const Icon(Icons.remove_red_eye))
           ],
         )),
       ],
