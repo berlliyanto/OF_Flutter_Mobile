@@ -18,6 +18,7 @@ abstract class Routes {
   static const CHECKHISTORY = _Paths.CHECKHISTORY;
   static const USERPROFILE = _Paths.USERPROFILE;
   static const ZOOMIMAGE = _Paths.ZOOMIMAGE;
+  static const QRVIEW = _Paths.QRVIEW;
   static const CHECKREPORT_DETAIL = _Paths.CHECKREPORT_DETAIL;
 }
 
@@ -36,5 +37,6 @@ abstract class _Paths {
   static const CHECKHISTORY = '/checkhistory';
   static const USERPROFILE = '/userprofile';
   static const ZOOMIMAGE = '/zoomimage';
+  static const QRVIEW = '/qrview';
   static const CHECKREPORT_DETAIL = '/checkreport-detail';
 }

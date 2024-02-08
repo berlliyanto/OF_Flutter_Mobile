@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:of_flutter_mobile/app/utils/qr_view.dart';
 
 import '../modules/checkunit/bindings/addunit_binding.dart';
 import '../modules/checkunit/bindings/checkhistory_binding.dart';
@@ -93,5 +94,9 @@ class AppPages {
       name: _Paths.ZOOMIMAGE,
       page: () => ZoomImageView(),
     ),
+    GetPage(
+      name: _Paths.QRVIEW,
+      page: () => const QRView(),
+    )
   ];
 }

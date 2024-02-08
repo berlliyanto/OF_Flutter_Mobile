@@ -466,9 +466,20 @@ class CheckreportView extends GetView<CheckreportController> {
             children: [
               title(
                 title: "Checklist Report",
-                icon: FontAwesomeIcons.clockRotateLeft,
-                onPressed: () => Get.toNamed(Routes.CHECKHISTORY),
-                withLeading: arg == null,
+                icon: arg == null
+                    ? FontAwesomeIcons.clockRotateLeft
+                    : FontAwesomeIcons.qrcode,
+                onPressed: () {
+                  if (arg == null) {
+                    Get.toNamed(Routes.CHECKHISTORY);
+                  } else {
+                    Get.toNamed(Routes.QRVIEW, arguments: {
+                      'id': controller.main['id'],
+                      'form_code': controller.main['form_code']
+                    });
+                  }
+                },
+                withLeading: true,
               ).animate().slideY(duration: 150.ms, begin: -0.1, end: 0),
               ...body(),
             ],

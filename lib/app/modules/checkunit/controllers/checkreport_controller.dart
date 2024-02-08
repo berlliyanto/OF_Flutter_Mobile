@@ -234,7 +234,7 @@ class CheckreportController extends GetxController {
         safetyNotesController.text = docs['safety_notes'] ?? "";
         unitNotesController.text = docs['forklift_notes'] ?? "";
 
-        log(docs.toString());
+        log(main.toString());
 
         update();
       }
