@@ -17,6 +17,7 @@ class SplashController extends GetxController {
         setUser({"name": userModel.name, "role": userModel.roles!.name});
         Get.offNamed('/home');
       } else {
+        removeToken();
         Get.offNamed('/login');
       }
     }

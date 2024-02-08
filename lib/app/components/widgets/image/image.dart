@@ -17,6 +17,7 @@ Widget imageCard({
   double fontSize = 30,
   double iconSize = 70,
   String additionalText = '',
+  double radius = 10,
 }) {
   Widget image() {
     if (fileImage != null) {
@@ -47,7 +48,7 @@ Widget imageCard({
       imageUrl: url!,
       imageBuilder: (context, imageProvider) => Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(radius),
           image: DecorationImage(
             image: imageProvider,
             fit: BoxFit.cover,
@@ -73,14 +74,14 @@ Widget imageCard({
       width: width,
       height: height,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(radius),
         color: fileImage != null ? Colors.transparent : colors.whiteSmoke,
         border: Border.all(color: colors.primaryBlack),
       ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(radius),
           onTap: onTap,
           child: image(),
         ),

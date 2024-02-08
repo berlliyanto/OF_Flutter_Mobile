@@ -11,6 +11,7 @@ import 'package:of_flutter_mobile/app/components/widgets/input/text_input.dart';
 import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_tileUser.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
 import 'package:of_flutter_mobile/app/components/widgets/tile/tile_user.dart';
+import 'package:of_flutter_mobile/app/routes/app_pages.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:animated_floating_buttons/animated_floating_buttons.dart';
@@ -42,10 +43,17 @@ class ListoperatorView extends GetView<ListoperatorController> {
 
     return controller.operators.map((e) {
       return tileUser(
-          colors: colors,
-          name: e.name!,
-          manHour: e.manHour!,
-          lastCheck: e.lastChecklist ?? "No checklist yet");
+        colors: colors,
+        name: e.name!,
+        manHour: e.manHour!,
+        lastCheck: e.lastChecklist ?? "No checklist yet",
+        onTap: () => Get.toNamed(
+          Routes.USERPROFILE,
+          arguments: {
+            'id': e.id.toString(),
+          },
+        ),
+      );
     }).toList();
   }
 

@@ -2,8 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:of_flutter_mobile/app/services/base_service.dart';
 
 class UserService extends BaseServices {
-  Future<Response> userProfile() async {
-    return await get(path: "/user/profile");
+  Future<Response> userProfile({String query = ""}) async {
+    return await get(path: "/user/profile", query: query);
   }
 
   Future<Response> updatePassword({required Map<String, dynamic> data}) async {

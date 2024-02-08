@@ -9,7 +9,8 @@ Widget tileUser(
     {required ColorPicker colors,
     required String name,
     String manHour = "",
-    dynamic lastCheck = ""}) {
+    dynamic lastCheck = "",
+    VoidCallback? onTap}) {
   return Container(
     margin: const EdgeInsets.only(bottom: 10),
     width: Get.width,
@@ -29,7 +30,7 @@ Widget tileUser(
       color: Colors.transparent,
       child: InkWell(
         borderRadius: BorderRadius.circular(10),
-        onTap: () {},
+        onTap: onTap,
         child: Container(
           padding: const EdgeInsets.all(10),
           child: Row(

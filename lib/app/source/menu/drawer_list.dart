@@ -4,7 +4,7 @@ import 'package:of_flutter_mobile/app/source/menu/home_list.dart';
 
 List<ListMenuModel> listDrawer = [
   ListMenuModel(
-    title: "User Profile",
+    title: "Profile",
     routes: Routes.USERPROFILE,
     icon: FontAwesomeIcons.user,
   ),

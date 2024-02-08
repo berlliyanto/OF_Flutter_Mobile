@@ -7,7 +7,8 @@ List<ListMenuModel> listHome = [
       routes: Routes.CHECKUNIT,
       title: "Forklift Check Unit",
       icon: FontAwesomeIcons.listCheck),
-  ListMenuModel(routes: "", title: "Coming Soon", icon: FontAwesomeIcons.gears),
+  ListMenuModel(
+      routes: "", title: "Human Capital", icon: FontAwesomeIcons.users),
   ListMenuModel(routes: "", title: "Coming Soon", icon: FontAwesomeIcons.gears),
   ListMenuModel(routes: "", title: "Coming Soon", icon: FontAwesomeIcons.gears),
 ];

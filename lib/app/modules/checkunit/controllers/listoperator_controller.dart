@@ -5,10 +5,7 @@ import 'package:of_flutter_mobile/app/services/user/user_service.dart';
 import 'package:of_flutter_mobile/app/utils/query_builder.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class ListoperatorController extends GetxController
-    with GetSingleTickerProviderStateMixin {
-  late Animation<double> animation;
-  late AnimationController animationController;
+class ListoperatorController extends GetxController {
   final TextEditingController searchController = TextEditingController();
   final scrollController = ScrollController();
 
@@ -44,6 +41,8 @@ class ListoperatorController extends GetxController
             queryBuilder(activeQuery: activeQuery.value, query: "page=$page");
       case "sort":
         isLoadingScroll.value = false;
+        activeQuery.value =
+            queryBuilder(activeQuery: activeQuery.value, query: "page=1");
         activeQuery.value =
             queryBuilder(activeQuery: activeQuery.value, query: "sort=$value");
         update();
@@ -95,13 +94,5 @@ class ListoperatorController extends GetxController
     debounce(activeQuery, time: const Duration(milliseconds: 500), (callback) {
       indexOperator(activeQuery.value);
     });
-
-    animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1000),
-    );
-    final curvedAnimation =
-        CurvedAnimation(curve: Curves.easeInOut, parent: animationController);
-    animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
   }
 }

@@ -6,14 +6,14 @@ import 'package:of_flutter_mobile/app/utils/token.dart';
 
 class HomeController extends GetxController {
   var name = "".obs;
-  var roleName = "".obs;
-
+  var isLoading = false.obs;
   Future<void> getProfileUser() async {
+    isLoading.value = true;
+    update();
     final response = await UserService().userProfile();
     if (response.data != null) {
       final UserModel userModel = UserModel.fromJson(response.data['data']);
       name.value = userModel.name!;
-      roleName.value = userModel.roles!.name;
       update();
     } else if (response.statusCode == 401 || response.statusCode == 400) {
       removeToken();
@@ -22,6 +22,8 @@ class HomeController extends GetxController {
       removeToken();
       Get.offAllNamed(Routes.LOGIN);
     }
+    isLoading.value = false;
+    update();
   }
 
   @override

@@ -77,7 +77,16 @@ class CheckHistorySource extends DataTableSource {
 
   @override
   DataRow? getRow(int index) {
-    final dataRow = data[index];
+    if (index >= totalRow || data.isEmpty) {
+      return null;
+    }
+
+    int newIndex = (index + (currentPage - 1) * perPage) % perPage;
+    if (newIndex >= data.length) {
+      return null;
+    }
+
+    final dataRow = data[newIndex];
     return DataRow(
       color: MaterialStateColor.resolveWith((Set<MaterialState> states) {
         if (states.contains(MaterialState.selected)) {

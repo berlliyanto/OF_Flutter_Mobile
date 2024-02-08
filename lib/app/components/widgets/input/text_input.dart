@@ -106,7 +106,7 @@ import 'package:of_flutter_mobile/app/theme/color.dart';
 // }
 
 class TextInput extends StatelessWidget {
-  final double width;
+  final double? width;
   final ColorPicker colors;
   final Function(String value) onChanged;
   final VoidCallback? onTap;
@@ -124,10 +124,10 @@ class TextInput extends StatelessWidget {
   final String? Function(String? value)? validator;
 
   const TextInput(
-      {required this.width,
-      required this.colors,
+      {required this.colors,
       required this.onChanged,
       required this.hint,
+      this.width,
       this.controller,
       this.onTapOutside,
       this.onTap,

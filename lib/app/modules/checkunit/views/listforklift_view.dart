@@ -109,6 +109,7 @@ class ListforkliftView extends GetView<ListforkliftController> {
         onRowsPerPageChanged: (value) =>
             controller.onRowsPerPageChanged(value!),
       ).animate().fade(),
+      const Gap(10)
     ];
   }
 

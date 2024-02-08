@@ -6,6 +6,7 @@ import 'package:of_flutter_mobile/app/components/layout/background_layout.dart';
 import 'package:of_flutter_mobile/app/components/layout/main_layout.dart';
 import 'package:of_flutter_mobile/app/components/widgets/appbar/appbar.dart';
 import 'package:of_flutter_mobile/app/components/widgets/drawer/drawer.dart';
+import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_tile.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
 import 'package:of_flutter_mobile/app/components/widgets/tile/tile.dart';
 import 'package:of_flutter_mobile/app/dependency/global_state.dart';
@@ -43,12 +44,19 @@ class HomeView extends GetView<HomeController> {
           showLogo: true,
           child: MainLayout(
             refreshController: refreshController,
-            onRefresh: () {
+            onRefresh: () async {
+              await builder.getProfileUser();
               refreshController.refreshCompleted();
             },
             isScrollable: true,
             children: <Widget>[
-              title(title: "${greeting()}, ${builder.name.value}", size: 22),
+              builder.isLoading.value
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 120),
+                      child: skeletonTile(),
+                    )
+                  : title(
+                      title: "${greeting()}, ${builder.name.value}", size: 22),
               const Gap(20),
               SizedBox(
                 width: Get.width,
