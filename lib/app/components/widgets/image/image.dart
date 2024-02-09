@@ -21,7 +21,12 @@ Widget imageCard({
 }) {
   Widget image() {
     if (fileImage != null) {
-      return Image.file(fileImage, fit: BoxFit.fill);
+      return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(radius),
+          image: DecorationImage(image: FileImage(fileImage), fit: BoxFit.fill),
+        ),
+      );
     }
 
     if (fileImage == null && url == null) {
@@ -81,7 +86,7 @@ Widget imageCard({
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          borderRadius: BorderRadius.circular(radius),
+          borderRadius: BorderRadius.circular(10),
           onTap: onTap,
           child: image(),
         ),

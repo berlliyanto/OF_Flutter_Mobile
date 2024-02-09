@@ -1,9 +1,13 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:get/get.dart';
+import 'package:get/get_utils/get_utils.dart';
+import 'package:get/route_manager.dart';
+import 'package:get/state_manager.dart';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:of_flutter_mobile/app/components/widgets/bottomsheet/bottomsheet_image.dart';
 import 'package:of_flutter_mobile/app/components/widgets/toast/toast.dart';
@@ -80,14 +84,40 @@ class UserprofileController extends GetxController {
     update();
   }
 
-  String createUrlImage() {
+  dynamic createUrlImage() {
     if (userModel.image == null) {
-      return urlImageBuilder(
-          transaction: "show", type: "user", image: "no_image.png");
+      return null;
     }
 
     return urlImageBuilder(
         transaction: "show", type: "user", image: userModel.image!);
+  }
+
+  Future<void> handleUpdate() async {
+    if (!GetUtils.isEmail(emailController.text)) {
+      toast(message: "Email invalid");
+      return;
+    }
+
+    Map<String, dynamic> data = {};
+    data["name"] = nameController.text;
+    data["email"] = emailController.text;
+    if (image != null) {
+      data["image"] = await MultipartFile.fromFile(image!.path);
+    }
+
+    EasyLoading.show(status: "Loading...");
+    final response = await UserService().updateProfile(
+      data: FormData.fromMap(data),
+      id: userModel.id!,
+    );
+
+    if (response.data != null) {
+      EasyLoading.showSuccess(response.data['message']);
+      Get.back();
+    }
+
+    EasyLoading.dismiss();
   }
 
   Future<void> getUserProfile() async {
@@ -98,7 +128,7 @@ class UserprofileController extends GetxController {
         userModel = UserModel.fromJson(response.data['data']);
 
         nameController.text = userModel.name!;
-        roleController.text = userModel.roles!.name;
+        roleController.text = userModel.roles![0].name;
         emailController.text = userModel.email!;
 
         links = Links.fromJson(response.data['links']);
@@ -115,7 +145,7 @@ class UserprofileController extends GetxController {
         userModel = UserModel.fromJson(response.data['data']);
 
         nameController.text = userModel.name!;
-        roleController.text = userModel.roles!.name;
+        roleController.text = userModel.roles![0].name;
         emailController.text = userModel.email!;
 
         links = Links.fromJson(response.data['links']);

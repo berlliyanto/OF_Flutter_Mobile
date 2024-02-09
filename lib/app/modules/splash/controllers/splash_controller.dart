@@ -14,7 +14,7 @@ class SplashController extends GetxController {
       final response = await UserService().userProfile();
       if (response.statusCode == 200) {
         final UserModel userModel = UserModel.fromJson(response.data['data']);
-        setUser({"name": userModel.name, "role": userModel.roles!.name});
+        setUser({"name": userModel.name, "role": userModel.roles![0].name});
         Get.offNamed('/home');
       } else {
         removeToken();

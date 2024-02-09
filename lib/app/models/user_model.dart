@@ -8,7 +8,7 @@ class UserModel {
   late String? email;
   late String? manHour;
   late dynamic createdAt, updatedAt, lastChecklist, image;
-  late RoleModel? roles;
+  late List<RoleModel>? roles;
   late List<ChecklistModel>? checklists;
 
   UserModel({
@@ -35,7 +35,10 @@ class UserModel {
         image: json["image"],
         createdAt: json["created_at"],
         updatedAt: json["updated_at"],
-        roles: RoleModel.fromJson(json["roles"]),
+        roles: json["roles"] == null
+            ? []
+            : List<RoleModel>.from(
+                json["roles"]!.map((x) => RoleModel.fromJson(x))),
         checklists: json["checklists"] == null
             ? []
             : List<ChecklistModel>.from(
