@@ -6,7 +6,9 @@ void awesomeDialog(
     {required String title,
     required String desc,
     DialogType type = DialogType.info,
-    VoidCallback? callback}) {
+    Widget? body,
+    VoidCallback? callback,
+    cancel}) {
   AwesomeDialog(
           context: Get.context!,
           animType: AnimType.scale,
@@ -15,7 +17,8 @@ void awesomeDialog(
           title: title,
           desc: desc,
           btnOkOnPress: callback,
-          btnCancelOnPress: () => Get.back(),
-          showCloseIcon: true)
+          btnCancelOnPress: cancel,
+          showCloseIcon: true,
+          body: body)
       .show();
 }

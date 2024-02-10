@@ -30,6 +30,28 @@ class UserprofileView extends GetView<UserprofileController> {
   final GlobalState globalState = Get.find<GlobalState>();
   final arg = Get.arguments;
 
+  Widget buttonCondition() {
+    if (arg == null) {
+      if (globalState.getPermissions.contains("update-profile")) {
+        return GradientButton(
+            colors: [colors.green, colors.greenDark],
+            onPressed: () => controller.handleUpdate(),
+            text: "Update");
+      } else {
+        return const SizedBox();
+      }
+    } else {
+      if (globalState.getPermissions.contains("update-user")) {
+        return GradientButton(
+            colors: [colors.green, colors.greenDark],
+            onPressed: () => controller.handleUpdate(),
+            text: "Update");
+      } else {
+        return const SizedBox();
+      }
+    }
+  }
+
   List<Widget> body() {
     if (controller.isLoading.value) {
       return [
@@ -51,7 +73,17 @@ class UserprofileView extends GetView<UserprofileController> {
           height: 100,
           width: 100,
           margins: [Get.width * 0.34, 0, Get.width * 0.34, 0],
-          onTap: () => controller.openSheetImage(),
+          onTap: () {
+            if (arg == null) {
+              if (globalState.getPermissions.contains("update-profile")) {
+                controller.openSheetImage();
+              }
+            } else {
+              if (globalState.getPermissions.contains("update-user")) {
+                controller.openSheetImage();
+              }
+            }
+          },
           colors: colors,
           iconSize: 24,
           fontSize: 16,
@@ -84,33 +116,31 @@ class UserprofileView extends GetView<UserprofileController> {
           onChanged: (val) {},
           hint: "Role..."),
       const Gap(10),
-      GradientButton(
-          colors: [colors.green, colors.greenDark],
-          onPressed: () => controller.handleUpdate(),
-          text: "Update"),
+      buttonCondition(),
       const Gap(10),
-      dataTable(
-        dataColumns: datatableHeader([
-          "No",
-          "Kode Form",
-          "Tanggal Checklist",
-          "Kode Unit",
-          "Hour Meter",
-          "Operator",
-          "Shift",
-          "Lokasi",
-          "Jumlah Pallet",
-          "Verifikasi Supervisor",
-          "Verifikasi User",
-          "Action"
-        ]),
-        source: controller.source,
-        rowsPerPage: 10,
-        availableRowsPerPage: [10, 25, 50, 100],
-        onPageChanged: (value) => controller.onPageChanged(value),
-        onRowsPerPageChanged: (value) =>
-            controller.onRowsPerPageChanged(value!),
-      ).animate().fade(),
+      if (controller.userModel.roles![0].name == "Operator")
+        dataTable(
+          dataColumns: datatableHeader([
+            "No",
+            "Kode Form",
+            "Tanggal Checklist",
+            "Kode Unit",
+            "Hour Meter",
+            "Operator",
+            "Shift",
+            "Lokasi",
+            "Jumlah Pallet",
+            "Verifikasi Supervisor",
+            "Verifikasi User",
+            "Action"
+          ]),
+          source: controller.source,
+          rowsPerPage: 10,
+          availableRowsPerPage: [10, 25, 50, 100],
+          onPageChanged: (value) => controller.onPageChanged(value),
+          onRowsPerPageChanged: (value) =>
+              controller.onRowsPerPageChanged(value!),
+        ).animate().fade(),
     ];
   }
 

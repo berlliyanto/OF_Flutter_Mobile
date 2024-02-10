@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/paragraph.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
 import 'package:of_flutter_mobile/app/utils/token.dart';
+import 'package:of_flutter_mobile/app/utils/url_files.dart';
 
 Widget drawerHeader({required ColorPicker colors}) {
   return Container(
@@ -22,15 +23,31 @@ Widget drawerHeader({required ColorPicker colors}) {
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        CircleAvatar(
-          radius: 35,
-          backgroundColor: colors.primaryBlack,
-          child: Icon(
-            FontAwesomeIcons.userAstronaut,
-            color: colors.whiteSmoke,
-            size: 25,
+        if (getUser()['image'] != "")
+          CircleAvatar(
+            radius: 35,
+            backgroundColor: colors.primaryBlack,
+            backgroundImage: NetworkImage(
+              urlImageBuilder(
+                transaction: "show",
+                type: "user",
+                image: getUser()['image'],
+              ),
+            ),
+            onBackgroundImageError: (exception, stackTrace) {
+              print(exception);
+            },
+          )
+        else
+          CircleAvatar(
+            radius: 35,
+            backgroundColor: colors.primaryBlack,
+            child: Icon(
+              FontAwesomeIcons.userAstronaut,
+              color: colors.whiteSmoke,
+              size: 25,
+            ),
           ),
-        ),
         const Gap(5),
         Paragraph(
           text: getUser()['name'] ?? "",

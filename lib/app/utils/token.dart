@@ -30,12 +30,9 @@ void removeToken() {
 
 dynamic getUser() {
   final box = GetStorage();
-  Map<String, dynamic> user = {
-    "name": "",
-    "role": "",
-  };
+  Map<String, dynamic> user = {"name": "", "role": "", "image": ""};
   if (box.read("user") == null) {
-    return {"name": "", "role": ""};
+    return {"name": "", "role": "", "image": ""};
   }
 
   dynamic storageUser = box.read("user");
@@ -45,6 +42,10 @@ dynamic getUser() {
 
   if (storageUser["role"] != null) {
     user["role"] = storageUser["role"];
+  }
+
+  if (storageUser["image"] != null) {
+    user["image"] = storageUser["image"];
   }
 
   log(user.toString());

@@ -88,44 +88,120 @@ class ChecklistItemModel {
   factory ChecklistItemModel.fromJson(Map<String, dynamic> json) {
     return ChecklistItemModel(
       id: json['id'],
-      checklistId: json['checklist_id'] ?? 0,
-      bodyDepan: json['body_depan'] ?? 0,
-      bodyBelakang: json['body_belakang'] ?? 0,
-      bodyKanan: json['body_kanan'] ?? 0,
-      bodyKiri: json['body_kiri'] ?? 0,
-      cameraDepan: json['camera_depan'] ?? 0,
-      monitorLayar: json['monitor_layar'] ?? 0,
-      lampuUtama: json['lampu_utama'] ?? 0,
-      lampuSign: json['lampu_sign'] ?? 0,
-      lampuRotary: json['lampu_rotary'] ?? 0,
-      blueSpotLight: json['blue_spot_light'] ?? 0,
-      redLineLight: json['red_line_light'] ?? 0,
-      klakson: json['klakson'] ?? 0,
-      tapKartu: json['tap_kartu'] ?? 0,
-      seatBelt: json['seat_belt'] ?? 0,
-      sirineMundur: json['sirine_mundur'] ?? 0,
-      kondisiApar: json['kondisi_apar'] ?? 0,
-      kondisiBanVelg: json['kondisi_ban_velg'] ?? 0,
-      kotakP3K: json['kotak_p3k'] ?? 0,
-      fungsiSteering: json['fungsi_steering'] ?? 0,
-      fungsiHidrolik: json['fungsi_hidrolik'] ?? 0,
-      fungsiKontrolPanel: json['fungsi_kontrol_panel'] ?? 0,
-      dashboard: json['dashboard'] ?? 0,
-      kebersihanUnit: json['kebersihan_unit'] ?? 0,
-      socketCharger: json['socket_charger'] ?? 0,
-      selangHose: json['selang_hose'] ?? 0,
-      fungsiPengereman: json['fungsi_pengereman'] ?? 0,
-      pedalGas: json['pedal_gas'] ?? 0,
-      jokKursi: json['jok_kursi'] ?? 0,
-      rantai: json['rantai'] ?? 0,
-      backRest: json['back_rest'] ?? 0,
-      fork: json['fork'] ?? 0,
-      safetySensorFork: json['safety_sensor_fork'] ?? 0,
-      safetySensorRfid: json['safety_sensor_rfid'] ?? 0,
-      safetyKartuAkses: json['safety_kartu_akses'] ?? 0,
-      safetyTombolBattery: json['safety_tombol_battery'] ?? 0,
-      safetyTombolEmergency: json['safety_tombol_emergency'] ?? 0,
-      safetyPenutupCharger: json['safety_penutup_charger'] ?? 0,
+      checklistId: json['checklist_id'] is String
+          ? int.tryParse(json['checklist_id'])
+          : json['checklist_id'] ?? 0,
+      bodyDepan: json['body_depan'] is String
+          ? int.tryParse(json['body_depan'])
+          : json['body_depan'] ?? 0,
+      bodyBelakang: json['body_belakang'] is String
+          ? int.tryParse(json['body_belakang'])
+          : json['body_belakang'] ?? 0,
+      bodyKanan: json['body_kanan'] is String
+          ? int.tryParse(json['body_kanan'])
+          : json['body_kanan'] ?? 0,
+      bodyKiri: json['body_kiri'] is String
+          ? int.tryParse(json['body_kiri'])
+          : json['body_kiri'] ?? 0,
+      cameraDepan: json['camera_depan'] is String
+          ? int.tryParse(json['camera_depan'])
+          : json['camera_depan'] ?? 0,
+      monitorLayar: json['monitor_layar'] is String
+          ? int.tryParse(json['monitor_layar'])
+          : json['monitor_layar'] ?? 0,
+      lampuUtama: json['lampu_utama'] is String
+          ? int.tryParse(json['lampu_utama'])
+          : json['lampu_utama'] ?? 0,
+      lampuSign: json['lampu_sign'] is String
+          ? int.tryParse(json['lampu_sign'])
+          : json['lampu_sign'] ?? 0,
+      lampuRotary: json['lampu_rotary'] is String
+          ? int.tryParse(json['lampu_rotary'])
+          : json['lampu_rotary'] ?? 0,
+      blueSpotLight: json['blue_spot_light'] is String
+          ? int.tryParse(json['blue_spot_light'])
+          : json['blue_spot_light'] ?? 0,
+      redLineLight: json['red_line_light'] is String
+          ? int.tryParse(json['red_line_light'])
+          : json['red_line_light'] ?? 0,
+      klakson: json['klakson'] is String
+          ? int.tryParse(json['klakson'])
+          : json['klakson'] ?? 0,
+      tapKartu: json['tap_kartu'] is String
+          ? int.tryParse(json['tap_kartu'])
+          : json['tap_kartu'] ?? 0,
+      seatBelt: json['seat_belt'] is String
+          ? int.tryParse(json['seat_belt'])
+          : json['seat_belt'] ?? 0,
+      sirineMundur: json['sirine_mundur'] is String
+          ? int.tryParse(json['sirine_mundur'])
+          : json['sirine_mundur'] ?? 0,
+      kondisiApar: json['kondisi_apar'] is String
+          ? int.tryParse(json['kondisi_apar'])
+          : json['kondisi_apar'] ?? 0,
+      kondisiBanVelg: json['kondisi_ban_velg'] is String
+          ? int.tryParse(json['kondisi_ban_velg'])
+          : json['kondisi_ban_velg'] ?? 0,
+      kotakP3K: json['kotak_p3k'] is String
+          ? int.tryParse(json['kotak_p3k'])
+          : json['kotak_p3k'] ?? 0,
+      fungsiSteering: json['fungsi_steering'] is String
+          ? int.tryParse(json['fungsi_steering'])
+          : json['fungsi_steering'] ?? 0,
+      fungsiHidrolik: json['fungsi_hidrolik'] is String
+          ? int.tryParse(json['fungsi_hidrolik'])
+          : json['fungsi_hidrolik'] ?? 0,
+      fungsiKontrolPanel: json['fungsi_kontrol_panel'] is String
+          ? int.tryParse(json['fungsi_kontrol_panel'])
+          : json['fungsi_kontrol_panel'] ?? 0,
+      dashboard: json['dashboard'] is String
+          ? int.tryParse(json['dashboard'])
+          : json['dashboard'] ?? 0,
+      kebersihanUnit: json['kebersihan_unit'] is String
+          ? int.tryParse(json['kebersihan_unit'])
+          : json['kebersihan_unit'] ?? 0,
+      socketCharger: json['socket_charger'] is String
+          ? int.tryParse(json['socket_charger'])
+          : json['socket_charger'] ?? 0,
+      selangHose: json['selang_hose'] is String
+          ? int.tryParse(json['selang_hose'])
+          : json['selang_hose'] ?? 0,
+      fungsiPengereman: json['fungsi_pengereman'] is String
+          ? int.tryParse(json['fungsi_pengereman'])
+          : json['fungsi_pengereman'] ?? 0,
+      pedalGas: json['pedal_gas'] is String
+          ? int.tryParse(json['pedal_gas'])
+          : json['pedal_gas'] ?? 0,
+      jokKursi: json['jok_kursi'] is String
+          ? int.tryParse(json['jok_kursi'])
+          : json['jok_kursi'] ?? 0,
+      rantai: json['rantai'] is String
+          ? int.tryParse(json['rantai'])
+          : json['rantai'] ?? 0,
+      backRest: json['back_rest'] is String
+          ? int.tryParse(json['back_rest'])
+          : json['back_rest'] ?? 0,
+      fork: json['fork'] is String
+          ? int.tryParse(json['fork'])
+          : json['fork'] ?? 0,
+      safetySensorFork: json['safety_sensor_fork'] is String
+          ? int.tryParse(json['safety_sensor_fork'])
+          : json['safety_sensor_fork'] ?? 0,
+      safetySensorRfid: json['safety_sensor_rfid'] is String
+          ? int.tryParse(json['safety_sensor_rfid'])
+          : json['safety_sensor_rfid'] ?? 0,
+      safetyKartuAkses: json['safety_kartu_akses'] is String
+          ? int.tryParse(json['safety_kartu_akses'])
+          : json['safety_kartu_akses'] ?? 0,
+      safetyTombolBattery: json['safety_tombol_battery'] is String
+          ? int.tryParse(json['safety_tombol_battery'])
+          : json['safety_tombol_battery'] ?? 0,
+      safetyTombolEmergency: json['safety_tombol_emergency'] is String
+          ? int.tryParse(json['safety_tombol_emergency'])
+          : json['safety_tombol_emergency'] ?? 0,
+      safetyPenutupCharger: json['safety_penutup_charger'] is String
+          ? int.tryParse(json['safety_penutup_charger'])
+          : json['safety_penutup_charger'] ?? 0,
       createdAt: json["created_at"] == null
           ? null
           : DateTime.parse(json["created_at"]),

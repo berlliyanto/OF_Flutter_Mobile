@@ -52,7 +52,9 @@ class ChecklistModel {
       id: json['id'],
       formCode: json['form_code'],
       unitCode: json['unit_code'],
-      palletAmount: json['pallet_amount'],
+      palletAmount: json['pallet_amount'].runtimeType == String
+          ? int.parse(json['pallet_amount'])
+          : json['pallet_amount'],
       manHour: json['man_hour'],
       manHourStart: json['man_hour_start'],
       manHourEnd: json['man_hour_end'],

@@ -66,8 +66,7 @@ class AddunitController extends GetxController {
         data["pic_id"] = valuePIC.value;
       case "number":
         if (value.length != 0 || value != "") {
-          number.value = int.parse(value.toString());
-          data["code_number"] = number.value;
+          data["code_number"] = value;
         } else {
           data["code_number"] = 0;
         }
@@ -119,6 +118,7 @@ class AddunitController extends GetxController {
   }
 
   void handleSubmit() async {
+    print(data);
     if (data.length < 5 || data["code_number"] == 0) {
       snackbar(
           title: "Warning", message: "Please fill all fields", type: "warning");
@@ -169,6 +169,7 @@ class AddunitController extends GetxController {
       desc:
           "Delete forklift will delete all checklist data related to this forklift",
       type: DialogType.question,
+      cancel: () => Get.back(),
       callback: () async {
         EasyLoading.show(status: "Deleting...");
         final response = await ForkliftService().destroyForklift(arg["id"]);

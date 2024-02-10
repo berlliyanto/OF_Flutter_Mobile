@@ -12,10 +12,14 @@ class UserService extends BaseServices {
   }
 
   Future<Response> updatePassword({required Map<String, dynamic> data}) async {
-    return await post(path: "/user/update-password", data: data);
+    return await put(path: "/user/update-password", data: data);
   }
 
   Future<Response> indexOperator({String query = ""}) async {
     return await get(path: "/user/operators", query: query);
+  }
+
+  Future<Response> showOperator({required String id, String query = ""}) async {
+    return await get(path: "/user/show/$id", query: query);
   }
 }

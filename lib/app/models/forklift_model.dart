@@ -5,8 +5,8 @@ import 'package:of_flutter_mobile/app/models/pic_model.dart';
 
 class ForkliftModel {
   late int id;
-  late int? codeId, locationId, picId, codeNumber;
-  late String? unitCode;
+  late int? codeId, locationId, picId;
+  late String? unitCode, codeNumber;
   late LocationModel? location;
   late dynamic hourMeter, image;
   late PicModel? pic;
@@ -35,10 +35,16 @@ class ForkliftModel {
   factory ForkliftModel.fromJson(Map<String, dynamic> json) {
     return ForkliftModel(
       id: json['id'],
-      codeId: json['code_id'],
+      codeId: json['code_id'].runtimeType == String
+          ? int.parse(json['code_id'])
+          : json['code_id'],
       codeNumber: json['code_number'],
-      locationId: json['location_id'],
-      picId: json['pic_id'],
+      locationId: json['location_id'].runtimeType == String
+          ? int.parse(json['location_id'])
+          : json['location_id'],
+      picId: json['pic_id'].runtimeType == String
+          ? int.parse(json['pic_id'])
+          : json['pic_id'],
       unitCode: json['unit_code'],
       hourMeter: json['hour_meter'],
       code: json['codes'] == null ? null : CodeModel.fromJson(json['codes']),

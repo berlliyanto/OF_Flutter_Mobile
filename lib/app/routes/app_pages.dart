@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:of_flutter_mobile/app/utils/qr_view.dart';
 
 import '../modules/checkunit/bindings/addunit_binding.dart';
 import '../modules/checkunit/bindings/checkhistory_binding.dart';
@@ -21,8 +20,11 @@ import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
+import '../modules/userPassword/bindings/user_password_binding.dart';
+import '../modules/userPassword/views/user_password_view.dart';
 import '../modules/userprofile/bindings/userprofile_binding.dart';
 import '../modules/userprofile/views/userprofile_view.dart';
+import '../utils/qr_view.dart';
 import '../utils/zoom_image.dart';
 
 // ignore_for_file: constant_identifier_names
@@ -97,6 +99,11 @@ class AppPages {
     GetPage(
       name: _Paths.QRVIEW,
       page: () => const QRView(),
-    )
+    ),
+    GetPage(
+      name: _Paths.USER_PASSWORD,
+      page: () => UserPasswordView(),
+      binding: UserPasswordBinding(),
+    ),
   ];
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
 import 'package:get/get.dart';
@@ -7,11 +7,10 @@ import 'package:of_flutter_mobile/app/components/layout/background_layout.dart';
 import 'package:of_flutter_mobile/app/components/layout/main_layout.dart';
 import 'package:of_flutter_mobile/app/components/widgets/appbar/appbar.dart';
 import 'package:of_flutter_mobile/app/components/widgets/drawer/drawer.dart';
-import 'package:of_flutter_mobile/app/components/widgets/grid/grid.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
 import 'package:of_flutter_mobile/app/dependency/global_state.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
-import 'package:of_flutter_mobile/app/source/menu/checkunit_list.dart';
+import 'package:of_flutter_mobile/app/utils/token.dart';
 
 import '../controllers/main_checkunit_controller.dart';
 
@@ -20,6 +19,24 @@ class ChechkunitView extends GetView<ChechkunitController> {
 
   final ColorPicker colors = ColorPicker();
   final GlobalState globalState = Get.find<GlobalState>();
+
+  dynamic floatingButtonQr() {
+    if (getUser()["role"] == "User" ||
+        getUser()["role"] == "Administrator" ||
+        getUser()["role"] == "Supervisor") {
+      return FloatingActionButton(
+        onPressed: () {
+          controller.scanQR();
+        },
+        child: const Icon(
+          FontAwesomeIcons.expand,
+          size: 28,
+        ),
+      );
+    }
+
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +49,7 @@ class ChechkunitView extends GetView<ChechkunitController> {
         currentActiveMenu: "Forklift Check Unit",
         onTap: (route) => globalState.handleDrawerMenu(route),
       ),
-      body: GetBuilder<ChechkunitController>(builder: (context) {
+      body: GetBuilder<ChechkunitController>(builder: (builder) {
         return BackgroundLayout(
           child: MainLayout(
             children: <Widget>[
@@ -46,23 +63,15 @@ class ChechkunitView extends GetView<ChechkunitController> {
                       crossAxisSpacing: 20,
                       mainAxisSpacing: 20,
                       childAspectRatio: 1.5),
-                  children: listCheckUnit.map((e) {
-                    return GridItem(
-                      title: e.title,
-                      image1: e.image1,
-                      colors: colors,
-                      image2: e.image2,
-                      routes: e.routes,
-                    )
-                        .animate()
-                        .slideY(duration: const Duration(milliseconds: 500));
-                  }).toList(),
+                  children: builder.renderMenu(),
                 ),
               )
             ],
           ),
         );
       }),
+      floatingActionButton: floatingButtonQr(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

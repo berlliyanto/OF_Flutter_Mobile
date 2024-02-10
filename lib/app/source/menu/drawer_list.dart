@@ -9,6 +9,11 @@ List<ListMenuModel> listDrawer = [
     icon: FontAwesomeIcons.user,
   ),
   ListMenuModel(
+    title: "Change Password",
+    routes: Routes.USER_PASSWORD,
+    icon: FontAwesomeIcons.fingerprint,
+  ),
+  ListMenuModel(
     title: "Logout",
     routes: null,
     icon: FontAwesomeIcons.arrowRightFromBracket,
@@ -25,8 +30,8 @@ List<ListMenuModel> listDrawer = [
   ),
   ListMenuModel(
     routes: "",
-    title: "Coming Soon",
-    icon: FontAwesomeIcons.gears,
+    title: "Human Capital",
+    icon: FontAwesomeIcons.users,
   ),
   ListMenuModel(
     routes: "",

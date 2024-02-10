@@ -137,10 +137,8 @@ class UserprofileController extends GetxController {
         source.updateDataFromController(userModel.checklists!);
       }
     } else {
-      activeQuery.value = queryBuilder(
-          activeQuery: activeQuery.value, query: "id=${arg['id']}");
-      final response =
-          await UserService().userProfile(query: activeQuery.value);
+      final response = await UserService()
+          .showOperator(id: arg['id'], query: activeQuery.value);
       if (response.data != null) {
         userModel = UserModel.fromJson(response.data['data']);
 

@@ -18,6 +18,7 @@ import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_twint
 import 'package:of_flutter_mobile/app/components/widgets/text/heading.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/paragraph.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
+import 'package:of_flutter_mobile/app/dependency/global_state.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
 import 'package:of_flutter_mobile/app/utils/formatter.dart';
 import 'package:of_flutter_mobile/app/utils/validator.dart';
@@ -32,6 +33,7 @@ class AddunitView extends GetView<AddunitController> {
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
   final arg = Get.arguments;
+  final GlobalState globalState = Get.find<GlobalState>();
 
   List<Widget> body() {
     if (controller.isLoading.value) {
@@ -134,7 +136,7 @@ class AddunitView extends GetView<AddunitController> {
   List<Widget> historyChecklist() {
     if (arg != null && arg["isDetail"] && arg["id"] != null) {
       if (controller.isLoading.value) {
-        return [skeletonBigRectangle()];
+        return [const Gap(10), skeletonBigRectangle()];
       }
       if (controller.forkliftModel.checklists == null ||
           controller.forkliftModel.checklists!.isEmpty) {
@@ -211,30 +213,33 @@ class AddunitView extends GetView<AddunitController> {
           ],
         ),
         const Gap(10),
-        GradientButton(
-                colors: controller.isEditMode.value
-                    ? [colors.green, colors.greenDark]
-                    : [colors.primaryBlack, colors.primaryBlack],
-                onPressed: () => controller.handleUpdate(),
-                text: "Update")
-            .animate()
-            .fadeIn(),
+        if (globalState.getPermissions.contains("update-forklift"))
+          GradientButton(
+                  colors: controller.isEditMode.value
+                      ? [colors.green, colors.greenDark]
+                      : [colors.primaryBlack, colors.primaryBlack],
+                  onPressed: () => controller.handleUpdate(),
+                  text: "Update")
+              .animate()
+              .fadeIn(),
         const Gap(10),
-        GradientButton(
-                colors: [colors.red, colors.redDark],
-                onPressed: () => controller.handleDelete(),
-                text: "Delete")
-            .animate()
-            .fadeIn()
+        if (globalState.getPermissions.contains("delete-forklift"))
+          GradientButton(
+                  colors: [colors.red, colors.redDark],
+                  onPressed: () => controller.handleDelete(),
+                  text: "Delete")
+              .animate()
+              .fadeIn()
       ];
     }
     return [
-      GradientButton(
-              colors: [colors.cyan, colors.cyanDark],
-              onPressed: () => controller.handleSubmit(),
-              text: "Submit")
-          .animate()
-          .fadeIn()
+      if (globalState.getPermissions.contains("create-forklift"))
+        GradientButton(
+                colors: [colors.cyan, colors.cyanDark],
+                onPressed: () => controller.handleSubmit(),
+                text: "Submit")
+            .animate()
+            .fadeIn()
     ];
   }
 
@@ -248,15 +253,20 @@ class AddunitView extends GetView<AddunitController> {
 
   Widget titleCondition() {
     if (arg != null && arg["isDetail"] && arg["id"] != null) {
-      return title(
-        title: "Forklift Detail",
-        icon: controller.isEditMode.value
-            ? FontAwesomeIcons.xmark
-            : FontAwesomeIcons.pencil,
-        iconColor: controller.isEditMode.value ? colors.red : colors.yellowDark,
-        onPressed: () => controller.handleEdit(),
-        withLeading: true,
-      );
+      if (globalState.getPermissions.contains("update-forklift")) {
+        return title(
+          title: "Forklift Detail",
+          icon: controller.isEditMode.value
+              ? FontAwesomeIcons.xmark
+              : FontAwesomeIcons.pencil,
+          iconColor:
+              controller.isEditMode.value ? colors.red : colors.yellowDark,
+          onPressed: () => controller.handleEdit(),
+          withLeading: true,
+        );
+      } else {
+        return title(title: "Add Forklift");
+      }
     }
     return title(title: "Add Forklift");
   }
@@ -282,7 +292,6 @@ class AddunitView extends GetView<AddunitController> {
                   .slideY(duration: 150.ms, begin: -0.1, end: 0),
               const Gap(10),
               ...body(),
-              const Gap(10),
               ...historyChecklist()
             ],
           ),

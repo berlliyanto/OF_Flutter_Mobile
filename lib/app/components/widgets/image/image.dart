@@ -86,7 +86,7 @@ Widget imageCard({
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(radius),
           onTap: onTap,
           child: image(),
         ),

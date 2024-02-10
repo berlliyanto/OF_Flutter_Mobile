@@ -8,6 +8,7 @@ class UserModel {
   late String? email;
   late String? manHour;
   late dynamic createdAt, updatedAt, lastChecklist, image;
+  late List<dynamic>? rolePermissions;
   late List<RoleModel>? roles;
   late List<ChecklistModel>? checklists;
 
@@ -23,6 +24,7 @@ class UserModel {
     this.image,
     this.roles,
     this.checklists,
+    this.rolePermissions,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
@@ -35,6 +37,7 @@ class UserModel {
         image: json["image"],
         createdAt: json["created_at"],
         updatedAt: json["updated_at"],
+        rolePermissions: json["role_permissions"] ?? [],
         roles: json["roles"] == null
             ? []
             : List<RoleModel>.from(

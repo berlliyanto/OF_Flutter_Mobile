@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/heading.dart';
 
 Widget title(
@@ -14,7 +15,7 @@ Widget title(
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      const Gap(120),
+      Gap(Get.height * 0.13),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,

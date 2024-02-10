@@ -18,6 +18,7 @@ import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_tile.
 import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_twintile.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/heading.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
+import 'package:of_flutter_mobile/app/dependency/global_state.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
 import 'package:of_flutter_mobile/app/routes/app_pages.dart';
 import 'package:of_flutter_mobile/app/utils/formatter.dart';
@@ -33,6 +34,7 @@ class CheckreportView extends GetView<CheckreportController> {
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
   final arg = Get.arguments;
+  final GlobalState globalState = Get.find<GlobalState>();
 
   List<Widget> topWidget() {
     if (arg != null) {
@@ -160,6 +162,27 @@ class CheckreportView extends GetView<CheckreportController> {
         textEditingController: controller.searchDropDownController,
       ).animate().slideY(duration: 200.ms),
     ];
+  }
+
+  Widget buttonCondition() {
+    if (arg == null) {
+      if (globalState.getPermissions.contains("create-checklist")) {
+        return GradientButton(
+          colors: [colors.cyan, colors.cyanDark],
+          onPressed: () => controller.handleSubmit(),
+          text: "Submit",
+        );
+      }
+    }
+    if (globalState.getPermissions.contains("verify-checklist")) {
+      return GradientButton(
+        colors: [colors.green, colors.greenDark],
+        onPressed: () => controller.handleVerify(),
+        text: "Verify",
+      );
+    }
+
+    return const SizedBox();
   }
 
   List<Widget> body() {
@@ -435,14 +458,7 @@ class CheckreportView extends GetView<CheckreportController> {
         onTapOutside: (value) => FocusManager.instance.primaryFocus?.unfocus(),
       ),
       const Gap(10),
-      GradientButton(
-        colors: arg == null
-            ? [colors.cyan, colors.cyanDark]
-            : [colors.green, colors.greenDark],
-        onPressed: () =>
-            arg == null ? controller.handleSubmit() : controller.handleVerify(),
-        text: arg == null ? "Submit" : "Verify",
-      ),
+      buttonCondition(),
       const Gap(10),
     ];
   }

@@ -8,6 +8,11 @@ class GlobalState extends GetxController {
   var name = "".obs;
   var roleName = "".obs;
 
+  var userPermissions = [].obs;
+
+  get getPermissions => userPermissions;
+  set setPermissions(value) => userPermissions.value = value;
+
   void handleDrawerMenu(dynamic route) async {
     if (route != null) {
       if (route == Routes.HOME) {

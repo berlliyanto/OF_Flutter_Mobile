@@ -26,7 +26,9 @@ class ChecklistDocModel {
   factory ChecklistDocModel.fromJson(Map<String, dynamic> json) {
     return ChecklistDocModel(
       id: json['id'],
-      checklistId: json['checklist_id'],
+      checklistId: json['checklist_id'].runtimeType == String
+          ? int.tryParse(json['checklist_id'])
+          : json['checklist_id'],
       imageFront: json['image_front'],
       imageBack: json['image_back'],
       imageRight: json['image_right'],

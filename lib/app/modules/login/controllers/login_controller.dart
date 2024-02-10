@@ -3,12 +3,14 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:of_flutter_mobile/app/components/widgets/toast/toast.dart';
 import 'package:of_flutter_mobile/app/controllers/auth_controller.dart';
+import 'package:of_flutter_mobile/app/dependency/global_state.dart';
 import 'package:of_flutter_mobile/app/models/user_model.dart';
 import 'package:of_flutter_mobile/app/routes/app_pages.dart';
 import 'package:of_flutter_mobile/app/services/auth/auth_service.dart';
 import 'package:of_flutter_mobile/app/utils/token.dart';
 
 class LoginController extends AuthController {
+  final globalState = Get.find<GlobalState>();
   final usernameNode = FocusNode(), passwordNode = FocusNode();
 
   TextEditingController usernameController = TextEditingController();
@@ -36,7 +38,12 @@ class LoginController extends AuthController {
       final response = await AuthService().login(data: data);
       if (response.data != null) {
         final UserModel userModel = UserModel.fromJson(response.data['data']);
-        setUser({"name": userModel.name, "role": userModel.roles![0].name});
+        globalState.setPermissions = userModel.rolePermissions;
+        setUser({
+          "name": userModel.name,
+          "role": userModel.roles![0].name,
+          "image": userModel.image ?? ""
+        });
         setToken(response.data['token']);
         Get.offAllNamed(Routes.HOME);
       }

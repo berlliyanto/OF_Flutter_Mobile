@@ -4,7 +4,12 @@ import 'package:get/get.dart';
 class FormAuth extends StatelessWidget {
   final GlobalKey formKey;
   final List<Widget> children;
-  const FormAuth({required this.formKey, required this.children, super.key});
+  final double horizontalPadding;
+  const FormAuth(
+      {required this.formKey,
+      required this.children,
+      this.horizontalPadding = 20,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +18,8 @@ class FormAuth extends StatelessWidget {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Container(
         width: Get.width,
-        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+        padding:
+            EdgeInsets.symmetric(vertical: 5, horizontal: horizontalPadding),
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,

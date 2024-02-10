@@ -312,14 +312,25 @@ class CheckreportController extends GetxController {
       );
       return;
     }
-    docs["image_front"] =
-        await MultipartFile.fromFile(imageFront!.path, filename: "image_front");
-    docs["image_back"] =
-        await MultipartFile.fromFile(imageBack!.path, filename: "image_back");
-    docs["image_left"] =
-        await MultipartFile.fromFile(imageLeft!.path, filename: "image_left");
-    docs["image_right"] =
-        await MultipartFile.fromFile(imageRight!.path, filename: "image_right");
+    if (imageFront != null) {
+      docs["image_front"] = await MultipartFile.fromFile(imageFront!.path,
+          filename: "image_front");
+    }
+
+    if (imageBack != null) {
+      docs["image_back"] =
+          await MultipartFile.fromFile(imageBack!.path, filename: "image_back");
+    }
+
+    if (imageLeft != null) {
+      docs["image_left"] =
+          await MultipartFile.fromFile(imageLeft!.path, filename: "image_left");
+    }
+
+    if (imageRight != null) {
+      docs["image_right"] = await MultipartFile.fromFile(imageRight!.path,
+          filename: "image_right");
+    }
 
     main['man_hour'] = differenceTime(startTime.value, endTime.value);
     data['main'] = main;
