@@ -1,7 +1,7 @@
 class AppConfig {
   //Apk Url
   final Uri urlApk = Uri.parse(
-      "https://drive.google.com/drive/folders/1JSbasRwG2LSJbNtGzVSfTV3CyVPVaB4k?usp=sharing");
+      "https://drive.google.com/drive/folders/1PtZlPXXV_QO5c0PWu0IOjnF9DwDX_TBS?usp=sharing");
 
   // Use this in development
   // final String url = "http://192.168.100.171:8080/api";
