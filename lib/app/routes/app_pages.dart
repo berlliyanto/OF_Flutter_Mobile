@@ -14,14 +14,18 @@ import '../modules/checkunit/views/listoperator_view.dart';
 import '../modules/checkunit/views/main_checkunit_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/humancapital/bindings/main_humancapital_binding.dart';
+import '../modules/humancapital/views/main_humancapital_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/maintenance/bindings/main_maintenance_binding.dart';
+import '../modules/maintenance/views/main_maintenance_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
-import '../modules/userPassword/bindings/user_password_binding.dart';
-import '../modules/userPassword/views/user_password_view.dart';
+import '../modules/userpassword/bindings/user_password_binding.dart';
+import '../modules/userpassword/views/user_password_view.dart';
 import '../modules/userprofile/bindings/userprofile_binding.dart';
 import '../modules/userprofile/views/userprofile_view.dart';
 import '../utils/qr_view.dart';
@@ -104,6 +108,16 @@ class AppPages {
       name: _Paths.USER_PASSWORD,
       page: () => UserPasswordView(),
       binding: UserPasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.HUMANCAPITAL,
+      page: () => HumancapitalView(),
+      binding: HumancapitalBinding(),
+    ),
+    GetPage(
+      name: _Paths.MAINTENANCE,
+      page: () => MaintenanceView(),
+      binding: MaintenanceBinding(),
     ),
   ];
 }

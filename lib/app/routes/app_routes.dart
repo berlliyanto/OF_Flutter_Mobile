@@ -20,6 +20,8 @@ abstract class Routes {
   static const ZOOMIMAGE = _Paths.ZOOMIMAGE;
   static const QRVIEW = _Paths.QRVIEW;
   static const USER_PASSWORD = _Paths.USER_PASSWORD;
+  static const HUMANCAPITAL = _Paths.HUMANCAPITAL;
+  static const MAINTENANCE = _Paths.MAINTENANCE;
 }
 
 abstract class _Paths {
@@ -39,4 +41,6 @@ abstract class _Paths {
   static const ZOOMIMAGE = '/zoomimage';
   static const QRVIEW = '/qrview';
   static const USER_PASSWORD = '/user-password';
+  static const HUMANCAPITAL = '/humancapital';
+  static const MAINTENANCE = '/maintenance';
 }
