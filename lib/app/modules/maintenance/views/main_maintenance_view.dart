@@ -1,0 +1,38 @@
+import 'package:flutter/material.dart';
+
+import 'package:get/get.dart';
+import 'package:of_flutter_mobile/app/components/layout/background_layout.dart';
+import 'package:of_flutter_mobile/app/components/layout/main_layout.dart';
+import 'package:of_flutter_mobile/app/components/widgets/appbar/appbar.dart';
+import 'package:of_flutter_mobile/app/components/widgets/drawer/drawer.dart';
+import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
+import 'package:of_flutter_mobile/app/dependency/global_state.dart';
+import 'package:of_flutter_mobile/app/theme/color.dart';
+
+import '../controllers/main_maintenance_controller.dart';
+
+class MaintenanceView extends GetView<MaintenanceController> {
+  MaintenanceView({Key? key}) : super(key: key);
+
+  final ColorPicker colors = ColorPicker();
+  final GlobalState globalState = Get.find<GlobalState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: appBar(text: "MAINTENANCE", colors: colors, drawerLeading: true),
+      extendBodyBehindAppBar: true,
+      drawer: drawer(
+          colors: colors,
+          currentActiveMenu: "Maintenance",
+          onTap: (route) => globalState.handleDrawerMenu(route)),
+      body: BackgroundLayout(
+        child: MainLayout(
+          children: [
+            title(title: "Maintenance"),
+          ],
+        ),
+      ),
+    );
+  }
+}
