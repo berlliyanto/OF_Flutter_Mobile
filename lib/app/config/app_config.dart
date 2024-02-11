@@ -1,14 +1,14 @@
 class AppConfig {
   //Apk Url
   final Uri urlApk = Uri.parse(
-      "https://drive.google.com/drive/folders/1PtZlPXXV_QO5c0PWu0IOjnF9DwDX_TBS?usp=sharing");
+      "https://drive.google.com/drive/folders/1xAxf-0fe3jjXkWZFs4g-8xFE_EKMrwja?usp=sharing");
 
   // Use this in development
-  // final String url = "http://192.168.100.171:8080/api";
+  final String url = "http://192.168.100.171:8080/api";
   // final String url = "http://192.168.163.130:8080/api";
 
   // Use this in production
-  final String url = "https://aplikasipms.com/operator-forklift/api";
+  // final String url = "https://aplikasipms.com/operator-forklift/api";
 
   final String version = "1.0.1";
   final int buildNumber = 1; // => update every new build

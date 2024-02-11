@@ -39,6 +39,9 @@ class GridItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
+        if (routes == "") {
+          return;
+        }
         final param = await Get.toNamed(routes);
         if (param == "addunit") {
           Get.toNamed(Routes.LISTFORKLIFT);

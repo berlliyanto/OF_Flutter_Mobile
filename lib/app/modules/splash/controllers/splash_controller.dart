@@ -29,6 +29,11 @@ class SplashController extends GetxController {
         awesomeDialog(
           title: "",
           desc: "",
+          onDismissCallback: (T) {
+            Future.delayed(const Duration(seconds: 1), () {
+              checkAuth();
+            });
+          },
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

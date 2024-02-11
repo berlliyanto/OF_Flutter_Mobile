@@ -29,18 +29,18 @@ List<ListMenuModel> listDrawer = [
     icon: FontAwesomeIcons.listCheck,
   ),
   ListMenuModel(
-    routes: "",
+    routes: Routes.HUMANCAPITAL,
     title: "Human Capital",
     icon: FontAwesomeIcons.users,
   ),
   ListMenuModel(
-    routes: "",
-    title: "Coming Soon",
+    routes: Routes.MAINTENANCE,
+    title: "Maintenance",
     icon: FontAwesomeIcons.gears,
   ),
   ListMenuModel(
     routes: "",
     title: "Coming Soon",
-    icon: FontAwesomeIcons.gears,
+    icon: FontAwesomeIcons.circleInfo,
   ),
 ];

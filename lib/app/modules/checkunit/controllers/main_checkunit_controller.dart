@@ -7,7 +7,7 @@ import 'package:of_flutter_mobile/app/components/widgets/grid/grid.dart';
 import 'package:of_flutter_mobile/app/components/widgets/toast/toast.dart';
 import 'package:of_flutter_mobile/app/dependency/global_state.dart';
 import 'package:of_flutter_mobile/app/routes/app_pages.dart';
-import 'package:of_flutter_mobile/app/source/menu/checkunit_list.dart';
+import 'package:of_flutter_mobile/app/source/menu/submenu_list.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
 
 class ChechkunitController extends GetxController {
@@ -22,7 +22,7 @@ class ChechkunitController extends GetxController {
       qrValue = await FlutterBarcodeScanner.scanBarcode(
           '#ff6666', 'Cancel', true, ScanMode.QR);
       if (qrValue != "-1") {
-        if (qrValue.contains("CS")) {
+        if (qrValue.contains("CL")) {
           List<String> newQrValue = qrValue.split("-");
           if (newQrValue[1].startsWith("CL")) {
             toast(message: "Berhasil Scan QR");

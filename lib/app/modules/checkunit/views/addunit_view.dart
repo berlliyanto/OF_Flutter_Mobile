@@ -252,7 +252,7 @@ class AddunitView extends GetView<AddunitController> {
   }
 
   Widget titleCondition() {
-    if (arg != null && arg["isDetail"] && arg["id"] != null) {
+    if (arg != null) {
       if (globalState.getPermissions.contains("update-forklift")) {
         return title(
           title: "Forklift Detail",
@@ -265,7 +265,7 @@ class AddunitView extends GetView<AddunitController> {
           withLeading: true,
         );
       } else {
-        return title(title: "Add Forklift");
+        return title(title: "Forklift Detail");
       }
     }
     return title(title: "Add Forklift");
