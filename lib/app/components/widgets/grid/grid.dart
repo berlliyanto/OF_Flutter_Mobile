@@ -45,6 +45,8 @@ class GridItem extends StatelessWidget {
         final param = await Get.toNamed(routes);
         if (param == "addunit") {
           Get.toNamed(Routes.LISTFORKLIFT);
+        } else if (param == "checkreport") {
+          Get.toNamed(Routes.CHECKHISTORY);
         }
       },
       child: Container(

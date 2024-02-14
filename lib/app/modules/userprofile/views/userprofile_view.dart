@@ -130,7 +130,9 @@ class UserprofileView extends GetView<UserprofileController> {
             "Shift",
             "Lokasi",
             "Jumlah Pallet",
+            "Ratio",
             "Verifikasi Supervisor",
+            "Verifikasi Management",
             "Verifikasi User",
             "Action"
           ]),

@@ -325,6 +325,22 @@ class CheckreportController extends GetxController {
       } else {
         EasyLoading.dismiss();
       }
+    } else if (getUser()["role"] == "Management") {
+      if (main["verification_management"] != null) {
+        snackbar(title: "Info", message: "Already verified", type: "info");
+        return;
+      }
+
+      EasyLoading.show(status: 'Verifying...');
+      final response = await CheckListService().verify(id: arg["id"]);
+      if (response.data != null) {
+        EasyLoading.dismiss();
+        EasyLoading.showSuccess("Success Verified");
+        fetchAllAPI();
+        update();
+      } else {
+        EasyLoading.dismiss();
+      }
     } else {
       snackbar(title: "Error", message: "Access denied", type: "error");
     }
@@ -388,6 +404,7 @@ class CheckreportController extends GetxController {
       final LocationModel locationModel =
           LocationModel.fromJson(responseLocation.data['data']);
       previewDialog(
+        type: "submit",
         data: data,
         unitCount: unitGoodCount.value,
         safetyCount: safetyGoodCount.value,
@@ -402,15 +419,11 @@ class CheckreportController extends GetxController {
           final response =
               await CheckListService().storeCheckList(data: formData);
           if (response.data != null) {
-            snackbar(
-              title: "Success",
-              message: response.data['message'],
-              type: "success",
-            );
+            EasyLoading.dismiss();
+            EasyLoading.showSuccess(response.data['message']);
 
-            Get.toNamed(Routes.CHECKHISTORY, arguments: {'isAfterPost': true});
+            Get.back(result: "checkreport");
           }
-          EasyLoading.dismiss();
         },
       );
     } else {
@@ -455,7 +468,6 @@ class CheckreportController extends GetxController {
       return;
     }
 
-    EasyLoading.show(status: "Saving...");
     Map<String, dynamic> newFinishData = {
       "shift_id": finishData['shift_id'],
       "man_hour": finishData['man_hour'],
@@ -467,14 +479,22 @@ class CheckreportController extends GetxController {
       "forklift_hour_meter": finishData['forklift_hour_meter'],
     };
 
-    final response = await CheckListService()
-        .finishChecklist(id: arg["id"], data: newFinishData);
-    if (response.data != null) {
-      snackbar(
-          title: "Success", message: response.data['message'], type: "success");
-      await fetchAllAPI();
-    }
-    EasyLoading.dismiss();
+    previewDialog(
+        data: newFinishData,
+        type: "finish",
+        onOkPress: () async {
+          EasyLoading.show(status: "Saving...");
+          final response = await CheckListService()
+              .finishChecklist(id: arg["id"], data: newFinishData);
+          if (response.data != null) {
+            snackbar(
+                title: "Success",
+                message: response.data['message'],
+                type: "success");
+            await fetchAllAPI();
+          }
+          EasyLoading.dismiss();
+        });
   }
 
   Future fetchAllAPI() async {
@@ -495,9 +515,14 @@ class CheckreportController extends GetxController {
       if (finishData.containsKey("man_hour") &&
           finishData.containsKey("pallet_amount")) {
         if (double.tryParse(finishData['pallet_amount']) != null) {
-          double ratio = double.parse(finishData['pallet_amount']) /
-              finishData['man_hour'];
-          ratioController.text = ratio.toStringAsFixed(2);
+          if (finishData['man_hour'] == 0) {
+            double ratio = double.parse(finishData['pallet_amount']) / 1;
+            ratioController.text = ratio.toStringAsFixed(2);
+          } else {
+            double ratio = double.parse(finishData['pallet_amount']) /
+                finishData['man_hour'];
+            ratioController.text = ratio.toStringAsFixed(2);
+          }
         }
       }
     });

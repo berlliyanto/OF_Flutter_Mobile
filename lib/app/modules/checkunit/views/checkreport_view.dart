@@ -136,6 +136,27 @@ class CheckreportView extends GetView<CheckreportController> {
             const Gap(5),
             const Heading(
               heading: "h2",
+              text: "Management Verification :",
+            ),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 25),
+          child: Heading(
+            heading: "h3",
+            text: formatDate(controller.main['verification_management']),
+          ),
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              backgroundColor: colors.red,
+              radius: 8,
+            ),
+            const Gap(5),
+            const Heading(
+              heading: "h2",
               text: "User Verification :",
             ),
           ],
@@ -552,9 +573,7 @@ class CheckreportView extends GetView<CheckreportController> {
             children: [
               title(
                 title: "Checklist Report",
-                icon: arg == null
-                    ? FontAwesomeIcons.clockRotateLeft
-                    : FontAwesomeIcons.qrcode,
+                icon: arg == null ? null : FontAwesomeIcons.qrcode,
                 onPressed: () {
                   if (arg == null) {
                     Get.toNamed(Routes.CHECKHISTORY);
