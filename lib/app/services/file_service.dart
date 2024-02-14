@@ -40,7 +40,7 @@ class FileService extends BaseServices {
       Directory? directory = await getExternalStorageDirectory();
       await FlutterDownloader.enqueue(
         url: url,
-        headers: {},
+        headers: {"Authorization": "Bearer $token"},
         saveInPublicStorage: true,
         savedDir: directory!.path,
         showNotification: true,
