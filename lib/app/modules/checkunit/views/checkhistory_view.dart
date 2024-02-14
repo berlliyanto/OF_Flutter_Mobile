@@ -16,6 +16,7 @@ import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_bigre
 import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_tile.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/paragraph.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
+import 'package:of_flutter_mobile/app/dependency/global_state.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
 import 'package:of_flutter_mobile/app/utils/validator.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -28,6 +29,7 @@ class CheckhistoryView extends GetView<CheckhistoryController> {
   final ColorPicker colors = ColorPicker();
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
+  final GlobalState globalState = Get.find<GlobalState>();
 
   List<Widget> body() {
     if (controller.isLoading.value) {
@@ -158,7 +160,8 @@ class CheckhistoryView extends GetView<CheckhistoryController> {
               children: [
                 title(
                   title: "Checklist History",
-                  withLeading: true,
+                  withLeading: globalState.getPermissions
+                      .contains("export-checklist-excel"),
                   icon: FontAwesomeIcons.solidFileExcel,
                   iconColor: Colors.green,
                   onPressed: () => builder.handleExport(),

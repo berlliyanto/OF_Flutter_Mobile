@@ -16,6 +16,7 @@ import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_tile.
 import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_twintile.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/paragraph.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
+import 'package:of_flutter_mobile/app/dependency/global_state.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
 import 'package:of_flutter_mobile/app/utils/validator.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -28,6 +29,7 @@ class ListforkliftView extends GetView<ListforkliftController> {
   final ColorPicker colors = ColorPicker();
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
+  final GlobalState globalState = Get.find<GlobalState>();
 
   List<Widget> body() {
     if (controller.isLoading.value) {
@@ -132,7 +134,8 @@ class ListforkliftView extends GetView<ListforkliftController> {
             children: [
               title(
                 title: "List Forklift",
-                withLeading: true,
+                withLeading: globalState.getPermissions
+                    .contains("export-forklift-excel"),
                 onPressed: () => builder.handleExport(),
                 icon: FontAwesomeIcons.solidFileExcel,
                 iconColor: Colors.green,
