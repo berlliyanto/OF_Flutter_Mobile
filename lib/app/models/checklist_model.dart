@@ -11,9 +11,11 @@ class ChecklistModel {
       manHourStart,
       manHourEnd,
       forkliftHourMeter,
-      manHour;
-  late int? palletAmount;
+      manHour,
+      ratio;
+  late int? palletAmount, isFinish;
   late dynamic verificationSupervisor;
+  late dynamic verificationManagement;
   late dynamic verificationUser;
   late ForkliftModel? forklift;
   late OperatorModel? operator;
@@ -45,6 +47,9 @@ class ChecklistModel {
     this.updatedAt,
     this.formattedCreatedAt,
     this.formattedupdatedAt,
+    this.ratio,
+    this.isFinish,
+    this.verificationManagement,
   });
 
   factory ChecklistModel.fromJson(Map<String, dynamic> json) {
@@ -58,7 +63,11 @@ class ChecklistModel {
       manHour: json['man_hour'],
       manHourStart: json['man_hour_start'],
       manHourEnd: json['man_hour_end'],
+      ratio: json['ratio'],
       forkliftHourMeter: json['forklift_hour_meter'],
+      isFinish: json['is_finish'].runtimeType == String
+          ? int.parse(json['is_finish'])
+          : json['is_finish'],
       forklift: json['forklifts'] == null
           ? null
           : ForkliftModel.fromJson(json['forklifts']),
@@ -76,6 +85,9 @@ class ChecklistModel {
       verificationSupervisor: json['verification_supervisor'] == null
           ? null
           : DateTime.parse(json['verification_supervisor']),
+      verificationManagement: json['verification_management'] == null
+          ? null
+          : DateTime.parse(json['verification_management']),
       verificationUser: json['verification_user'] == null
           ? null
           : DateTime.parse(json['verification_user']),
@@ -106,11 +118,18 @@ class ChecklistModel {
     main['man_hour_start'] = manHourStart;
     main['man_hour_end'] = manHourEnd;
     main['forklift_hour_meter'] = forkliftHourMeter;
+    main['ratio'] = ratio;
+    main['is_finish'] = isFinish;
     main['verification_supervisor'] = verificationSupervisor;
+    main['verification_management'] = verificationManagement;
     main['verification_user'] = verificationUser;
     main['forklifts'] = forklift!.toJson();
     main['operators'] = operator!.toJson();
-    main['shifts'] = shift!.toJson();
+    if (shift != null) {
+      main['shifts'] = shift!.toJson();
+    } else {
+      main['shifts'] = null;
+    }
     main['created_at'] = createdAt;
     main['updated_at'] = updatedAt;
     main['formatted_created_at'] = formattedCreatedAt;
@@ -119,6 +138,7 @@ class ChecklistModel {
     data['main'] = main;
     data['items'] = items!.toJson();
     data['docs'] = docs!.toJson();
+    data['operator_id'] = operator!.toJson()['id'];
 
     return data;
   }

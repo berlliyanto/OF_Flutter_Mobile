@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:of_flutter_mobile/app/components/widgets/dialog/awesome_dialog.dart';
@@ -80,17 +81,21 @@ class SplashController extends GetxController {
     if (token.isEmpty || token == "") {
       Get.offNamed('/login');
     } else {
+      EasyLoading.show();
       final response = await UserService().userProfile();
       if (response.statusCode == 200) {
         final UserModel userModel = UserModel.fromJson(response.data['data']);
         globalState.setPermissions = userModel.rolePermissions!;
         setUser({
+          "id": userModel.id,
           "name": userModel.name,
           "role": userModel.roles![0].name,
           "image": userModel.image ?? ""
         });
+        EasyLoading.dismiss();
         Get.offNamed('/home');
       } else {
+        EasyLoading.dismiss();
         removeToken();
         Get.offNamed('/login');
       }

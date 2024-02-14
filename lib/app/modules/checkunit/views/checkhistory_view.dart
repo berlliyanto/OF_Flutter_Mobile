@@ -122,7 +122,9 @@ class CheckhistoryView extends GetView<CheckhistoryController> {
           "Shift",
           "Lokasi",
           "Jumlah Pallet",
+          "Ratio",
           "Verifikasi Supervisor",
+          "Verifikasi Management",
           "Verifikasi User",
           "Action"
         ]),

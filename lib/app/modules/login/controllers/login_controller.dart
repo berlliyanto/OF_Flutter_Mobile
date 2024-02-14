@@ -40,6 +40,7 @@ class LoginController extends AuthController {
         final UserModel userModel = UserModel.fromJson(response.data['data']);
         globalState.setPermissions = userModel.rolePermissions;
         setUser({
+          "id": userModel.id,
           "name": userModel.name,
           "role": userModel.roles![0].name,
           "image": userModel.image ?? ""

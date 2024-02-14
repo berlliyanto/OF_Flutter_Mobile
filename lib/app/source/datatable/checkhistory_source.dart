@@ -35,6 +35,9 @@ class CheckHistorySource extends DataTableSource {
         docs: item.docs,
         items: item.items,
         shift: item.shift,
+        isFinish: item.isFinish,
+        ratio: item.ratio,
+        verificationManagement: item.verificationManagement,
         verificationSupervisor: item.verificationSupervisor,
         verificationUser: item.verificationUser,
       );
@@ -92,6 +95,9 @@ class CheckHistorySource extends DataTableSource {
         if (states.contains(MaterialState.selected)) {
           return Theme.of(Get.context!).colorScheme.primary.withOpacity(0.08);
         }
+        if (dataRow.isFinish == 0) {
+          return colors.red.withOpacity(0.5);
+        }
         return data.indexOf(dataRow) % 2 == 0
             ? colors.cyanDark.withOpacity(0.1)
             : colors.whiteSmoke;
@@ -127,7 +133,7 @@ class CheckHistorySource extends DataTableSource {
         ),
         DataCell(
           Text(
-            dataRow.shift!.id.toString(),
+            dataRow.shift != null ? dataRow.shift!.id.toString() : "-",
           ),
         ),
         DataCell(
@@ -142,16 +148,22 @@ class CheckHistorySource extends DataTableSource {
         ),
         DataCell(
           Text(
-            dataRow.verificationSupervisor != null
-                ? dataRow.verificationSupervisor.toString()
-                : "-",
+            dataRow.ratio.toString(),
           ),
         ),
         DataCell(
           Text(
-            dataRow.verificationUser != null
-                ? dataRow.verificationUser.toString()
-                : "-",
+            formatDate(dataRow.verificationSupervisor),
+          ),
+        ),
+        DataCell(
+          Text(
+            formatDate(dataRow.verificationManagement),
+          ),
+        ),
+        DataCell(
+          Text(
+            formatDate(dataRow.verificationUser),
           ),
         ),
         DataCell(Row(

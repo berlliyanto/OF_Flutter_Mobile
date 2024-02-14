@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -37,6 +36,7 @@ class CheckreportController extends GetxController {
       TextEditingController();
   final TextEditingController palletController = TextEditingController();
   final TextEditingController forkliftHMController = TextEditingController();
+  final TextEditingController ratioController = TextEditingController();
   final TextEditingController unitNotesController = TextEditingController();
   final TextEditingController safetyNotesController = TextEditingController();
   final arg = Get.arguments;
@@ -47,6 +47,8 @@ class CheckreportController extends GetxController {
   Map<String, dynamic> items = {};
   Map<String, dynamic> docs = {};
   Map<String, dynamic> main = {};
+  RxMap<dynamic, dynamic> finishData = {}.obs;
+
   File? imageFront, imageBack, imageLeft, imageRight;
 
   var startTime = "Start Time".obs;
@@ -57,6 +59,8 @@ class CheckreportController extends GetxController {
   var unitGoodCount = 0.obs;
   var safetyGoodCount = 0.obs;
   var valueShift = 0.obs;
+  var isFinish = false.obs;
+  var canUpdateFinish = false.obs;
 
   int unitTotal = 31;
   int safetyTotal = 6;
@@ -65,18 +69,25 @@ class CheckreportController extends GetxController {
     switch (type) {
       case "shift":
         ShiftModel shift = await showShift(value);
-        main["shift_id"] = value;
+        finishData["shift_id"] = value;
         valueShift.value = value;
         startTime.value = shift.startTime;
         endTime.value = shift.endTime;
-        main["man_hour_start"] = shift.startTime;
-        main["man_hour_end"] = shift.endTime;
+        finishData["man_hour_start"] = shift.startTime;
+        finishData["man_hour_end"] = shift.endTime;
+        finishData['man_hour'] =
+            differenceTime(startTime.value, endTime.value) - 1.0;
         break;
       case "pallet":
-        main["pallet_amount"] = palletController.text;
+        if (value.length == 0) {
+          finishData.remove("pallet_amount");
+        }
+        finishData["pallet_amount"] = palletController.text;
+
         break;
       case "forklift_hour_meter":
-        main["forklift_hour_meter"] = value;
+        finishData["forklift_hour_meter"] = value;
+
         break;
       case "forklift_notes":
         if (value.length == 0) {
@@ -101,13 +112,18 @@ class CheckreportController extends GetxController {
     if (time != null) {
       String timeFormatted = formatTime(time.hour, time.minute);
       if (type == "start") {
-        main["man_hour_start"] = timeFormatted;
+        finishData["man_hour_start"] = timeFormatted;
         startTime.value = timeFormatted;
       } else if (type == "end") {
-        main["man_hour_end"] = timeFormatted;
+        finishData["man_hour_end"] = timeFormatted;
         endTime.value = timeFormatted;
       } else {
         toast(message: "Something went wrong");
+      }
+
+      if (startTime.value.contains(":") && endTime.value.contains(":")) {
+        finishData['man_hour'] =
+            differenceTime(startTime.value, endTime.value) - 1.0;
       }
     }
 
@@ -116,6 +132,7 @@ class CheckreportController extends GetxController {
 
   void reset() {
     data = {};
+    finishData.value = {};
     imageBack = null;
     imageFront = null;
     imageLeft = null;
@@ -223,18 +240,40 @@ class CheckreportController extends GetxController {
         items = tempData['items'];
         docs = tempData['docs'];
 
+        if (tempData['operator_id'] == getUser()['id']) {
+          canUpdateFinish.value = true;
+        } else {
+          canUpdateFinish.value = false;
+        }
+
         searchDropDownController.text = main['unit_code'] ?? "";
-        valueShift.value =
-            main.containsKey("shifts") ? main['shifts']['id'] : 0;
-        palletController.text = (main['pallet_amount'] ?? "").toString();
-        forkliftHMController.text = main['forklift_hour_meter'] ?? "";
+
+        if (main.containsKey("shifts")) {
+          if (main['shifts'] != null) {
+            valueShift.value = main['shifts']['id'];
+          } else {
+            valueShift.value = 0;
+          }
+        } else {
+          valueShift.value = 0;
+        }
+
+        palletController.text =
+            (main['pallet_amount'] == 0 ? "" : main['pallet_amount'])
+                .toString();
+
+        if (main['forklift_hour_meter'] == "0.00") {
+          forkliftHMController.text = "";
+        } else {
+          forkliftHMController.text = main['forklift_hour_meter'] ?? "";
+        }
+
+        ratioController.text = main['ratio'] ?? "";
         startTime.value = main['man_hour_start'] ?? "Start Time";
         endTime.value = main['man_hour_end'] ?? "End Time";
-
+        isFinish.value = main["is_finish"] == 1 ? true : false;
         safetyNotesController.text = docs['safety_notes'] ?? "";
         unitNotesController.text = docs['forklift_notes'] ?? "";
-
-        log(main.toString());
 
         update();
       }
@@ -294,24 +333,7 @@ class CheckreportController extends GetxController {
   void handleSubmit() async {
     unitGoodCount.value = 0;
     safetyGoodCount.value = 0;
-    if (!startTime.value.contains(":")) {
-      snackbar(
-        title: "Warning",
-        message: "Please fill shift fields",
-        type: "warning",
-      );
-      return;
-    }
 
-    if (palletController.text.contains(",") ||
-        forkliftHMController.text.contains(",")) {
-      snackbar(
-        title: "Warning",
-        message: "Use a period (.) instead of a comma (,) for decimal values.",
-        type: "warning",
-      );
-      return;
-    }
     if (imageFront != null) {
       docs["image_front"] = await MultipartFile.fromFile(imageFront!.path,
           filename: "image_front");
@@ -332,12 +354,11 @@ class CheckreportController extends GetxController {
           filename: "image_right");
     }
 
-    main['man_hour'] = differenceTime(startTime.value, endTime.value);
     data['main'] = main;
     data['items'] = items;
     data['docs'] = docs;
 
-    if (data['main'].length < 7 ||
+    if (data['main'].length < 1 ||
         data['items'].length < 37 ||
         data['docs'].length < 4) {
       snackbar(
@@ -397,6 +418,65 @@ class CheckreportController extends GetxController {
     }
   }
 
+  void handleFinish() async {
+    if (arg["id"] == null) return;
+
+    if (!startTime.value.contains(":") || !endTime.value.contains(":")) {
+      snackbar(
+        title: "Warning",
+        message: "Please fill shift fields",
+        type: "warning",
+      );
+      return;
+    }
+
+    if (palletController.text.contains(",") ||
+        forkliftHMController.text.contains(",")) {
+      snackbar(
+        title: "Warning",
+        message: "Use a period (.) instead of a comma (,) for decimal values.",
+        type: "warning",
+      );
+      return;
+    }
+
+    finishData['man_hour'] =
+        differenceTime(startTime.value, endTime.value) - 1.0;
+    finishData['ratio'] = ratioController.text;
+
+    finishData['is_finish'] = 1;
+
+    if (finishData.length < 8) {
+      snackbar(
+        title: "Warning",
+        message: "Please fill all fields",
+        type: "warning",
+      );
+      return;
+    }
+
+    EasyLoading.show(status: "Saving...");
+    Map<String, dynamic> newFinishData = {
+      "shift_id": finishData['shift_id'],
+      "man_hour": finishData['man_hour'],
+      "ratio": finishData['ratio'],
+      "is_finish": finishData['is_finish'],
+      "pallet_amount": finishData['pallet_amount'],
+      "man_hour_start": finishData['man_hour_start'],
+      "man_hour_end": finishData['man_hour_end'],
+      "forklift_hour_meter": finishData['forklift_hour_meter'],
+    };
+
+    final response = await CheckListService()
+        .finishChecklist(id: arg["id"], data: newFinishData);
+    if (response.data != null) {
+      snackbar(
+          title: "Success", message: response.data['message'], type: "success");
+      await fetchAllAPI();
+    }
+    EasyLoading.dismiss();
+  }
+
   Future fetchAllAPI() async {
     isLoading.value = true;
     update();
@@ -411,6 +491,16 @@ class CheckreportController extends GetxController {
   void onInit() async {
     super.onInit();
     fetchAllAPI();
+    ever(finishData, (callback) {
+      if (finishData.containsKey("man_hour") &&
+          finishData.containsKey("pallet_amount")) {
+        if (double.tryParse(finishData['pallet_amount']) != null) {
+          double ratio = double.parse(finishData['pallet_amount']) /
+              finishData['man_hour'];
+          ratioController.text = ratio.toStringAsFixed(2);
+        }
+      }
+    });
   }
 
   @override

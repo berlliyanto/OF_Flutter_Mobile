@@ -185,28 +185,22 @@ class CheckreportView extends GetView<CheckreportController> {
     return const SizedBox();
   }
 
-  List<Widget> body() {
-    if (controller.isLoading.value) {
-      return [
-        skeletonTile(),
-        const Gap(10),
-        skeletonTile(),
-        const Gap(10),
-        skeletonTwinTile(),
-        const Gap(10),
-        skeletonTwinTile(),
-        const Gap(10),
-        skeletonTwinTile(),
-        const Gap(10),
-        skeletonBigRectangle(),
-        const Gap(10),
-        skeletonTile()
-      ];
+  List<Widget> finishForm() {
+    if (arg == null) {
+      return [];
     }
 
     return [
-      ...topWidget(),
-      const Gap(10),
+      if (!controller.isFinish.value)
+        Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: Heading(
+            heading: "h3",
+            text: "Finish Checklist Here",
+            color: colors.red,
+            size: 28,
+          ).animate().slideY(duration: 250.ms),
+        ),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -218,15 +212,20 @@ class CheckreportView extends GetView<CheckreportController> {
           ),
           Expanded(
             child: singleDropdownLess(
-              data: controller.listShift,
-              hint: "Shift",
-              width: Get.width,
-              colors: colors,
-              value: dropdownValue(controller.valueShift.value),
-              onChanged: (value) => arg != null
-                  ? null
-                  : controller.onChangedInput("shift", value),
-            ),
+                data: controller.listShift,
+                hint: "Shift",
+                width: Get.width,
+                colors: colors,
+                value: dropdownValue(controller.valueShift.value),
+                onChanged: (value) {
+                  if (arg == null) {
+                    return controller.onChangedInput("shift", value);
+                  } else {
+                    if (controller.isFinish.value) return;
+
+                    controller.onChangedInput("shift", value);
+                  }
+                }),
           ),
         ],
       ).animate().slideY(duration: 250.ms),
@@ -244,7 +243,7 @@ class CheckreportView extends GetView<CheckreportController> {
           ),
           Flexible(
             child: TextInput(
-              isEnabled: arg == null,
+              isEnabled: !controller.isFinish.value,
               controller: controller.palletController,
               keyboardType: TextInputType.number,
               width: Get.width,
@@ -270,9 +269,14 @@ class CheckreportView extends GetView<CheckreportController> {
                 colors: colors.whiteSmoke,
                 borderColor: colors.primaryBlack,
                 textColor: colors.primaryBlack,
-                onPressed: () => arg != null
-                    ? null
-                    : controller.onManHourPicked(Get.context!, "start"),
+                onPressed: () {
+                  if (arg == null) {
+                    return controller.onManHourPicked(Get.context!, "start");
+                  } else {
+                    if (controller.isFinish.value) return;
+                    controller.onManHourPicked(Get.context!, "start");
+                  }
+                },
                 textSize: 16,
                 fontWeight: FontWeight.normal,
                 text: controller.shiftLoading.value
@@ -287,9 +291,14 @@ class CheckreportView extends GetView<CheckreportController> {
                 colors: colors.whiteSmoke,
                 borderColor: colors.primaryBlack,
                 textColor: colors.primaryBlack,
-                onPressed: () => arg != null
-                    ? null
-                    : controller.onManHourPicked(Get.context!, "end"),
+                onPressed: () {
+                  if (arg == null) {
+                    return controller.onManHourPicked(Get.context!, "end");
+                  } else {
+                    if (controller.isFinish.value) return;
+                    controller.onManHourPicked(Get.context!, "end");
+                  }
+                },
                 textSize: 16,
                 fontWeight: FontWeight.normal,
                 text: controller.shiftLoading.value
@@ -307,12 +316,37 @@ class CheckreportView extends GetView<CheckreportController> {
             padding: EdgeInsets.only(right: 15),
             child: Heading(
                 heading: "h2",
+                text: "Productivity Ratio",
+                textAlign: TextAlign.start),
+          ),
+          Expanded(
+            child: TextInput(
+              isEnabled: false,
+              controller: controller.ratioController,
+              keyboardType: TextInputType.number,
+              width: Get.width,
+              colors: colors,
+              onChanged: (value) {},
+              hint: "Productivity Ratio",
+            ),
+          ),
+        ],
+      ).animate().slideY(duration: 450.ms),
+      const Gap(10),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(right: 15),
+            child: Heading(
+                heading: "h2",
                 text: "Forklift Hour Meter",
                 textAlign: TextAlign.start),
           ),
           Expanded(
             child: TextInput(
-              isEnabled: arg == null,
+              isEnabled: !controller.isFinish.value,
               controller: controller.forkliftHMController,
               keyboardType: TextInputType.number,
               width: Get.width,
@@ -324,6 +358,42 @@ class CheckreportView extends GetView<CheckreportController> {
           ),
         ],
       ).animate().slideY(duration: 400.ms),
+      if (controller.canUpdateFinish.value &&
+          !controller.isFinish.value &&
+          globalState.getPermissions.contains("finish-checklist"))
+        Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: GradientButton(
+            colors: [colors.green, colors.greenDark],
+            onPressed: () => controller.handleFinish(),
+            text: "Finish",
+          ),
+        ),
+    ];
+  }
+
+  List<Widget> body() {
+    if (controller.isLoading.value) {
+      return [
+        skeletonTile(),
+        const Gap(10),
+        skeletonTile(),
+        const Gap(10),
+        skeletonTwinTile(),
+        const Gap(10),
+        skeletonTwinTile(),
+        const Gap(10),
+        skeletonTwinTile(),
+        const Gap(10),
+        skeletonBigRectangle(),
+        const Gap(10),
+        skeletonTile()
+      ];
+    }
+
+    return [
+      ...topWidget(),
+      ...finishForm(),
       const Divider(),
       ...controller.buildCheckUnitItems,
       const Divider(),
