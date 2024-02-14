@@ -15,7 +15,6 @@ import 'package:of_flutter_mobile/app/models/forklift_model.dart';
 import 'package:of_flutter_mobile/app/models/location_model.dart';
 import 'package:of_flutter_mobile/app/models/shift_model.dart';
 import 'package:of_flutter_mobile/app/modules/checkunit/local_widgets/preview_dialog.dart';
-import 'package:of_flutter_mobile/app/routes/app_pages.dart';
 import 'package:of_flutter_mobile/app/services/checklist/checklist_service.dart';
 import 'package:of_flutter_mobile/app/services/forklift/forklift_service.dart';
 import 'package:of_flutter_mobile/app/services/location/location_service.dart';

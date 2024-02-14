@@ -292,6 +292,7 @@ class AddunitView extends GetView<AddunitController> {
                   .slideY(duration: 150.ms, begin: -0.1, end: 0),
               const Gap(10),
               ...body(),
+              const Divider(),
               ...historyChecklist()
             ],
           ),

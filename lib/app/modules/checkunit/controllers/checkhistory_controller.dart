@@ -9,7 +9,9 @@ import 'package:of_flutter_mobile/app/services/checklist/checklist_service.dart'
 import 'package:of_flutter_mobile/app/services/forklift/forklift_service.dart';
 import 'package:of_flutter_mobile/app/services/location/location_service.dart';
 import 'package:of_flutter_mobile/app/source/datatable/checkhistory_source.dart';
+import 'package:of_flutter_mobile/app/utils/file_downloader.dart';
 import 'package:of_flutter_mobile/app/utils/query_builder.dart';
+import 'package:of_flutter_mobile/app/utils/url_files.dart';
 
 class CheckhistoryController extends GetxController {
   final TextEditingController searchController = TextEditingController();
@@ -91,6 +93,13 @@ class CheckhistoryController extends GetxController {
     unitController.text = value['name'];
     activeQuery.value = queryBuilder(
         activeQuery: activeQuery.value, query: "unit_code=${value['name']}");
+  }
+
+  void handleExport() async {
+    String url = urlFileBuilder(
+        transaction: "excel", type: "checklist", query: activeQuery.value);
+    final FileDownloader fileDownloader = Get.find<FileDownloader>();
+    fileDownloader.downloadDoc(url);
   }
 
   Future suggestions(String query) async {

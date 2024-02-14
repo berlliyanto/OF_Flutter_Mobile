@@ -35,6 +35,7 @@ class CheckHistorySource extends DataTableSource {
         docs: item.docs,
         items: item.items,
         shift: item.shift,
+        manHour: item.manHour,
         isFinish: item.isFinish,
         ratio: item.ratio,
         verificationManagement: item.verificationManagement,
@@ -144,6 +145,11 @@ class CheckHistorySource extends DataTableSource {
         DataCell(
           Text(
             dataRow.palletAmount.toString(),
+          ),
+        ),
+        DataCell(
+          Text(
+            dataRow.manHour.toString(),
           ),
         ),
         DataCell(

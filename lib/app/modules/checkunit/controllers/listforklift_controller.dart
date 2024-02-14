@@ -8,7 +8,9 @@ import 'package:of_flutter_mobile/app/services/forklift/forklift_service.dart';
 import 'package:of_flutter_mobile/app/services/location/location_service.dart';
 import 'package:of_flutter_mobile/app/services/pic/pic.dart';
 import 'package:of_flutter_mobile/app/source/datatable/listforklift_source.dart';
+import 'package:of_flutter_mobile/app/utils/file_downloader.dart';
 import 'package:of_flutter_mobile/app/utils/query_builder.dart';
+import 'package:of_flutter_mobile/app/utils/url_files.dart';
 
 class ListforkliftController extends GetxController {
   final ListForkliftSource source = ListForkliftSource();
@@ -86,6 +88,13 @@ class ListforkliftController extends GetxController {
     FocusManager.instance.primaryFocus?.unfocus();
     isFocus.value = false;
     update();
+  }
+
+  void handleExport() async {
+    String url = urlFileBuilder(
+        transaction: "excel", type: "forklift", query: query.value);
+    final FileDownloader fileDownloader = Get.find<FileDownloader>();
+    fileDownloader.downloadDoc(url);
   }
 
   Future getLocation() async {

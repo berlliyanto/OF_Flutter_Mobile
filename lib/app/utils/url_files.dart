@@ -4,5 +4,10 @@ String urlImageBuilder(
     {required String transaction,
     required String type,
     required String image}) {
-  return AppConfig().getBaseUrl + "/image/$transaction?type=$type&image=$image";
+  return "${AppConfig().getBaseUrl}/image/$transaction?type=$type&image=$image";
+}
+
+String urlFileBuilder(
+    {required String transaction, required String type, String query = ""}) {
+  return "${AppConfig().getBaseUrl}/$transaction/$type?$query";
 }

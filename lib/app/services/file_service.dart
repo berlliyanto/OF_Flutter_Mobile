@@ -29,7 +29,7 @@ class FileService extends BaseServices {
     }
   }
 
-  Future<void> downloadDoc(String path) async {
+  Future<void> downloadDoc(String url) async {
     final plugin = DeviceInfoPlugin();
     final android = await plugin.androidInfo;
 
@@ -39,7 +39,7 @@ class FileService extends BaseServices {
     if (storageStatus == PermissionStatus.granted) {
       Directory? directory = await getExternalStorageDirectory();
       await FlutterDownloader.enqueue(
-        url: baseUrl + path,
+        url: url,
         headers: {},
         saveInPublicStorage: true,
         savedDir: directory!.path,

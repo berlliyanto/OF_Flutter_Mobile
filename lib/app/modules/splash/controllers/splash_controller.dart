@@ -81,7 +81,7 @@ class SplashController extends GetxController {
     if (token.isEmpty || token == "") {
       Get.offNamed('/login');
     } else {
-      EasyLoading.show();
+      EasyLoading.show(status: "Loading...");
       final response = await UserService().userProfile();
       if (response.statusCode == 200) {
         final UserModel userModel = UserModel.fromJson(response.data['data']);
