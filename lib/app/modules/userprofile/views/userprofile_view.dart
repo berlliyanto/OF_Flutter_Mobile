@@ -118,7 +118,8 @@ class UserprofileView extends GetView<UserprofileController> {
       const Gap(10),
       buttonCondition(),
       const Gap(10),
-      if (controller.userModel.roles![0].name == "Operator")
+      if (controller.userModel.roles![0].name == "Operator" ||
+          controller.userModel.roles![0].name == "Supervisor")
         dataTable(
           dataColumns: datatableHeader([
             "No",
@@ -130,6 +131,7 @@ class UserprofileView extends GetView<UserprofileController> {
             "Shift",
             "Lokasi",
             "Jumlah Pallet",
+            "Man Hour",
             "Ratio",
             "Verifikasi Supervisor",
             "Verifikasi Management",

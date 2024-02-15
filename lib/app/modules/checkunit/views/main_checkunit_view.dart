@@ -23,7 +23,8 @@ class ChechkunitView extends GetView<ChechkunitController> {
   dynamic floatingButtonQr() {
     if (getUser()["role"] == "User" ||
         getUser()["role"] == "Administrator" ||
-        getUser()["role"] == "Supervisor") {
+        getUser()["role"] == "Supervisor" ||
+        getUser()["role"] == "Management") {
       return FloatingActionButton(
         onPressed: () {
           controller.scanQR();

@@ -64,10 +64,13 @@ Widget imageCard({
           const Center(
         child: Text("Loading..."),
       ),
-      errorWidget: (context, url, error) => const Icon(
-        Icons.error,
-        size: 50,
-      ),
+      errorWidget: (context, url, error) {
+        print(error);
+        return const Icon(
+          Icons.error,
+          size: 50,
+        );
+      },
     );
   }
 

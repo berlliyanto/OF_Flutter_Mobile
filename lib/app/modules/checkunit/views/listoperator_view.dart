@@ -15,7 +15,6 @@ import 'package:of_flutter_mobile/app/routes/app_pages.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
 import 'package:of_flutter_mobile/app/utils/token.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:animated_floating_buttons/animated_floating_buttons.dart';
 
 import '../controllers/listoperator_controller.dart';
 
@@ -25,8 +24,6 @@ class ListoperatorView extends GetView<ListoperatorController> {
   final ColorPicker colors = ColorPicker();
   final RefreshController refreshController =
       RefreshController(initialRefresh: false);
-  final GlobalKey<AnimatedFloatingActionButtonState> keyAnimate =
-      GlobalKey<AnimatedFloatingActionButtonState>();
 
   List<Widget> body() {
     if (controller.isLoading.value) {

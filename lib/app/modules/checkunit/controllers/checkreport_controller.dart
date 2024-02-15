@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -25,6 +26,7 @@ import 'package:of_flutter_mobile/app/modules/checkunit/local_widgets/single_che
 import 'package:of_flutter_mobile/app/source/checkunit/checkunit_item.dart';
 import 'package:of_flutter_mobile/app/utils/formatter.dart';
 import 'package:dio/dio.dart';
+import 'package:of_flutter_mobile/app/utils/image_compress.dart';
 import 'package:of_flutter_mobile/app/utils/picker.dart';
 import 'package:of_flutter_mobile/app/utils/query_builder.dart';
 import 'package:of_flutter_mobile/app/utils/token.dart';
@@ -176,14 +178,21 @@ class CheckreportController extends GetxController {
     try {
       final File? image = await pickImage(source);
       if (image != null) {
-        if (type == "front") {
-          imageFront = image;
-        } else if (type == "back") {
-          imageBack = image;
-        } else if (type == "left") {
-          imageLeft = image;
-        } else if (type == "right") {
-          imageRight = image;
+        Uint8List compressedImageSize = await getSizeCompressedImage(image);
+        if (compressedImageSize.length < 2 * 1024 * 1024) {
+          var compressedImage =
+              await getCompressedImage(image, "compress_image.jpg");
+          if (type == "front") {
+            imageFront = compressedImage;
+          } else if (type == "back") {
+            imageBack = compressedImage;
+          } else if (type == "left") {
+            imageLeft = compressedImage;
+          } else if (type == "right") {
+            imageRight = compressedImage;
+          }
+        } else {
+          toast(message: "Image size too large");
         }
       } else {
         toast(message: "Pick image canceled");

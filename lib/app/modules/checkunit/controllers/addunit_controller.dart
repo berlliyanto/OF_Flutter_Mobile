@@ -1,7 +1,9 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -19,6 +21,7 @@ import 'package:of_flutter_mobile/app/services/forklift/forklift_service.dart';
 import 'package:of_flutter_mobile/app/services/location/location_service.dart';
 import 'package:of_flutter_mobile/app/services/pic/pic.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
+import 'package:of_flutter_mobile/app/utils/image_compress.dart';
 import 'package:of_flutter_mobile/app/utils/picker.dart';
 import 'package:of_flutter_mobile/app/utils/url_files.dart';
 
@@ -105,13 +108,21 @@ class AddunitController extends GetxController {
     try {
       final File? image = await pickImage(source);
       if (image != null) {
-        this.image = image;
-        data["image"] =
-            await MultipartFile.fromFile(image.path, filename: "image");
+        Uint8List compressedImageSize = await getSizeCompressedImage(image);
+        if (compressedImageSize.length < 2 * 1024 * 1024) {
+          File? compressedImage =
+              await getCompressedImage(image, "compressed_image.jpg");
+          this.image = compressedImage;
+          data["image"] = await MultipartFile.fromFile(compressedImage.path,
+              filename: "image");
+        } else {
+          toast(message: "Image size too large");
+        }
       } else {
         toast(message: "Pick image canceled");
       }
     } catch (e) {
+      log(e.toString());
       toast(message: "Failed to pick image");
     }
     update();
