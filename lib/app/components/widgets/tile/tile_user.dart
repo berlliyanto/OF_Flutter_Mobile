@@ -9,10 +9,11 @@ import 'package:of_flutter_mobile/app/utils/url_files.dart';
 Widget tileUser(
     {required ColorPicker colors,
     required String name,
-    String manHour = "",
-    dynamic lastCheck = "",
+    String subtitle1 = "",
+    dynamic subtitle2 = "",
     dynamic image,
-    VoidCallback? onTap}) {
+    VoidCallback? onTap,
+    VoidCallback? onLongPress}) {
   return Container(
     margin: const EdgeInsets.only(bottom: 10),
     width: Get.width,
@@ -33,6 +34,7 @@ Widget tileUser(
       child: InkWell(
         borderRadius: BorderRadius.circular(10),
         onTap: onTap,
+        onLongPress: onLongPress,
         child: Container(
           padding: const EdgeInsets.all(10),
           child: Row(
@@ -64,8 +66,8 @@ Widget tileUser(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Paragraph(text: name),
-                    Paragraph(text: manHour),
-                    Paragraph(text: lastCheck),
+                    Paragraph(text: subtitle1),
+                    Paragraph(text: subtitle2),
                   ],
                 ),
               )

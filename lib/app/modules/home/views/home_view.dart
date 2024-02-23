@@ -8,7 +8,7 @@ import 'package:of_flutter_mobile/app/components/widgets/appbar/appbar.dart';
 import 'package:of_flutter_mobile/app/components/widgets/drawer/drawer.dart';
 import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_tile.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
-import 'package:of_flutter_mobile/app/components/widgets/tile/tile.dart';
+import 'package:of_flutter_mobile/app/components/widgets/tile/tile_menu.dart';
 import 'package:of_flutter_mobile/app/dependency/global_state.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
 import 'package:of_flutter_mobile/app/source/menu/home_list.dart';
@@ -64,7 +64,7 @@ class HomeView extends GetView<HomeController> {
                   children: listHome.asMap().entries.map((entry) {
                     final index = entry.key;
                     final data = entry.value;
-                    return Tile(
+                    return TileMenu(
                       routes: data.routes,
                       title: data.title,
                       icon: data.icon,

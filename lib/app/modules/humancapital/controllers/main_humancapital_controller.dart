@@ -13,13 +13,15 @@ class HumancapitalController extends GetxController {
   List<Widget> renderMenu() {
     List<Widget> menu = [];
     for (var item in listHumanCapital) {
-      menu.add(GridItem(
-        title: item.title,
-        image1: item.image1,
-        colors: colors,
-        image2: item.image2,
-        routes: item.routes,
-      ).animate().slideY(duration: const Duration(milliseconds: 500)));
+      if (globalState.getPermissions.contains(item.permissions)) {
+        menu.add(GridItem(
+          title: item.title,
+          image1: item.image1,
+          colors: colors,
+          image2: item.image2,
+          routes: item.routes,
+        ).animate().slideY(duration: const Duration(milliseconds: 500)));
+      }
     }
 
     return menu;

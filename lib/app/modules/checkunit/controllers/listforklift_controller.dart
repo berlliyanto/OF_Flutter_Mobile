@@ -138,7 +138,7 @@ class ListforkliftController extends GetxController {
   void onInit() {
     super.onInit();
     fetchAllData();
-    debounce(query, time: 1000.ms, (callback) async {
+    debounce(query, time: 800.ms, (callback) async {
       EasyLoading.show(status: "Loading...");
       await getIndexForklift("${query.value}&");
       update();

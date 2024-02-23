@@ -33,7 +33,7 @@ class SplashView extends GetView<SplashController> {
                 tag: "h1_auth",
                 child: Heading(
                     heading: "h1",
-                    text: "CARGIL OPERATOR MANAGEMENT SYSTEM",
+                    text: "CARGILL OPERATOR MANAGEMENT SYSTEM",
                     textAlign: TextAlign.center),
               ),
             ],

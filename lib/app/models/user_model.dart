@@ -1,4 +1,5 @@
 import 'package:of_flutter_mobile/app/models/checklist_model.dart';
+import 'package:of_flutter_mobile/app/models/employee_model.dart';
 import 'package:of_flutter_mobile/app/models/role_model.dart';
 
 class UserModel {
@@ -11,21 +12,22 @@ class UserModel {
   late List<dynamic>? rolePermissions;
   late List<RoleModel>? roles;
   late List<ChecklistModel>? checklists;
+  late EmployeeModel? employee;
 
-  UserModel({
-    required this.id,
-    this.name,
-    this.username,
-    this.email,
-    this.manHour,
-    this.lastChecklist,
-    this.createdAt,
-    this.updatedAt,
-    this.image,
-    this.roles,
-    this.checklists,
-    this.rolePermissions,
-  });
+  UserModel(
+      {required this.id,
+      this.name,
+      this.username,
+      this.email,
+      this.manHour,
+      this.lastChecklist,
+      this.createdAt,
+      this.updatedAt,
+      this.image,
+      this.roles,
+      this.checklists,
+      this.rolePermissions,
+      this.employee});
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         id: json["id"],
@@ -49,5 +51,25 @@ class UserModel {
                   (x) => ChecklistModel.fromJson(x),
                 ),
               ),
+        employee: json['employees'] == null
+            ? null
+            : EmployeeModel.fromJson(
+                json['employees'],
+              ),
       );
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> data = {};
+    data['id'] = id;
+    data['name'] = name;
+    data['username'] = username;
+    data['email'] = email;
+    data['man_hour'] = manHour;
+    data['last_checklist'] = lastChecklist;
+    data['image'] = image;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+
+    return data;
+  }
 }

@@ -56,26 +56,6 @@ void previewDialog({
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const Heading(heading: "h3", text: "HOURS METER"),
-                Paragraph(
-                  text: data["forklift_hour_meter"].toString(),
-                  fontSize: 24,
-                  color: Colors.blue,
-                ),
-                const Paragraph(text: "HOURS")
-              ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(5),
-            width: 120,
-            decoration: BoxDecoration(
-                border: Border.all(width: 1),
-                borderRadius: BorderRadius.circular(5)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
                 const Heading(heading: "h3", text: "MAN HOUR"),
                 Paragraph(
                   text: data["man_hour"].toString(),
@@ -97,6 +77,9 @@ void previewDialog({
       row(title: "Unit Code", value: name[0]),
       row(title: "Location", value: name[1]),
       row(title: "Operator", value: name[2]),
+      row(
+          title: "Hour Meter",
+          value: data['main']['forklift_hour_meter'] ?? ""),
       row(title: "Date", value: formatDate(DateTime.now())),
       const Divider(),
       Container(

@@ -12,7 +12,13 @@ bottomSheetImage(
     Container(
       padding: const EdgeInsets.all(15),
       height: 120,
-      color: Colors.white,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(10),
+        ),
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,

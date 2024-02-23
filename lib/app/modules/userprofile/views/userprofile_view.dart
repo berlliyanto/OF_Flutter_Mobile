@@ -14,6 +14,7 @@ import 'package:of_flutter_mobile/app/components/widgets/image/image.dart';
 import 'package:of_flutter_mobile/app/components/widgets/input/text_input.dart';
 import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_circle.dart';
 import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_tile.dart';
+import 'package:of_flutter_mobile/app/components/widgets/text/heading.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
 import 'package:of_flutter_mobile/app/dependency/global_state.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
@@ -107,17 +108,35 @@ class UserprofileView extends GetView<UserprofileController> {
               FocusManager.instance.primaryFocus?.unfocus(),
           hint: "Email..."),
       const Gap(10),
-      TextInput(
-          isEnabled: false,
-          controller: controller.roleController,
-          label: "Role",
-          width: Get.width,
-          colors: colors,
-          onChanged: (val) {},
-          hint: "Role..."),
+      Row(
+        children: [
+          Expanded(
+            child: TextInput(
+                isEnabled: false,
+                controller: controller.roleController,
+                label: "Role",
+                width: Get.width,
+                colors: colors,
+                onChanged: (val) {},
+                hint: "Role..."),
+          ),
+          const Gap(10),
+          Expanded(
+            child: TextInput(
+                isEnabled: false,
+                controller: controller.leaveController,
+                label: "Annual Leave",
+                width: Get.width,
+                colors: colors,
+                onChanged: (val) {},
+                hint: "Annual Leave..."),
+          ),
+        ],
+      ),
       const Gap(10),
       buttonCondition(),
       const Gap(10),
+      const Heading(heading: "h2", text: "Checklists Unit"),
       if (controller.userModel.roles![0].name == "Operator" ||
           controller.userModel.roles![0].name == "Supervisor")
         dataTable(
@@ -127,6 +146,7 @@ class UserprofileView extends GetView<UserprofileController> {
             "Tanggal Checklist",
             "Kode Unit",
             "Hour Meter",
+            "Actual Hour Meter",
             "Operator",
             "Shift",
             "Lokasi",
@@ -152,7 +172,7 @@ class UserprofileView extends GetView<UserprofileController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(
-          text: arg == null ? "PROFILE" : "OPERATOR",
+          text: arg == null ? "PROFILE" : "EMPLOYEE",
           colors: colors,
           drawerLeading: arg == null),
       extendBodyBehindAppBar: true,

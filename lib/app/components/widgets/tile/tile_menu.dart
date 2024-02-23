@@ -4,13 +4,13 @@ import 'package:get/get.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/heading.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
 
-class Tile extends StatelessWidget {
+class TileMenu extends StatelessWidget {
   final String routes, title;
   final IconData icon;
   final ColorPicker colors;
   final List<double> paddingHV;
   final double animationDuration;
-  const Tile(
+  const TileMenu(
       {required this.routes,
       required this.title,
       required this.icon,

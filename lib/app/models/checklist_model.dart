@@ -17,6 +17,7 @@ class ChecklistModel {
   late dynamic verificationSupervisor;
   late dynamic verificationManagement;
   late dynamic verificationUser;
+  late dynamic diffHourMeter;
   late ForkliftModel? forklift;
   late OperatorModel? operator;
   late ShiftModel? shift;
@@ -38,6 +39,7 @@ class ChecklistModel {
     this.forkliftHourMeter,
     this.verificationSupervisor,
     this.verificationUser,
+    this.diffHourMeter,
     this.forklift,
     this.operator,
     this.shift,
@@ -65,6 +67,7 @@ class ChecklistModel {
       manHourEnd: json['man_hour_end'],
       ratio: json['ratio'],
       forkliftHourMeter: json['forklift_hour_meter'],
+      diffHourMeter: json['diff_hour_meter'],
       isFinish: json['is_finish'].runtimeType == String
           ? int.parse(json['is_finish'])
           : json['is_finish'],
@@ -118,6 +121,7 @@ class ChecklistModel {
     main['man_hour_start'] = manHourStart;
     main['man_hour_end'] = manHourEnd;
     main['forklift_hour_meter'] = forkliftHourMeter;
+    main['diff_hour_meter'] = diffHourMeter;
     main['ratio'] = ratio;
     main['is_finish'] = isFinish;
     main['verification_supervisor'] = verificationSupervisor;

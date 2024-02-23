@@ -42,31 +42,6 @@ class ListForkliftSource extends DataTableSource {
     updateData(newData);
   }
 
-  // void sort<T>(
-  //   Comparable<T> Function(AssignmentModel) getField,
-  //   String columnName,
-  //   int columnIndex,
-  //   bool sortAscending,
-  // ) {
-  //   //sortColumn.updateAll((key, value) => SortOrder.none);
-
-  //   if (sortColumn[columnName] == SortOrder.ascending) {
-  //     sortColumn[columnName] = SortOrder.descending;
-  //   } else {
-  //     sortColumn[columnName] = SortOrder.ascending;
-  //   }
-
-  //   data.sort((a, b) {
-  //     final aValue = getField(a);
-  //     final bValue = getField(b);
-  //     return sortColumn[columnName] == SortOrder.ascending
-  //         ? aValue.compareTo(bValue as T)
-  //         : bValue.compareTo(aValue as T);
-  //   });
-
-  //   notifyListeners();
-  // }
-
   void setRow(int total, int currentPagee, int perPagee) {
     totalRow = total;
     currentPage = currentPagee;

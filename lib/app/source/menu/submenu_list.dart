@@ -46,6 +46,7 @@ List<SubMenuModel> listCheckUnit = [
     title: "CHECKLIST HISTORY",
     routes: Routes.CHECKHISTORY,
     image1: "assets/images/forklift.png",
+    image2: "assets/images/check-history.png",
     permissions: "read-checklist",
   ),
 ];
@@ -53,21 +54,40 @@ List<SubMenuModel> listCheckUnit = [
 //HUMAN CAPITAL
 List<SubMenuModel> listHumanCapital = [
   SubMenuModel(
-    title: "SLIP GAJI",
+    title: "SALARY SLIP",
     routes: "",
     image1: "assets/images/slip-gaji.png",
-    permissions: "read-slip-gaji",
+    permissions: "read-salary",
   ),
   SubMenuModel(
-    title: "PERMOHONAN ABSEN",
-    routes: "",
+    title: "LEAVE REQUEST",
+    routes: Routes.ABSENCEREQUEST,
     image1: "assets/images/absen.png",
-    permissions: "read-absen",
+    permissions: "create-paidleave",
   ),
   SubMenuModel(
-    title: "PENILAIAN",
+    title: "ASSESSMENT",
     routes: "",
     image1: "assets/images/penilaian.png",
-    permissions: "read-penilaian",
+    permissions: "read-assessment",
+  ),
+  SubMenuModel(
+    title: "LEAVE HISTORY",
+    routes: Routes.ABSENCEHISTORY,
+    image1: "assets/images/absen.png",
+    image2: "assets/images/absen-history.png",
+    permissions: "read-paidleave",
+  ),
+  SubMenuModel(
+    title: "APPROVAL",
+    routes: Routes.APPROVAL,
+    image1: "assets/images/approve.png",
+    permissions: "approve-paidleave",
+  ),
+  SubMenuModel(
+    title: "EMPLOYEES",
+    routes: Routes.EMPLOYEE,
+    image1: "assets/images/leave.png",
+    permissions: "read-employee",
   ),
 ];

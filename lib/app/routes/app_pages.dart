@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:of_flutter_mobile/app/modules/humancapital/bindings/employee_binding.dart';
+import 'package:of_flutter_mobile/app/modules/humancapital/views/employee_view.dart';
 
 import '../modules/checkunit/bindings/addunit_binding.dart';
 import '../modules/checkunit/bindings/checkhistory_binding.dart';
@@ -14,7 +16,13 @@ import '../modules/checkunit/views/listoperator_view.dart';
 import '../modules/checkunit/views/main_checkunit_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/humancapital/bindings/absencehistory_binding.dart';
+import '../modules/humancapital/bindings/absencerequest_binding.dart';
+import '../modules/humancapital/bindings/approval_binding.dart';
 import '../modules/humancapital/bindings/main_humancapital_binding.dart';
+import '../modules/humancapital/views/absencehistory_view.dart';
+import '../modules/humancapital/views/absencerequest_view.dart';
+import '../modules/humancapital/views/approval_view.dart';
 import '../modules/humancapital/views/main_humancapital_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
@@ -118,6 +126,26 @@ class AppPages {
       name: _Paths.MAINTENANCE,
       page: () => MaintenanceView(),
       binding: MaintenanceBinding(),
+    ),
+    GetPage(
+      name: _Paths.ABSENCEREQUEST,
+      page: () => AbsencerequestView(),
+      binding: AbsencerequestBinding(),
+    ),
+    GetPage(
+      name: _Paths.APPROVAL,
+      page: () => ApprovalView(),
+      binding: ApprovalBinding(),
+    ),
+    GetPage(
+      name: _Paths.ABSENCEHISTORY,
+      page: () => AbsencehistoryView(),
+      binding: AbsencehistoryBinding(),
+    ),
+    GetPage(
+      name: _Paths.EMPLOYEE,
+      page: () => EmployeeView(),
+      binding: EmployeeBinding(),
     ),
   ];
 }

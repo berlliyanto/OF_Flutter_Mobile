@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -33,6 +32,7 @@ class AddunitController extends GetxController {
   File? image;
   dynamic urlImage;
   ForkliftModel forkliftModel = ForkliftModel(id: 0);
+  String compressedImagePath = "/storage/emulated/0/Download/";
 
   var arg = Get.arguments;
   var valueCode = 0.obs;
@@ -108,10 +108,9 @@ class AddunitController extends GetxController {
     try {
       final File? image = await pickImage(source);
       if (image != null) {
-        Uint8List compressedImageSize = await getSizeCompressedImage(image);
-        if (compressedImageSize.length < 2 * 1024 * 1024) {
-          File? compressedImage =
-              await getCompressedImage(image, "compressed_image.jpg");
+        var compressedImage =
+            await getCompressedImage(image, "$compressedImagePath/image.jpg");
+        if (compressedImage.lengthSync() < 2 * 1024 * 1024) {
           this.image = compressedImage;
           data["image"] = await MultipartFile.fromFile(compressedImage.path,
               filename: "image");
@@ -129,7 +128,6 @@ class AddunitController extends GetxController {
   }
 
   void handleSubmit() async {
-    print(data);
     if (data.length < 5 || data["code_number"] == 0) {
       snackbar(
           title: "Warning", message: "Please fill all fields", type: "warning");

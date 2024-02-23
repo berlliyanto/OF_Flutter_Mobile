@@ -122,6 +122,7 @@ class TextInput extends StatelessWidget {
   final String? label;
   final TextEditingController? controller;
   final String? Function(String? value)? validator;
+  final TextAlign textAlign;
 
   const TextInput(
       {required this.colors,
@@ -142,6 +143,7 @@ class TextInput extends StatelessWidget {
       this.label,
       this.isEnabled = true,
       this.validator,
+      this.textAlign = TextAlign.start,
       super.key});
 
   Widget showErrorText() {
@@ -197,13 +199,14 @@ class TextInput extends StatelessWidget {
         Container(
             width: width,
             alignment: Alignment.center,
-            padding: const EdgeInsets.only(right: 10),
+            padding: const EdgeInsets.only(right: 10, top: 2, bottom: 2),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: colors.whiteSmoke,
               border: Border.all(color: setBorderColor(), width: 1),
             ),
             child: TextFormField(
+              textAlign: textAlign,
               validator: validator,
               enabled: isEnabled,
               controller: controller,

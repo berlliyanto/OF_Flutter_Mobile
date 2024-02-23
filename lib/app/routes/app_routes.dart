@@ -22,6 +22,10 @@ abstract class Routes {
   static const USER_PASSWORD = _Paths.USER_PASSWORD;
   static const HUMANCAPITAL = _Paths.HUMANCAPITAL;
   static const MAINTENANCE = _Paths.MAINTENANCE;
+  static const ABSENCEREQUEST = _Paths.ABSENCEREQUEST;
+  static const APPROVAL = _Paths.APPROVAL;
+  static const ABSENCEHISTORY = _Paths.ABSENCEHISTORY;
+  static const EMPLOYEE = _Paths.EMPLOYEE;
 }
 
 abstract class _Paths {
@@ -43,4 +47,8 @@ abstract class _Paths {
   static const USER_PASSWORD = '/user-password';
   static const HUMANCAPITAL = '/humancapital';
   static const MAINTENANCE = '/maintenance';
+  static const ABSENCEREQUEST = '/absencerequest';
+  static const APPROVAL = '/approval';
+  static const ABSENCEHISTORY = '/absencehistory';
+  static const EMPLOYEE = '/employee';
 }

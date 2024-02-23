@@ -4,7 +4,15 @@ String formatDate(DateTime? date) {
   if (date == null) {
     return '-';
   } else {
-    return DateFormat('dd MMMM yyyy - HH:mm:ss').format(date);
+    return DateFormat('EEEE, dd MMMM yyyy HH:mm:ss', 'id_ID').format(date);
+  }
+}
+
+String formatDateNoTime(DateTime? date) {
+  if (date == null) {
+    return '-';
+  } else {
+    return DateFormat('EEEE, dd MMMM yyyy', 'id_ID').format(date);
   }
 }
 
@@ -46,4 +54,13 @@ double differenceTime(String startTime, String endTime) {
   double roundedTime = double.parse(totalTimeInDecimal.toStringAsFixed(1));
 
   return roundedTime;
+}
+
+int calculateDateDifference(DateTime startDate, DateTime endDate) {
+  startDate = DateTime(startDate.year, startDate.month, startDate.day);
+  endDate = DateTime(endDate.year, endDate.month, endDate.day);
+
+  final difference = endDate.difference(startDate).inDays;
+
+  return difference.abs();
 }

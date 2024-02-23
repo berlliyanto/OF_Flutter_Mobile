@@ -14,8 +14,10 @@ Widget searchDropdown({
       suggestionsCallback,
   required Function(Map<String, dynamic>?) onSelected,
   required TextEditingController textEditingController,
+  ScrollController? scrollController,
 }) {
   return TypeAheadField<Map<String, dynamic>>(
+    scrollController: scrollController,
     suggestionsCallback: suggestionsCallback,
     controller: textEditingController,
     debounceDuration: 500.ms,

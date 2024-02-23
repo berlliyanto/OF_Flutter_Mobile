@@ -65,9 +65,7 @@ class ListforkliftView extends GetView<ListforkliftController> {
                 hint: "Location",
                 width: Get.width,
                 colors: colors,
-                value: controller.location.value == 0
-                    ? null
-                    : controller.location.value,
+                value: dropdownValue(controller.location.value),
                 onChanged: (value) =>
                     controller.handleOnChange(value, "location_id")),
           ).animate().slideX(begin: -1, end: 0),
@@ -78,7 +76,7 @@ class ListforkliftView extends GetView<ListforkliftController> {
               hint: "PIC",
               width: Get.width,
               colors: colors,
-              value: controller.pic.value == 0 ? null : controller.pic.value,
+              value: dropdownValue(controller.pic.value),
               onChanged: (value) => controller.handleOnChange(value, "pic_id"),
             ),
           ).animate().slideX(begin: 1, end: 0),
@@ -102,7 +100,7 @@ class ListforkliftView extends GetView<ListforkliftController> {
         ),
       dataTable(
         dataColumns: datatableHeader(
-          ["No", "Unit Code", "Location", "Hour Mtr", "PIC", "Action"],
+          ["No", "Unit Code", "Location", "Hour Meter", "PIC", "Action"],
         ),
         source: controller.source,
         rowsPerPage: controller.meta.perPage,

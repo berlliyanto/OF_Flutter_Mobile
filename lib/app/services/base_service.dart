@@ -46,7 +46,9 @@ class BaseServices {
     } on DioException catch (error) {
       checkException(error,
           error.response != null ? error.response!.data['message'] : "Error");
-      return Response(statusCode: 400, requestOptions: RequestOptions());
+      return Response(
+          statusCode: error.response != null ? error.response!.statusCode : 400,
+          requestOptions: RequestOptions());
     } catch (e) {
       return Response(statusCode: 400, requestOptions: RequestOptions());
     }
@@ -69,7 +71,9 @@ class BaseServices {
     } on DioException catch (error) {
       checkException(error,
           error.response != null ? error.response!.data['message'] : "Error");
-      return Response(statusCode: 400, requestOptions: RequestOptions());
+      return Response(
+          statusCode: error.response != null ? error.response!.statusCode : 400,
+          requestOptions: RequestOptions());
     } catch (e) {
       return Response(statusCode: 400, requestOptions: RequestOptions());
     }
@@ -97,7 +101,9 @@ class BaseServices {
     } on DioException catch (error) {
       checkException(error,
           error.response != null ? error.response!.data['message'] : "Error");
-      return Response(statusCode: 400, requestOptions: RequestOptions());
+      return Response(
+          statusCode: error.response != null ? error.response!.statusCode : 400,
+          requestOptions: RequestOptions());
     } catch (e) {
       return Response(statusCode: 400, requestOptions: RequestOptions());
     }
@@ -120,7 +126,9 @@ class BaseServices {
     } on DioException catch (error) {
       checkException(error,
           error.response != null ? error.response!.data['message'] : "Error");
-      return Response(statusCode: 400, requestOptions: RequestOptions());
+      return Response(
+          statusCode: error.response != null ? error.response!.statusCode : 400,
+          requestOptions: RequestOptions());
     } catch (e) {
       return Response(statusCode: 400, requestOptions: RequestOptions());
     }
@@ -158,7 +166,7 @@ class BaseServices {
       checkException(error,
           error.response != null ? error.response!.data['message'] : "Error");
       return Response(
-          statusCode: error.response!.statusCode,
+          statusCode: error.response != null ? error.response!.statusCode : 400,
           requestOptions: RequestOptions());
     } on Exception catch (e) {
       snackbar(

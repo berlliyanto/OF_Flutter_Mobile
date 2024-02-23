@@ -32,6 +32,7 @@ class CheckHistorySource extends DataTableSource {
         operator: item.operator,
         forklift: item.forklift,
         forkliftHourMeter: item.forkliftHourMeter,
+        diffHourMeter: item.diffHourMeter,
         docs: item.docs,
         items: item.items,
         shift: item.shift,
@@ -46,31 +47,6 @@ class CheckHistorySource extends DataTableSource {
 
     updateData(newData);
   }
-
-  // void sort<T>(
-  //   Comparable<T> Function(AssignmentModel) getField,
-  //   String columnName,
-  //   int columnIndex,
-  //   bool sortAscending,
-  // ) {
-  //   //sortColumn.updateAll((key, value) => SortOrder.none);
-
-  //   if (sortColumn[columnName] == SortOrder.ascending) {
-  //     sortColumn[columnName] = SortOrder.descending;
-  //   } else {
-  //     sortColumn[columnName] = SortOrder.ascending;
-  //   }
-
-  //   data.sort((a, b) {
-  //     final aValue = getField(a);
-  //     final bValue = getField(b);
-  //     return sortColumn[columnName] == SortOrder.ascending
-  //         ? aValue.compareTo(bValue as T)
-  //         : bValue.compareTo(aValue as T);
-  //   });
-
-  //   notifyListeners();
-  // }
 
   void setRow(int total, int currentPagee, int perPagee) {
     totalRow = total;
@@ -124,6 +100,13 @@ class CheckHistorySource extends DataTableSource {
           Text(
             dataRow.forkliftHourMeter != null
                 ? dataRow.forkliftHourMeter.toString()
+                : "-",
+          ),
+        ),
+        DataCell(
+          Text(
+            dataRow.diffHourMeter != null
+                ? dataRow.diffHourMeter.toString()
                 : "-",
           ),
         ),

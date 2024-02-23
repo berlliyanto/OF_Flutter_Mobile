@@ -6,6 +6,7 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:of_flutter_mobile/app/config/loading_config.dart';
 import 'package:of_flutter_mobile/app/dependency/dependency_injection.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -26,6 +27,8 @@ void main() async {
     FlutterError.presentError(details);
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
+
+  await initializeDateFormatting('id_ID', null);
 
   await GetStorage.init();
   runApp(const MyApp());

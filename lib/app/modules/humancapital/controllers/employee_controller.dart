@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:of_flutter_mobile/app/models/user_model.dart';
-import 'package:of_flutter_mobile/app/services/user/user_service.dart';
+import 'package:of_flutter_mobile/app/models/employee_model.dart';
+import 'package:of_flutter_mobile/app/services/employee/employee_service.dart';
 import 'package:of_flutter_mobile/app/utils/query_builder.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class ListoperatorController extends GetxController {
-  final TextEditingController searchController = TextEditingController();
+class EmployeeController extends GetxController {
+  final TextEditingController searchNameController = TextEditingController();
+  final TextEditingController annualLeaveController = TextEditingController();
   final scrollController = ScrollController();
+
+  List<EmployeeModel> employees = [];
 
   var isLoading = false.obs;
   var loadingScroll = false.obs;
@@ -16,8 +20,6 @@ class ListoperatorController extends GetxController {
   var page = 1.obs;
   var sort = "asc".obs;
   var activeQuery = "page=1&per_page=10".obs;
-
-  List<UserModel> operators = [];
 
   void refreshData(RefreshController refreshController) async {
     isLoadingScroll.value = false;
@@ -27,14 +29,22 @@ class ListoperatorController extends GetxController {
     refreshController.refreshCompleted();
   }
 
+  void scrollListener() async {
+    if (scrollController.position.pixels ==
+            scrollController.position.maxScrollExtent &&
+        !isLoadingScroll.value) {
+      handleOnChange("1", "page");
+    }
+  }
+
   void handleOnChange(String value, String type) {
     switch (type) {
-      case "search":
+      case "name":
         isLoadingScroll.value = false;
         activeQuery.value =
             queryBuilder(activeQuery: activeQuery.value, query: "page=1");
-        activeQuery.value = queryBuilder(
-            activeQuery: activeQuery.value, query: "search=$value");
+        activeQuery.value =
+            queryBuilder(activeQuery: activeQuery.value, query: "name=$value");
       case "page":
         isLoadingScroll.value = true;
         page.value += int.parse(value);
@@ -46,28 +56,36 @@ class ListoperatorController extends GetxController {
             queryBuilder(activeQuery: activeQuery.value, query: "page=1");
         activeQuery.value =
             queryBuilder(activeQuery: activeQuery.value, query: "sort=$value");
+      case "add":
+        annualLeaveController.text =
+            (int.parse(annualLeaveController.text) + 1).toString();
+      case "min":
+        if (annualLeaveController.text == "0") return;
+        annualLeaveController.text =
+            (int.parse(annualLeaveController.text) - 1).toString();
       default:
     }
 
     update();
   }
 
-  Future indexOperator(String query) async {
+  Future<void> getEmployees(String query) async {
     if (!isLoadingScroll.value) {
       isLoading.value = true;
     } else {
       loadingScroll.value = true;
     }
     update();
-    final response = await UserService().indexOperator(query: query);
+
+    final response = await EmployeeService().index(query: query);
     if (response.data != null) {
       if (!isLoadingScroll.value) {
-        operators = (response.data['data'] as List)
-            .map((e) => UserModel.fromJson(e))
+        employees = (response.data['data'] as List)
+            .map((e) => EmployeeModel.fromJson(e))
             .toList();
       } else {
-        operators.addAll((response.data['data'] as List)
-            .map((e) => UserModel.fromJson(e))
+        employees.addAll((response.data['data'] as List)
+            .map((e) => EmployeeModel.fromJson(e))
             .toList());
       }
     }
@@ -80,21 +98,27 @@ class ListoperatorController extends GetxController {
     update();
   }
 
-  void scrollListener() async {
-    if (scrollController.position.pixels ==
-            scrollController.position.maxScrollExtent &&
-        !isLoadingScroll.value) {
-      handleOnChange("1", "page");
+  Future<void> updateAnnualLeaveAllowance(int id) async {
+    EasyLoading.show(status: "Loading...");
+    final response = await EmployeeService().updateAllowance(
+        allowance: int.parse(annualLeaveController.text), id: id);
+    if (response.data != null) {
+      Get.back();
+      EasyLoading.dismiss();
+      EasyLoading.showSuccess("Success Update");
+      await getEmployees("page=1&per_page=10");
+    } else {
+      EasyLoading.dismiss();
     }
   }
 
   @override
   void onInit() {
     super.onInit();
-    indexOperator(activeQuery.value);
+    getEmployees(activeQuery.value);
     scrollController.addListener(scrollListener);
     debounce(activeQuery, time: 800.ms, (callback) {
-      indexOperator(activeQuery.value);
+      getEmployees(activeQuery.value);
     });
   }
 }

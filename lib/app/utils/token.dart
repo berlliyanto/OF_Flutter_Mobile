@@ -52,8 +52,6 @@ dynamic getUser() {
     user["id"] = storageUser["id"];
   }
 
-  log(user.toString());
-
   return user;
 }
 

@@ -25,6 +25,7 @@ class UserprofileController extends GetxController {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController roleController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController leaveController = TextEditingController();
   Links links = Links(first: "", last: "", prev: "", next: "");
   Meta meta = Meta(
     currentPage: 1,
@@ -130,6 +131,8 @@ class UserprofileController extends GetxController {
         nameController.text = userModel.name!;
         roleController.text = userModel.roles![0].name;
         emailController.text = userModel.email!;
+        leaveController.text =
+            userModel.employee!.annualLeaveAllowance.toString();
 
         links = Links.fromJson(response.data['links']);
         meta = Meta.fromJson(response.data['meta']);
@@ -145,6 +148,8 @@ class UserprofileController extends GetxController {
         nameController.text = userModel.name!;
         roleController.text = userModel.roles![0].name;
         emailController.text = userModel.email!;
+        leaveController.text =
+            userModel.employee!.annualLeaveAllowance.toString();
 
         links = Links.fromJson(response.data['links']);
         meta = Meta.fromJson(response.data['meta']);

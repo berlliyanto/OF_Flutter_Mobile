@@ -7,10 +7,14 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 Future<Uint8List> getSizeCompressedImage(File file) async {
   var result = await FlutterImageCompress.compressWithFile(
     file.absolute.path,
-    quality: 80,
+    quality: 75,
+    minHeight: 720,
+    minWidth: 1280,
   );
+
   log("Original File Size : ${file.lengthSync()} Bytes");
   log("Compressed File Size : ${result!.length} Bytes");
+
   return result;
 }
 
@@ -18,6 +22,8 @@ Future<File> getCompressedImage(File file, String targetPath) async {
   var result = await FlutterImageCompress.compressAndGetFile(
     file.absolute.path,
     targetPath,
+    minHeight: 720,
+    minWidth: 1280,
     quality: 75,
   );
 
