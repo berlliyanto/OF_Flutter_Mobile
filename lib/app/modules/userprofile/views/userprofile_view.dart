@@ -136,7 +136,9 @@ class UserprofileView extends GetView<UserprofileController> {
       const Gap(10),
       buttonCondition(),
       const Gap(10),
-      const Heading(heading: "h2", text: "Checklists Unit"),
+      if (controller.userModel.roles![0].name == "Operator" ||
+          controller.userModel.roles![0].name == "Supervisor")
+        const Heading(heading: "h2", text: "Checklists Unit"),
       if (controller.userModel.roles![0].name == "Operator" ||
           controller.userModel.roles![0].name == "Supervisor")
         dataTable(

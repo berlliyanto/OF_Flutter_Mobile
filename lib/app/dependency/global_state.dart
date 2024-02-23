@@ -15,10 +15,11 @@ class GlobalState extends GetxController {
 
   void handleDrawerMenu(dynamic route) async {
     if (route != null) {
-      if (route == Routes.HOME) {
-        Get.offAllNamed(Routes.HOME);
+      if (route == Routes.USERPROFILE) {
+        Get.toNamed(route);
       }
-      Get.toNamed(route);
+
+      Get.offAllNamed(route);
       return;
     }
 

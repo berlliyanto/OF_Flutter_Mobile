@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
+import 'package:of_flutter_mobile/app/models/pagination_model.dart';
 import 'package:of_flutter_mobile/app/models/user_model.dart';
 import 'package:of_flutter_mobile/app/services/user/user_service.dart';
 import 'package:of_flutter_mobile/app/utils/query_builder.dart';
@@ -9,6 +12,16 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 class ListoperatorController extends GetxController {
   final TextEditingController searchController = TextEditingController();
   final scrollController = ScrollController();
+  Meta meta = Meta(
+    currentPage: 1,
+    from: null,
+    lastPage: 1,
+    perPage: 10,
+    to: null,
+    path: "",
+    total: 0,
+    links: [],
+  );
 
   var isLoading = false.obs;
   var loadingScroll = false.obs;
@@ -60,7 +73,8 @@ class ListoperatorController extends GetxController {
     }
     update();
     final response = await UserService().indexOperator(query: query);
-    if (response.data != null) {
+    if (response.statusCode == 200) {
+      meta = Meta.fromJson(response.data['meta']);
       if (!isLoadingScroll.value) {
         operators = (response.data['data'] as List)
             .map((e) => UserModel.fromJson(e))
@@ -84,7 +98,12 @@ class ListoperatorController extends GetxController {
     if (scrollController.position.pixels ==
             scrollController.position.maxScrollExtent &&
         !isLoadingScroll.value) {
-      handleOnChange("1", "page");
+      if (operators.length < meta.total) {
+        log("${operators.length}, ${meta.total}");
+        handleOnChange("1", "page");
+      }
+    } else {
+      isLoadingScroll.value = false;
     }
   }
 

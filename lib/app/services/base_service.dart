@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:get/utils.dart';
 import 'package:of_flutter_mobile/app/components/widgets/snackbar/snackbar.dart';
@@ -44,6 +46,7 @@ class BaseServices {
             message: response.data['message'].toString());
       }
     } on DioException catch (error) {
+      log(error.toString());
       checkException(error,
           error.response != null ? error.response!.data['message'] : "Error");
       return Response(
@@ -69,6 +72,7 @@ class BaseServices {
             message: response.data['message'].toString());
       }
     } on DioException catch (error) {
+      log(error.toString());
       checkException(error,
           error.response != null ? error.response!.data['message'] : "Error");
       return Response(
@@ -99,6 +103,8 @@ class BaseServices {
             message: response.data['message'].toString());
       }
     } on DioException catch (error) {
+      log(error.toString());
+
       checkException(error,
           error.response != null ? error.response!.data['message'] : "Error");
       return Response(
@@ -124,6 +130,8 @@ class BaseServices {
             message: response.data['message'].toString());
       }
     } on DioException catch (error) {
+      log(error.toString());
+
       checkException(error,
           error.response != null ? error.response!.data['message'] : "Error");
       return Response(
@@ -163,6 +171,8 @@ class BaseServices {
             message: response.data['message'].toString());
       }
     } on DioException catch (error) {
+      log(error.toString());
+
       checkException(error,
           error.response != null ? error.response!.data['message'] : "Error");
       return Response(

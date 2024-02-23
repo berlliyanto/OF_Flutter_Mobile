@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
@@ -24,18 +25,49 @@ Widget drawerHeader({required ColorPicker colors}) {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         if (getUser()['image'] != "")
-          CircleAvatar(
-            radius: 35,
-            backgroundColor: colors.primaryBlack,
-            backgroundImage: NetworkImage(
-              urlImageBuilder(
-                transaction: "show",
-                type: "user",
-                image: getUser()['image'],
-              ),
-            ),
-            onBackgroundImageError: (exception, stackTrace) {
-              print(exception);
+          CachedNetworkImage(
+            imageUrl: urlImageBuilder(
+                transaction: "show", type: "user", image: getUser()['image']),
+            errorWidget: (context, url, error) {
+              return Container(
+                height: 70,
+                width: 70,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(35),
+                  color: colors.grey.withOpacity(0.1),
+                ),
+                child: const Center(
+                  child: Icon(
+                    FontAwesomeIcons.triangleExclamation,
+                    size: 20,
+                  ),
+                ),
+              );
+            },
+            placeholder: (context, url) {
+              return Container(
+                height: 70,
+                width: 70,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(35),
+                  color: colors.grey.withOpacity(0.1),
+                ),
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            },
+            imageBuilder: (context, imageProvider) {
+              return Container(
+                height: 70,
+                width: 70,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(35),
+                  color: colors.grey,
+                  image:
+                      DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                ),
+              );
             },
           )
         else
