@@ -7,6 +7,7 @@ class Paragraph extends StatelessWidget {
   final TextAlign textAlign;
   final FontWeight fontWeight;
   final TextOverflow overflow;
+  final int? maxLines;
   const Paragraph(
       {required this.text,
       this.fontSize = 14,
@@ -14,6 +15,7 @@ class Paragraph extends StatelessWidget {
       this.textAlign = TextAlign.left,
       this.fontWeight = FontWeight.normal,
       this.overflow = TextOverflow.clip,
+      this.maxLines,
       super.key});
 
   @override
@@ -21,6 +23,7 @@ class Paragraph extends StatelessWidget {
     return Text(
       text,
       textAlign: textAlign,
+      maxLines: maxLines,
       style: TextStyle(
         fontSize: fontSize,
         color: color,

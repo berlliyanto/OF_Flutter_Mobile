@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:of_flutter_mobile/app/services/base_service.dart';
 
@@ -24,6 +26,7 @@ class AuthService extends BaseServices {
             message: response.data['message'].toString());
       }
     } on DioException catch (error) {
+      log(error.toString());
       checkException(error,
           error.response != null ? error.response!.data['message'] : "Error");
       return Response(statusCode: 400, requestOptions: RequestOptions());
@@ -56,6 +59,7 @@ class AuthService extends BaseServices {
             message: response.data['message'].toString());
       }
     } on DioException catch (error) {
+      log(error.toString());
       checkException(error,
           error.response != null ? error.response!.data['message'] : "Error");
       return Response(statusCode: 400, requestOptions: RequestOptions());

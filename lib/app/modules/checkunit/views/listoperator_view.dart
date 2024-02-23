@@ -13,6 +13,7 @@ import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
 import 'package:of_flutter_mobile/app/components/widgets/tile/tile_user.dart';
 import 'package:of_flutter_mobile/app/routes/app_pages.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
+import 'package:of_flutter_mobile/app/utils/formatter.dart';
 import 'package:of_flutter_mobile/app/utils/token.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -40,7 +41,8 @@ class ListoperatorView extends GetView<ListoperatorController> {
           colors: colors,
           name: e.name!,
           subtitle1: "Man Hour : ${e.manHour!}",
-          subtitle2: "Last Check : ${e.lastChecklist ?? 'No checklist yet'}",
+          subtitle2:
+              "Last Check : ${e.lastChecklist != null ? formatDate(e.lastChecklist) : 'No checklist yet'}",
           image: e.image ?? "",
           onTap: () {
             if (getUser()["role"] == "User" || getUser()["role"] == "Mekanik") {

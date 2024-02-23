@@ -443,6 +443,7 @@ class CheckreportView extends GetView<CheckreportController> {
                   url: controller.createUrlImage("front"),
                   additionalText: "(Sisi Depan)",
                   fontSize: 20,
+                  iconSize: Get.width > 720 ? 70 : 40,
                   height: 200,
                   width: Get.width,
                   onTap: () => arg != null
@@ -460,6 +461,7 @@ class CheckreportView extends GetView<CheckreportController> {
                   url: controller.createUrlImage("back"),
                   additionalText: "(Sisi Belakang)",
                   fontSize: 20,
+                  iconSize: Get.width > 720 ? 70 : 40,
                   height: 200,
                   width: Get.width,
                   onTap: () => arg != null
@@ -477,6 +479,7 @@ class CheckreportView extends GetView<CheckreportController> {
                   url: controller.createUrlImage("right"),
                   additionalText: "(Sisi Kanan)",
                   fontSize: 20,
+                  iconSize: Get.width > 720 ? 70 : 40,
                   height: 200,
                   width: Get.width,
                   onTap: () => arg != null
@@ -494,6 +497,7 @@ class CheckreportView extends GetView<CheckreportController> {
                   url: controller.createUrlImage("left"),
                   additionalText: "(Sisi Kiri)",
                   fontSize: 20,
+                  iconSize: Get.width > 720 ? 70 : 40,
                   height: 200,
                   width: Get.width,
                   onTap: () => arg != null

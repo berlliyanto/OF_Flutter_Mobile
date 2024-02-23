@@ -35,7 +35,9 @@ class UserModel {
         username: json["username"],
         email: json["email"],
         manHour: json["man_hour"],
-        lastChecklist: json["last_checklist"],
+        lastChecklist: json["last_checklist"] == null
+            ? null
+            : DateTime.parse(json['last_checklist']),
         image: json["image"],
         createdAt: json["created_at"],
         updatedAt: json["updated_at"],

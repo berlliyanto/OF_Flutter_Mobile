@@ -25,7 +25,7 @@ Widget singleCheckUnit({
           Checkbox(value: valueOK, onChanged: onTapOk),
           const Gap(45),
           Checkbox(value: valueNotOk, onChanged: onTapNotOk),
-          const Gap(65),
+          const Gap(25),
         ],
       ),
     ],

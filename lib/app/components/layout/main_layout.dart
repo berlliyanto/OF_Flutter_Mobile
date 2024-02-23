@@ -30,9 +30,9 @@ class MainLayout extends StatelessWidget {
         return SmartRefresher(
           controller: refreshController!,
           onRefresh: onRefresh,
-          header: const WaterDropMaterialHeader(
-            offset: 100,
-            backgroundColor: Color(0xFF19A7CE),
+          header: WaterDropMaterialHeader(
+            offset: Get.height * 0.12,
+            backgroundColor: const Color(0xFF19A7CE),
             distance: 50,
           ),
           child: ListView(

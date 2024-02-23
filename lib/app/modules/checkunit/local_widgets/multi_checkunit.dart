@@ -37,7 +37,7 @@ Widget multiCheckUnit({
                   text: "Tidak",
                   fontWeight: FontWeight.w600,
                 ),
-                Gap(80),
+                Gap(40),
               ],
             ),
         ],
@@ -66,7 +66,7 @@ Widget multiCheckUnit({
                         Checkbox(
                             value: isChecked(data, item['key'] ?? '', false),
                             onChanged: (value) => onTapNotOk(value, item)),
-                        const Gap(65),
+                        const Gap(25),
                       ],
                     )
                   ],

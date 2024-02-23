@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class Heading extends StatelessWidget {
   final String heading, text;
@@ -7,6 +8,7 @@ class Heading extends StatelessWidget {
   final double size;
   final FontWeight fontWeight;
   final TextOverflow overflow;
+  final int maxLines;
   const Heading(
       {required this.heading,
       required this.text,
@@ -15,6 +17,7 @@ class Heading extends StatelessWidget {
       this.size = 0,
       this.fontWeight = FontWeight.bold,
       this.overflow = TextOverflow.clip,
+      this.maxLines = 1,
       super.key});
 
   double get getFontSize {
@@ -44,8 +47,9 @@ class Heading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
+    return AutoSizeText(
       text,
+      maxLines: maxLines,
       textAlign: textAlign,
       style: TextStyle(
         color: getColor,

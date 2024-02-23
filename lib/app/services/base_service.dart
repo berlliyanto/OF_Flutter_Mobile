@@ -203,6 +203,7 @@ class BaseServices {
   void checkException(DioException error, String message) {
     APIException exception = APIException();
     List<String> errorMessage = exception.getExceptionMessage(error, message);
+    log(errorMessage.toString());
 
     snackbar(title: errorMessage[0], message: errorMessage[1], type: "error");
   }

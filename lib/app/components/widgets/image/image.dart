@@ -41,10 +41,12 @@ Widget imageCard({
           ),
           const Gap(10),
           Heading(
-              heading: "h1",
-              size: fontSize,
-              text: "Tap to add image $additionalText",
-              textAlign: TextAlign.center),
+            heading: "h1",
+            size: fontSize,
+            text: "Tap to add image $additionalText",
+            textAlign: TextAlign.center,
+            maxLines: 2,
+          ),
         ],
       );
     }

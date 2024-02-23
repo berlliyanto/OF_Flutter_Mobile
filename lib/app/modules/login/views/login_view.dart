@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:of_flutter_mobile/app/components/layout/main_layout.dart';
 import 'package:of_flutter_mobile/app/components/layout/background_layout.dart';
@@ -22,17 +23,20 @@ class LoginView extends GetView<LoginController> {
           showBottom: true,
           showLogo: builder.isLogoVisible.value,
           child: MainLayout(
-            isScrollable: false,
+            isScrollable: true,
             crossAxis: CrossAxisAlignment.start,
             mainAxis: MainAxisAlignment.center,
             paddingLR: 15,
             children: <Widget>[
+              Gap(Get.height * 0.2),
               const Hero(
                 tag: "h1_auth",
                 child: Heading(
-                    heading: "h1",
-                    text: "CARGIL OPERATOR MANAGEMENT SYSTEM",
-                    textAlign: TextAlign.center),
+                  heading: "h1",
+                  text: "CARGILL OPERATOR MANAGEMENT SYSTEM",
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                ),
               ),
               const Center(
                 child: Hero(

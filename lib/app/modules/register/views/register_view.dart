@@ -33,9 +33,11 @@ class RegisterView extends GetView<RegisterController> {
               const Hero(
                 tag: "h1_auth",
                 child: Heading(
-                    heading: "h1",
-                    text: "CARGIL OPERATOR MANAGEMENT SYSTEM",
-                    textAlign: TextAlign.center),
+                  heading: "h1",
+                  text: "CARGILL OPERATOR MANAGEMENT SYSTEM",
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                ),
               ),
               const Center(
                 child: Hero(

@@ -32,9 +32,11 @@ class SplashView extends GetView<SplashController> {
               Hero(
                 tag: "h1_auth",
                 child: Heading(
-                    heading: "h1",
-                    text: "CARGILL OPERATOR MANAGEMENT SYSTEM",
-                    textAlign: TextAlign.center),
+                  heading: "h1",
+                  text: "CARGILL OPERATOR MANAGEMENT SYSTEM",
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                ),
               ),
             ],
           ),
