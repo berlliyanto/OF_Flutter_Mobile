@@ -43,6 +43,7 @@ class ListoperatorController extends GetxController {
   void handleOnChange(String value, String type) {
     switch (type) {
       case "search":
+        page.value = 1;
         isLoadingScroll.value = false;
         activeQuery.value =
             queryBuilder(activeQuery: activeQuery.value, query: "page=1");
@@ -55,6 +56,7 @@ class ListoperatorController extends GetxController {
             queryBuilder(activeQuery: activeQuery.value, query: "page=$page");
       case "sort":
         isLoadingScroll.value = false;
+        page.value = 1;
         activeQuery.value =
             queryBuilder(activeQuery: activeQuery.value, query: "page=1");
         activeQuery.value =
@@ -97,13 +99,11 @@ class ListoperatorController extends GetxController {
   void scrollListener() async {
     if (scrollController.position.pixels ==
             scrollController.position.maxScrollExtent &&
-        !isLoadingScroll.value) {
+        !loadingScroll.value) {
       if (operators.length < meta.total) {
         log("${operators.length}, ${meta.total}");
         handleOnChange("1", "page");
       }
-    } else {
-      isLoadingScroll.value = false;
     }
   }
 

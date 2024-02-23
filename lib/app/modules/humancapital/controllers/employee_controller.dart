@@ -40,24 +40,24 @@ class EmployeeController extends GetxController {
     activeQuery.value =
         queryBuilder(activeQuery: activeQuery.value, query: "page=1");
     refreshController.refreshCompleted();
+    loadingScroll.value = false;
   }
 
   void scrollListener() async {
     if (scrollController.position.pixels ==
             scrollController.position.maxScrollExtent &&
-        !isLoadingScroll.value) {
+        !loadingScroll.value) {
       if (employees.length < meta.total) {
         log("${employees.length}, ${meta.total}");
         handleOnChange("1", "page");
       }
-    } else {
-      isLoadingScroll.value = false;
     }
   }
 
   void handleOnChange(String value, String type) {
     switch (type) {
       case "name":
+        page.value = 1;
         isLoadingScroll.value = false;
         activeQuery.value =
             queryBuilder(activeQuery: activeQuery.value, query: "page=1");
@@ -69,6 +69,7 @@ class EmployeeController extends GetxController {
         activeQuery.value =
             queryBuilder(activeQuery: activeQuery.value, query: "page=$page");
       case "sort":
+        page.value = 1;
         isLoadingScroll.value = false;
         activeQuery.value =
             queryBuilder(activeQuery: activeQuery.value, query: "page=1");

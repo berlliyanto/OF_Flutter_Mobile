@@ -10,8 +10,8 @@ class AppConfig {
   // Use this in production
   final String url = "https://system-soekiman.com/forklift/api";
 
-  final String version = "1.0.5";
-  final int buildNumber = 5; // => update every new build
+  final String version = "1.0.6";
+  final int buildNumber = 6; // => update every new build
 
   String get getBaseUrl => url;
   int get getBuildNumber => buildNumber;
