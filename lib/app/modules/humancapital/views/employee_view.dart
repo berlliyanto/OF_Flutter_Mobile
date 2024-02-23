@@ -141,6 +141,7 @@ class EmployeeView extends GetView<EmployeeController> {
               isScrollable: true,
               refreshController: refreshController,
               onRefresh: () => builder.refreshData(refreshController),
+              scrollController: builder.scrollController,
               children: [
                 title(
                   title: "Employees",
