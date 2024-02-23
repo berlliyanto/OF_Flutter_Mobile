@@ -12,6 +12,7 @@ import 'package:of_flutter_mobile/app/components/widgets/button/gradient_button.
 import 'package:of_flutter_mobile/app/components/widgets/dropdown/search_dropdown.dart';
 import 'package:of_flutter_mobile/app/components/widgets/dropdown/single_dropdown_less.dart';
 import 'package:of_flutter_mobile/app/components/widgets/image/image.dart';
+import 'package:of_flutter_mobile/app/components/widgets/input/horizontal_label_input.dart';
 import 'package:of_flutter_mobile/app/components/widgets/input/text_input.dart';
 import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_bigrectangle.dart';
 import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_tile.dart';
@@ -81,6 +82,36 @@ class CheckreportView extends GetView<CheckreportController> {
               heading: "h2",
               text:
                   "Location : ${controller.main.containsKey("forklifts") ? controller.main['forklifts']['location']['name'] ?? '' : ''}",
+            ),
+          ],
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              backgroundColor: colors.cyan,
+              radius: 8,
+            ),
+            const Gap(5),
+            Heading(
+              heading: "h2",
+              text:
+                  "Hour Meter : ${controller.main['forklift_hour_meter'] ?? ''}",
+            ),
+          ],
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              backgroundColor: colors.cyanDark,
+              radius: 8,
+            ),
+            const Gap(5),
+            Heading(
+              heading: "h2",
+              text:
+                  "Actual Hour Meter : ${controller.main['diff_hour_meter'] ?? '-'}",
             ),
           ],
         ),
@@ -182,6 +213,20 @@ class CheckreportView extends GetView<CheckreportController> {
         onSelected: (data) => controller.onTypeAheadSelected(data!),
         textEditingController: controller.searchDropDownController,
       ).animate().slideY(duration: 200.ms),
+      const Gap(10),
+      horizontalLabelInput(
+          label: "Forklift Hour Meter",
+          child: TextInput(
+            isEnabled: !controller.isFinish.value,
+            controller: controller.forkliftHMController,
+            keyboardType: TextInputType.number,
+            width: Get.width,
+            colors: colors,
+            onChanged: (value) =>
+                controller.onChangedInput("forklift_hour_meter", value),
+            hint: "Forklift Hour Meter",
+          ),
+          animationDuration: 450),
     ];
   }
 
@@ -217,64 +262,42 @@ class CheckreportView extends GetView<CheckreportController> {
           padding: const EdgeInsets.only(bottom: 10),
           child: Heading(
             heading: "h3",
-            text: "Finish Checklist Here",
+            text: "Finish Checklist",
             color: colors.red,
             size: 28,
           ).animate().slideY(duration: 250.ms),
         ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(right: 15),
-            child: Heading(
-                heading: "h2", text: "Shift", textAlign: TextAlign.start),
-          ),
-          Expanded(
-            child: singleDropdownLess(
-                data: controller.listShift,
-                hint: "Shift",
-                width: Get.width,
-                colors: colors,
-                value: dropdownValue(controller.valueShift.value),
-                onChanged: (value) {
-                  if (arg == null) {
-                    return controller.onChangedInput("shift", value);
-                  } else {
-                    if (controller.isFinish.value) return;
-
-                    controller.onChangedInput("shift", value);
-                  }
-                }),
-          ),
-        ],
-      ).animate().slideY(duration: 250.ms),
-      const Gap(10),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(right: 15),
-            child: Heading(
-                heading: "h2",
-                text: "Pallet Amount",
-                textAlign: TextAlign.start),
-          ),
-          Flexible(
-            child: TextInput(
-              isEnabled: !controller.isFinish.value,
-              controller: controller.palletController,
-              keyboardType: TextInputType.number,
+      horizontalLabelInput(
+          label: "Shift",
+          child: singleDropdownLess(
+              data: controller.listShift,
+              hint: "Shift",
               width: Get.width,
               colors: colors,
-              onChanged: (value) => controller.onChangedInput("pallet", value),
-              hint: "Pallet Amount",
-            ),
+              value: dropdownValue(controller.valueShift.value),
+              onChanged: (value) {
+                if (arg == null) {
+                  return controller.onChangedInput("shift", value);
+                } else {
+                  if (controller.isFinish.value) return;
+
+                  controller.onChangedInput("shift", value);
+                }
+              }),
+          animationDuration: 250),
+      const Gap(10),
+      horizontalLabelInput(
+          label: "Pallet Amount",
+          child: TextInput(
+            isEnabled: !controller.isFinish.value,
+            controller: controller.palletController,
+            keyboardType: TextInputType.number,
+            width: Get.width,
+            colors: colors,
+            onChanged: (value) => controller.onChangedInput("pallet", value),
+            hint: "Pallet Amount",
           ),
-        ],
-      ).animate().slideY(duration: 300.ms),
+          animationDuration: 300),
       const Gap(10),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -329,56 +352,18 @@ class CheckreportView extends GetView<CheckreportController> {
         ],
       ).animate().slideY(duration: 350.ms),
       const Gap(10),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(right: 15),
-            child: Heading(
-                heading: "h2",
-                text: "Productivity Ratio",
-                textAlign: TextAlign.start),
+      horizontalLabelInput(
+          label: "Productivity Ratio",
+          child: TextInput(
+            isEnabled: false,
+            controller: controller.ratioController,
+            keyboardType: TextInputType.number,
+            width: Get.width,
+            colors: colors,
+            onChanged: (value) {},
+            hint: "Productivity Ratio",
           ),
-          Expanded(
-            child: TextInput(
-              isEnabled: false,
-              controller: controller.ratioController,
-              keyboardType: TextInputType.number,
-              width: Get.width,
-              colors: colors,
-              onChanged: (value) {},
-              hint: "Productivity Ratio",
-            ),
-          ),
-        ],
-      ).animate().slideY(duration: 450.ms),
-      const Gap(10),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(right: 15),
-            child: Heading(
-                heading: "h2",
-                text: "Forklift Hour Meter",
-                textAlign: TextAlign.start),
-          ),
-          Expanded(
-            child: TextInput(
-              isEnabled: !controller.isFinish.value,
-              controller: controller.forkliftHMController,
-              keyboardType: TextInputType.number,
-              width: Get.width,
-              colors: colors,
-              onChanged: (value) =>
-                  controller.onChangedInput("forklift_hour_meter", value),
-              hint: "Forklift Hour Meter",
-            ),
-          ),
-        ],
-      ).animate().slideY(duration: 400.ms),
+          animationDuration: 400),
       if (controller.canUpdateFinish.value &&
           !controller.isFinish.value &&
           globalState.getPermissions.contains("finish-checklist"))

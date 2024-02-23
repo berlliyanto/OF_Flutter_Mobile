@@ -160,7 +160,7 @@ class CheckhistoryController extends GetxController {
   void onInit() async {
     super.onInit();
     fetchAllAPI();
-    debounce(activeQuery, time: 300.ms, (callback) async {
+    debounce(activeQuery, time: 800.ms, (callback) async {
       EasyLoading.show(status: "Loading...");
       await indexChecklist(query: "${activeQuery.value}&");
       update();

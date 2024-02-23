@@ -119,6 +119,7 @@ class CheckhistoryView extends GetView<CheckhistoryController> {
           "Tanggal Checklist",
           "Kode Unit",
           "Hour Meter",
+          "Actual Hour Meter",
           "Operator",
           "Shift",
           "Lokasi",

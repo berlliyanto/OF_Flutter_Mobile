@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -50,6 +49,7 @@ class CheckreportController extends GetxController {
   Map<String, dynamic> main = {};
   RxMap<dynamic, dynamic> finishData = {}.obs;
 
+  String compressedImagePath = "/storage/emulated/0/Download/";
   File? imageFront, imageBack, imageLeft, imageRight;
 
   var startTime = "Start Time".obs;
@@ -82,25 +82,32 @@ class CheckreportController extends GetxController {
       case "pallet":
         if (value.length == 0) {
           finishData.remove("pallet_amount");
+        } else {
+          finishData["pallet_amount"] = palletController.text;
         }
-        finishData["pallet_amount"] = palletController.text;
 
         break;
       case "forklift_hour_meter":
-        finishData["forklift_hour_meter"] = value;
+        if (value.length == 0) {
+          main.remove("forklift_hour_meter");
+        } else {
+          main["forklift_hour_meter"] = value;
+        }
 
         break;
       case "forklift_notes":
         if (value.length == 0) {
           docs.remove("forklift_notes");
+        } else {
+          docs["forklift_notes"] = unitNotesController.text;
         }
-        docs["forklift_notes"] = unitNotesController.text;
         break;
       case "safety_notes":
         if (value.length == 0) {
           docs.remove("safety_notes");
+        } else {
+          docs["safety_notes"] = safetyNotesController.text;
         }
-        docs["safety_notes"] = safetyNotesController.text;
         break;
       default:
     }
@@ -178,10 +185,9 @@ class CheckreportController extends GetxController {
     try {
       final File? image = await pickImage(source);
       if (image != null) {
-        Uint8List compressedImageSize = await getSizeCompressedImage(image);
-        if (compressedImageSize.length < 2 * 1024 * 1024) {
-          var compressedImage =
-              await getCompressedImage(image, "compress_image.jpg");
+        var compressedImage =
+            await getCompressedImage(image, "$compressedImagePath/$type.jpg");
+        if (compressedImage.lengthSync() < 2 * 1024 * 1024) {
           if (type == "front") {
             imageFront = compressedImage;
           } else if (type == "back") {
@@ -265,7 +271,6 @@ class CheckreportController extends GetxController {
         } else {
           valueShift.value = 0;
         }
-
         palletController.text =
             (main['pallet_amount'] == 0 ? "" : main['pallet_amount'])
                 .toString();
@@ -358,6 +363,15 @@ class CheckreportController extends GetxController {
     unitGoodCount.value = 0;
     safetyGoodCount.value = 0;
 
+    if (forkliftHMController.text.contains(",")) {
+      snackbar(
+        title: "Warning",
+        message: "Use a period (.) instead of a comma (,) for decimal values.",
+        type: "warning",
+      );
+      return;
+    }
+
     if (imageFront != null) {
       docs["image_front"] = await MultipartFile.fromFile(imageFront!.path,
           filename: "image_front");
@@ -381,8 +395,7 @@ class CheckreportController extends GetxController {
     data['main'] = main;
     data['items'] = items;
     data['docs'] = docs;
-
-    if (data['main'].length < 1 ||
+    if (data['main'].length < 2 ||
         data['items'].length < 37 ||
         data['docs'].length < 4) {
       snackbar(
@@ -451,8 +464,7 @@ class CheckreportController extends GetxController {
       return;
     }
 
-    if (palletController.text.contains(",") ||
-        forkliftHMController.text.contains(",")) {
+    if (palletController.text.contains(",")) {
       snackbar(
         title: "Warning",
         message: "Use a period (.) instead of a comma (,) for decimal values.",
@@ -467,7 +479,7 @@ class CheckreportController extends GetxController {
 
     finishData['is_finish'] = 1;
 
-    if (finishData.length < 8) {
+    if (finishData.length < 7) {
       snackbar(
         title: "Warning",
         message: "Please fill all fields",
