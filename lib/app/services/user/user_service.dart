@@ -22,4 +22,8 @@ class UserService extends BaseServices {
   Future<Response> showOperator({required String id, String query = ""}) async {
     return await get(path: "/user/show/$id", query: query);
   }
+
+  Future<Response> resetPassword({required int id}) async {
+    return await post(path: "/user/reset-password", data: {"user_id": id});
+  }
 }

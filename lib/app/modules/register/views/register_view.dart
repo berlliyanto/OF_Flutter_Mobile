@@ -30,14 +30,11 @@ class RegisterView extends GetView<RegisterController> {
             paddingLR: 15,
             children: <Widget>[
               Gap(Get.height * 0.11),
-              const Hero(
-                tag: "h1_auth",
-                child: Heading(
-                  heading: "h1",
-                  text: "CARGILL OPERATOR MANAGEMENT SYSTEM",
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                ),
+              const Heading(
+                heading: "h1",
+                text: "CARGILL OPERATOR MANAGEMENT SYSTEM",
+                textAlign: TextAlign.center,
+                maxLines: 2,
               ),
               const Center(
                 child: Hero(

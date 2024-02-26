@@ -136,6 +136,14 @@ class UserprofileView extends GetView<UserprofileController> {
       const Gap(10),
       buttonCondition(),
       const Gap(10),
+      if (globalState.getPermissions.contains("reset-password") && arg != null)
+        Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: GradientButton(
+              colors: [colors.yellow, colors.yellowDark],
+              onPressed: () => controller.resetPassword(),
+              text: "Reset Password"),
+        ),
       if (controller.userModel.roles![0].name == "Operator" ||
           controller.userModel.roles![0].name == "Supervisor")
         const Heading(heading: "h2", text: "Checklists Unit"),

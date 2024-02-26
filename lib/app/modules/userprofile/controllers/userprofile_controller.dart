@@ -1,21 +1,27 @@
 import 'dart:io';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get_utils/get_utils.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:of_flutter_mobile/app/components/widgets/bottomsheet/bottomsheet_image.dart';
+import 'package:of_flutter_mobile/app/components/widgets/dialog/awesome_dialog.dart';
+import 'package:of_flutter_mobile/app/components/widgets/text/heading.dart';
+import 'package:of_flutter_mobile/app/components/widgets/text/paragraph.dart';
 import 'package:of_flutter_mobile/app/components/widgets/toast/toast.dart';
 import 'package:of_flutter_mobile/app/models/pagination_model.dart';
 import 'package:of_flutter_mobile/app/models/user_model.dart';
 import 'package:of_flutter_mobile/app/services/user/user_service.dart';
 import 'package:of_flutter_mobile/app/source/datatable/checkhistory_source.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
+import 'package:of_flutter_mobile/app/utils/image_compress.dart';
 import 'package:of_flutter_mobile/app/utils/picker.dart';
 import 'package:of_flutter_mobile/app/utils/query_builder.dart';
 import 'package:of_flutter_mobile/app/utils/url_files.dart';
@@ -37,6 +43,8 @@ class UserprofileController extends GetxController {
     total: 0,
     links: [],
   );
+
+  String compressedImagePath = "/storage/emulated/0/Download/";
   final arg = Get.arguments;
 
   var isLoading = false.obs;
@@ -75,7 +83,13 @@ class UserprofileController extends GetxController {
     try {
       final File? image = await pickImage(source);
       if (image != null) {
-        this.image = image;
+        final compressedImage =
+            await getCompressedImage(image, "$compressedImagePath/user.jpg");
+        if (compressedImage.lengthSync() < 2 * 1024 * 1024) {
+          this.image = compressedImage;
+        } else {
+          toast(message: "Image size too large");
+        }
       } else {
         toast(message: "Pick image canceled");
       }
@@ -119,6 +133,51 @@ class UserprofileController extends GetxController {
     }
 
     EasyLoading.dismiss();
+  }
+
+  Future<void> resetPassword() async {
+    EasyLoading.show(status: "Loading...");
+    final response = await UserService().resetPassword(id: userModel.id!);
+    if (response.statusCode == 200) {
+      EasyLoading.dismiss();
+      String newPassword = response.data['data']['password'];
+      awesomeDialog(
+          type: DialogType.success,
+          title: "",
+          desc: "",
+          body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Heading(heading: "h1", text: "Success Reset Password"),
+                const Gap(20),
+                const Paragraph(
+                    text: "Copy this new password then give to user"),
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  width: Get.width,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Center(
+                    child: SelectableText(
+                      newPassword,
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ));
+    } else {
+      EasyLoading.dismiss();
+    }
   }
 
   Future<void> getUserProfile() async {

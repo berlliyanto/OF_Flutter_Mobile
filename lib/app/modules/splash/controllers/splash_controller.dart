@@ -56,7 +56,7 @@ class SplashController extends GetxController {
                     child: const Paragraph(text: "Not Now"),
                   ),
                   Link(
-                    uri: Uri.parse(appConfig.urlApk.toString()),
+                    uri: appConfig.urlApk,
                     target: LinkTarget.blank,
                     builder: (context, followLink) => ElevatedButton(
                       onPressed: followLink,
@@ -114,8 +114,6 @@ class SplashController extends GetxController {
       }
     }
 
-    Future.delayed(const Duration(seconds: 1), () {
-      checkVersion();
-    });
+    checkVersion();
   }
 }
