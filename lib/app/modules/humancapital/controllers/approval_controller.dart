@@ -3,9 +3,11 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:of_flutter_mobile/app/models/paid_leave_model.dart';
+import 'package:of_flutter_mobile/app/routes/app_pages.dart';
 import 'package:of_flutter_mobile/app/services/paidleave/paid_leave_service.dart';
 import 'package:of_flutter_mobile/app/utils/formatter.dart';
 import 'package:of_flutter_mobile/app/utils/query_builder.dart';
+import 'package:of_flutter_mobile/app/utils/token.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ApprovalController extends GetxController {
@@ -66,8 +68,14 @@ class ApprovalController extends GetxController {
   }
 
   void approveOrReject(String status, int id) async {
+    if (getUser()['role'] == "Management") {
+      return Get.toNamed(Routes.ABSENCEREQUEST, arguments: {"id": id});
+    }
+
+    Map<String, dynamic> data = {"status": status};
+
     EasyLoading.show(status: "Loading...");
-    final response = await PaidLeaveServices().approve(status: status, id: id);
+    final response = await PaidLeaveServices().approve(data: data, id: id);
     if (response.data != null) {
       EasyLoading.dismiss();
       EasyLoading.showSuccess(capitalizeFirstChar(status));

@@ -61,6 +61,7 @@ class AddunitView extends GetView<AddunitController> {
           margins: const [35, 0, 35, 0],
           fileImage: controller.image,
           url: controller.urlImage,
+          additionalText: "Add Image",
         ).animate().fadeIn(),
       ),
       Center(
@@ -235,7 +236,7 @@ class AddunitView extends GetView<AddunitController> {
     return [
       if (globalState.getPermissions.contains("create-forklift"))
         GradientButton(
-                colors: [colors.cyan, colors.cyanDark],
+                colors: [colors.soekimanPallet1, colors.soekimanPallet2],
                 onPressed: () => controller.handleSubmit(),
                 text: "Submit")
             .animate()

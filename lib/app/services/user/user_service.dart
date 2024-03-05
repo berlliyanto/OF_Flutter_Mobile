@@ -26,4 +26,8 @@ class UserService extends BaseServices {
   Future<Response> resetPassword({required int id}) async {
     return await post(path: "/user/reset-password", data: {"user_id": id});
   }
+
+  Future<Response> destroy({required int id}) async {
+    return await delete(path: "/user/destroy/$id");
+  }
 }

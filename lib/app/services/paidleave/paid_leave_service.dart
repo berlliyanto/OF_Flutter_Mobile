@@ -22,7 +22,8 @@ class PaidLeaveServices extends BaseServices {
     return await get(path: "/paidleave/need-approve", query: query);
   }
 
-  Future<Response> approve({required String status, required int id}) async {
-    return await put(path: "/paidleave/approve/$id", data: {"status": status});
+  Future<Response> approve(
+      {required Map<String, dynamic> data, required int id}) async {
+    return await put(path: "/paidleave/approve/$id", data: data);
   }
 }

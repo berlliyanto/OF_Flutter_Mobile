@@ -234,7 +234,7 @@ class CheckreportView extends GetView<CheckreportController> {
     if (arg == null) {
       if (globalState.getPermissions.contains("create-checklist")) {
         return GradientButton(
-          colors: [colors.cyan, colors.cyanDark],
+          colors: [colors.soekimanPallet1, colors.soekimanPallet2],
           onPressed: () => controller.handleSubmit(),
           text: "Submit",
         );

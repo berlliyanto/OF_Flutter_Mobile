@@ -124,7 +124,10 @@ Widget formRegister(
       GradientButton(
           colors: builder.isLoading.value
               ? builder.colorsLoading
-              : [builder.colorPicker.cyanDark, builder.colorPicker.cyan],
+              : [
+                  builder.colorPicker.soekimanPallet1,
+                  builder.colorPicker.soekimanPallet2
+                ],
           onPressed: () =>
               builder.isLoading.value ? null : builder.handleSubmit(formKey),
           text: builder.isLoading.value ? "Loading..." : "Sign Up")

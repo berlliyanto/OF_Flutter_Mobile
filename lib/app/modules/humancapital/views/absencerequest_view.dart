@@ -18,6 +18,7 @@ import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
 import 'package:of_flutter_mobile/app/dependency/global_state.dart';
 import 'package:of_flutter_mobile/app/modules/humancapital/controllers/absencerequest_controller.dart';
 import 'package:of_flutter_mobile/app/theme/color.dart';
+import 'package:of_flutter_mobile/app/utils/token.dart';
 import 'package:of_flutter_mobile/app/utils/validator.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -210,9 +211,10 @@ class AbsencerequestView extends GetView<AbsencerequestController> {
                 colors: colors.whiteSmoke,
                 borderColor: colors.primaryBlack,
                 textColor: colors.primaryBlack,
-                onPressed: () => arg != null
-                    ? null
-                    : controller.getDate(Get.context!, "start"),
+                onPressed: () =>
+                    arg != null && getUser()['role'] != "Management"
+                        ? null
+                        : controller.getDate(Get.context!, "start"),
                 textSize: 16,
                 fontWeight: FontWeight.normal,
                 text: controller.formattedStartDate.value),
@@ -225,9 +227,10 @@ class AbsencerequestView extends GetView<AbsencerequestController> {
                 colors: colors.whiteSmoke,
                 borderColor: colors.primaryBlack,
                 textColor: colors.primaryBlack,
-                onPressed: () => arg != null
-                    ? null
-                    : controller.getDate(Get.context!, "end"),
+                onPressed: () =>
+                    arg != null && getUser()['role'] != "Management"
+                        ? null
+                        : controller.getDate(Get.context!, "end"),
                 textSize: 16,
                 fontWeight: FontWeight.normal,
                 text: controller.formattedEndDate.value),
@@ -264,9 +267,25 @@ class AbsencerequestView extends GetView<AbsencerequestController> {
       if (arg == null &&
           globalState.getPermissions.contains('create-paidleave'))
         GradientButton(
-          colors: [colors.cyan, colors.cyanDark],
+          colors: [colors.soekimanPallet1, colors.soekimanPallet2],
           onPressed: () => controller.handleSend(),
           text: "Send",
+        ),
+      if (arg != null &&
+          globalState.getPermissions.contains('approve-paidleave'))
+        GradientButton(
+          colors: [colors.green, colors.greenDark],
+          onPressed: () => controller.approveAction("approved", arg['id']),
+          text: "Approve",
+        ),
+      const Gap(10),
+      if (arg != null &&
+          globalState.getPermissions.contains('approve-paidleave'))
+        GradientButton(
+          colors: [colors.red, colors.redDark],
+          onPressed: () =>
+              controller.approveOrReject({"status": "rejected"}, arg['id']),
+          text: "Reject",
         ),
       ...buildApproval()
     ];

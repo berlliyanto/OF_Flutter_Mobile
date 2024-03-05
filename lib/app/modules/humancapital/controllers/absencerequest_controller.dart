@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:of_flutter_mobile/app/components/widgets/dialog/awesome_dialog.dart';
 import 'package:of_flutter_mobile/app/components/widgets/snackbar/snackbar.dart';
 import 'package:of_flutter_mobile/app/models/paid_leave_model.dart';
 import 'package:of_flutter_mobile/app/services/paidleave/paid_leave_service.dart';
@@ -124,6 +125,45 @@ class AbsencerequestController extends GetxController {
         update();
       }
     }
+  }
+
+  Future approveOrReject(
+    Map<String, dynamic> data,
+    int id,
+  ) async {
+    EasyLoading.show(status: "Loading...");
+    final response = await PaidLeaveServices().approve(data: data, id: id);
+    if (response.data != null) {
+      EasyLoading.dismiss();
+      EasyLoading.showSuccess(capitalizeFirstChar(data['status']));
+      Get.back();
+      Get.back();
+    } else {
+      EasyLoading.dismiss();
+    }
+  }
+
+  dynamic approveAction(String status, int id) {
+    if (getUser()['role'] == "Management" && paidLeaveTypeValue.value == 1) {
+      Map<String, dynamic> data = {
+        "status": status,
+        "from": startDate.toString(),
+        "to": endDate.toString()
+      };
+      return awesomeDialog(
+        title: "Approval Cuti Khusus",
+        desc:
+            "Pastikan tanggal cuti sudah benar, anda dapat merubahnya pada halaman ini",
+        callback: () => approveOrReject(data, id),
+        cancel: () {},
+        btnOkText: "Approve",
+      );
+    }
+    Map<String, dynamic> data = {
+      "status": status,
+    };
+
+    approveOrReject(data, id);
   }
 
   void handleSend() async {

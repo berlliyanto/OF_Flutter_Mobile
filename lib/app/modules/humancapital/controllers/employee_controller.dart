@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:of_flutter_mobile/app/models/employee_model.dart';
 import 'package:of_flutter_mobile/app/models/pagination_model.dart';
 import 'package:of_flutter_mobile/app/services/employee/employee_service.dart';
+import 'package:of_flutter_mobile/app/services/user/user_service.dart';
 import 'package:of_flutter_mobile/app/utils/query_builder.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -33,6 +34,7 @@ class EmployeeController extends GetxController {
   var page = 1.obs;
   var sort = "asc".obs;
   var activeQuery = "page=1&per_page=10".obs;
+  dynamic temporaryItem;
 
   void refreshData(RefreshController refreshController) async {
     isLoadingScroll.value = false;
@@ -126,6 +128,18 @@ class EmployeeController extends GetxController {
       Get.back();
       EasyLoading.dismiss();
       EasyLoading.showSuccess("Success Update");
+      await getEmployees("page=1&per_page=10");
+    } else {
+      EasyLoading.dismiss();
+    }
+  }
+
+  Future<void> deleteUser(int id) async {
+    EasyLoading.show(status: "Loading...");
+    final response = await UserService().destroy(id: id);
+    if (response.statusCode == 200) {
+      EasyLoading.dismiss();
+      EasyLoading.showSuccess("Success Delete");
       await getEmployees("page=1&per_page=10");
     } else {
       EasyLoading.dismiss();

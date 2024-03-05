@@ -10,6 +10,7 @@ import 'package:of_flutter_mobile/app/config/app_config.dart';
 import 'package:of_flutter_mobile/app/dependency/global_state.dart';
 import 'package:of_flutter_mobile/app/models/appversion_model.dart';
 import 'package:of_flutter_mobile/app/models/user_model.dart';
+import 'package:of_flutter_mobile/app/routes/app_pages.dart';
 import 'package:of_flutter_mobile/app/services/app_service.dart';
 import 'package:of_flutter_mobile/app/services/user/user_service.dart';
 import 'package:of_flutter_mobile/app/utils/token.dart';
@@ -21,9 +22,11 @@ class SplashController extends GetxController {
   final AppConfig appConfig = AppConfig();
 
   Future checkVersion() async {
+    EasyLoading.show(status: "Checking Version...");
     final response = await AppVersionService().appVersion();
     final int installedBuildNumber = appConfig.getBuildNumber;
-    if (response.data != null) {
+    if (response.statusCode == 200) {
+      EasyLoading.dismiss();
       AppVersionModel versionModel =
           AppVersionModel.fromJson(response.data['data']);
       if (installedBuildNumber < versionModel.buildNumber!) {
@@ -69,10 +72,14 @@ class SplashController extends GetxController {
           ),
         );
       } else {
+        EasyLoading.dismiss();
         Future.delayed(const Duration(seconds: 1), () {
           checkAuth();
         });
       }
+    } else {
+      EasyLoading.dismiss();
+      Get.offAllNamed(Routes.LOGIN);
     }
   }
 
