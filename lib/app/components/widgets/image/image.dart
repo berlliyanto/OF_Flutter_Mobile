@@ -37,13 +37,13 @@ Widget imageCard({
           Icon(
             Icons.add_a_photo,
             size: iconSize,
-            color: colors.cyanDark,
+            color: colors.soekimanPallet1,
           ),
           const Gap(10),
           Heading(
             heading: "h1",
             size: fontSize,
-            text: "Tap to add image $additionalText",
+            text: additionalText,
             textAlign: TextAlign.center,
             maxLines: 2,
           ),

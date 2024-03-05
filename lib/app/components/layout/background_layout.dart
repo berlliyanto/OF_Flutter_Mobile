@@ -38,7 +38,10 @@ class BackgroundLayout extends StatelessWidget {
             child: Hero(
               tag: 'shape1',
               child: Shape(
-                  shape: "circle", color: colors.grey, height: 300, width: 300),
+                  shape: "circle",
+                  color: colors.soekimanPallet1,
+                  height: 300,
+                  width: 300),
             ),
           ),
         if (showTop)
@@ -49,7 +52,7 @@ class BackgroundLayout extends StatelessWidget {
               tag: 'shape2',
               child: Shape(
                   shape: "circle",
-                  color: colors.cyanDark,
+                  color: colors.soekimanPallet4,
                   height: 300,
                   width: 300),
             ),
@@ -60,7 +63,10 @@ class BackgroundLayout extends StatelessWidget {
           child: Hero(
             tag: 'shape3',
             child: Shape(
-                shape: "circle", color: colors.grey, height: 300, width: 300),
+                shape: "circle",
+                color: colors.soekimanPallet4,
+                height: 300,
+                width: 300),
           ),
         ),
         positionedShape(
@@ -70,7 +76,7 @@ class BackgroundLayout extends StatelessWidget {
             tag: 'shape4',
             child: Shape(
                 shape: "circle",
-                color: colors.cyanDark,
+                color: colors.soekimanPallet1,
                 height: 500,
                 width: 500),
           ),

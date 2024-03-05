@@ -30,7 +30,7 @@ class TileMenu extends StatelessWidget {
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
             color: colors.whiteSmoke,
-            border: Border.all(color: colors.cyanDark, width: 2),
+            border: Border.all(color: colors.soekimanPallet1, width: 2),
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
@@ -42,7 +42,7 @@ class TileMenu extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Heading(heading: "h2", text: title, textAlign: TextAlign.start),
-            Icon(icon, size: 30, color: colors.cyanDark),
+            Icon(icon, size: 30, color: colors.soekimanPallet1),
           ],
         ),
       ).animate().slideX(duration: animationDuration.ms).fade(),

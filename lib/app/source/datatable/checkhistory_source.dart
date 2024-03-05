@@ -76,7 +76,7 @@ class CheckHistorySource extends DataTableSource {
           return colors.red.withOpacity(0.5);
         }
         return data.indexOf(dataRow) % 2 == 0
-            ? colors.cyanDark.withOpacity(0.1)
+            ? colors.soekimanPallet1.withOpacity(0.1)
             : colors.whiteSmoke;
       }),
       cells: [

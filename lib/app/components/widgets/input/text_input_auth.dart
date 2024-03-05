@@ -56,7 +56,7 @@ class TextInputAuth extends StatelessWidget {
         focusColor: colors.cyanDark,
         focusedBorder: OutlineInputBorder(
             borderRadius: const BorderRadius.all(Radius.circular(10)),
-            borderSide: BorderSide(color: colors.cyanDark, width: 2)),
+            borderSide: BorderSide(color: colors.soekimanPallet1, width: 2)),
         enabledBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(10),

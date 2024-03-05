@@ -42,7 +42,7 @@ PreferredSizeWidget appBar({
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            colors.cyanDark,
+            colors.soekimanPallet1,
             Colors.white30,
           ],
         ),

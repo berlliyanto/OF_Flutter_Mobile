@@ -68,7 +68,7 @@ class ListForkliftSource extends DataTableSource {
           return Theme.of(Get.context!).colorScheme.primary.withOpacity(0.08);
         }
         return data.indexOf(currentRow) % 2 == 0
-            ? colors.cyanDark.withOpacity(0.1)
+            ? colors.soekimanPallet1.withOpacity(0.1)
             : colors.whiteSmoke;
       }),
       cells: [

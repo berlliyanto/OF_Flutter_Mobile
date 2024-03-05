@@ -25,7 +25,7 @@ Drawer drawer({
                     const Divider(),
                     drawerItem(
                       color: currentActiveMenu == data.title
-                          ? colors.cyanDark.withOpacity(0.1)
+                          ? colors.soekimanPallet1.withOpacity(0.1)
                           : Colors.transparent,
                       title: data.title,
                       icon: data.icon,
@@ -37,7 +37,7 @@ Drawer drawer({
 
               return drawerItem(
                 color: currentActiveMenu == data.title
-                    ? colors.cyanDark.withOpacity(0.1)
+                    ? colors.soekimanPallet1.withOpacity(0.1)
                     : Colors.transparent,
                 title: data.title,
                 icon: data.icon,

@@ -8,7 +8,8 @@ awesomeDialog(
     DialogType type = DialogType.info,
     Widget? body,
     VoidCallback? callback,
-    cancel,
+    VoidCallback? cancel,
+    String btnOkText = "Ok",
     Function(DismissType T)? onDismissCallback}) {
   AwesomeDialog(
     context: Get.context!,
@@ -18,6 +19,7 @@ awesomeDialog(
     title: title,
     desc: desc,
     btnOkOnPress: callback,
+    btnOkText: btnOkText,
     btnCancelOnPress: cancel,
     showCloseIcon: true,
     body: body,

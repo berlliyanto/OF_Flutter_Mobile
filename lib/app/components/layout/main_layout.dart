@@ -32,7 +32,7 @@ class MainLayout extends StatelessWidget {
           onRefresh: onRefresh,
           header: WaterDropMaterialHeader(
             offset: Get.height * 0.12,
-            backgroundColor: const Color(0xFF19A7CE),
+            backgroundColor: const Color(0xFFF0583D),
             distance: 50,
           ),
           child: ListView(

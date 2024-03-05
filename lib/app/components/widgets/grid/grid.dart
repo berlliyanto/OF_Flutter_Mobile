@@ -54,7 +54,7 @@ class GridItem extends StatelessWidget {
         decoration: BoxDecoration(
           color: colors.whiteSmoke,
           border: Border.all(
-            color: colors.cyan.withOpacity(0.8),
+            color: colors.soekimanPallet1.withOpacity(0.8),
           ),
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
@@ -75,7 +75,7 @@ class GridItem extends StatelessWidget {
                 width: 80,
                 child: Image(
                   image: AssetImage(image1),
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),

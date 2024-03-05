@@ -17,7 +17,7 @@ Widget drawerHeader({required ColorPicker colors}) {
       gradient: LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: [colors.cyan, colors.cyanDark],
+        colors: [colors.soekimanPallet1, colors.soekimanPallet2],
       ),
     ),
     child: Column(

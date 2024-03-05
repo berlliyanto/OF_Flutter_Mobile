@@ -10,6 +10,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:of_flutter_mobile/app/config/loading_config.dart';
 import 'package:of_flutter_mobile/app/dependency/dependency_injection.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:of_flutter_mobile/app/theme/color.dart';
 
 import 'app/routes/app_pages.dart';
 
@@ -31,13 +32,15 @@ void main() async {
   await initializeDateFormatting('id_ID', null);
 
   await GetStorage.init();
-  runApp(const MyApp());
+  runApp(MyApp());
   DependencyInjection.init();
   configLoading();
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  final ColorPicker colors = ColorPicker();
 
   @override
   Widget build(BuildContext context) {
@@ -48,9 +51,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Lato',
         useMaterial3: true,
-        primarySwatch: Colors.cyan,
+        primarySwatch: Colors.orange,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF146C94),
+          seedColor: colors.soekimanPallet1,
           brightness: Brightness.light,
           primary: const Color(0xFF181823),
         ),
