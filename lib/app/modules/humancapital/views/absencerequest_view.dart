@@ -272,7 +272,9 @@ class AbsencerequestView extends GetView<AbsencerequestController> {
           text: "Send",
         ),
       if (arg != null &&
-          globalState.getPermissions.contains('approve-paidleave'))
+          globalState.getPermissions.contains('approve-paidleave') &&
+          (controller.status.value == "Requested" ||
+              controller.status.value == "On Process"))
         GradientButton(
           colors: [colors.green, colors.greenDark],
           onPressed: () => controller.approveAction("approved", arg['id']),
@@ -280,14 +282,16 @@ class AbsencerequestView extends GetView<AbsencerequestController> {
         ),
       const Gap(10),
       if (arg != null &&
-          globalState.getPermissions.contains('approve-paidleave'))
+          globalState.getPermissions.contains('approve-paidleave') &&
+          (controller.status.value == "Requested" ||
+              controller.status.value == "On Process"))
         GradientButton(
           colors: [colors.red, colors.redDark],
           onPressed: () =>
               controller.approveOrReject({"status": "rejected"}, arg['id']),
           text: "Reject",
         ),
-      ...buildApproval()
+      ...buildApproval(),
     ];
   }
 
@@ -313,7 +317,8 @@ class AbsencerequestView extends GetView<AbsencerequestController> {
                   title: "Leave Request",
                 ),
                 const Gap(10),
-                ...body()
+                ...body(),
+                const Gap(20),
               ],
             ),
           );
