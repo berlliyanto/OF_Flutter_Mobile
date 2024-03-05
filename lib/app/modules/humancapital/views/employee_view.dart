@@ -44,15 +44,17 @@ class EmployeeView extends GetView<EmployeeController> {
       return Dismissible(
         onDismissed: (direction) {
           awesomeDialog(
-              title: "Are you sure to delete ${e.name}?",
-              desc:
-                  "All record related to this employee will be deleted (checklist, leave, salary, user account, etc)",
-              cancel: () async =>
-                  await controller.getEmployees("page=1&per_page=10"),
-              onDismissCallback: (T) async =>
-                  await controller.getEmployees("page=1&per_page=10"),
-              callback: () => controller.deleteUser(e.userModel!.id!),
-              type: DialogType.question);
+            title: "Are you sure to delete ${e.name}?",
+            desc:
+                "All record related to this employee will be deleted (checklist, leave, salary, user account, etc)",
+            cancel: () => controller.refreshData(refreshController),
+            onDismissCallback: (T) async =>
+                controller.refreshData(refreshController),
+            callback: () => controller.deleteUser(e.userModel!.id!),
+            type: DialogType.question,
+          );
+          controller.employees.removeWhere((element) => element.id! == e.id!);
+          controller.update();
         },
         direction: DismissDirection.endToStart,
         background: Container(
