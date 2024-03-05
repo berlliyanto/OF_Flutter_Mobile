@@ -148,7 +148,8 @@ class AbsencerequestController extends GetxController {
       Map<String, dynamic> data = {
         "status": status,
         "from": startDate.toString(),
-        "to": endDate.toString()
+        "to": endDate.toString(),
+        "total_days": int.parse(totalDaysController.text),
       };
       return awesomeDialog(
         title: "Approval Cuti Khusus",
