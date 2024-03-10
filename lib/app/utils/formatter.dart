@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 String formatDate(DateTime? date) {
@@ -63,4 +64,8 @@ int calculateDateDifference(DateTime startDate, DateTime endDate) {
   final difference = endDate.difference(startDate).inDays;
 
   return difference.abs();
+}
+
+String concatDateAndTime(DateTime date, TimeOfDay time) {
+  return "${date.year}-${date.month}-${date.day} ${time.hour}:${time.minute}:00";
 }

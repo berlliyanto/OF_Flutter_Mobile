@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:of_flutter_mobile/app/modules/maintenance/bindings/myworkorder_binding.dart';
+import 'package:of_flutter_mobile/app/modules/maintenance/views/myworkorder_view.dart';
 
 import '../modules/checkunit/bindings/addunit_binding.dart';
 import '../modules/checkunit/bindings/checkhistory_binding.dart';
@@ -19,15 +21,23 @@ import '../modules/humancapital/bindings/absencerequest_binding.dart';
 import '../modules/humancapital/bindings/approval_binding.dart';
 import '../modules/humancapital/bindings/employee_binding.dart';
 import '../modules/humancapital/bindings/main_humancapital_binding.dart';
+import '../modules/humancapital/bindings/salary_binding.dart';
 import '../modules/humancapital/views/absencehistory_view.dart';
 import '../modules/humancapital/views/absencerequest_view.dart';
 import '../modules/humancapital/views/approval_view.dart';
 import '../modules/humancapital/views/employee_view.dart';
 import '../modules/humancapital/views/main_humancapital_view.dart';
+import '../modules/humancapital/views/salary_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/maintenance/bindings/listworkorder_binding.dart';
 import '../modules/maintenance/bindings/main_maintenance_binding.dart';
+import '../modules/maintenance/bindings/maintenancehistory_binding.dart';
+import '../modules/maintenance/bindings/workorder_binding.dart';
+import '../modules/maintenance/views/listworkorder_view.dart';
 import '../modules/maintenance/views/main_maintenance_view.dart';
+import '../modules/maintenance/views/maintenancehistory_view.dart';
+import '../modules/maintenance/views/workorder_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
@@ -146,6 +156,31 @@ class AppPages {
       name: _Paths.EMPLOYEE,
       page: () => EmployeeView(),
       binding: EmployeeBinding(),
+    ),
+    GetPage(
+      name: _Paths.SALARY,
+      page: () => SalaryView(),
+      binding: SalaryBinding(),
+    ),
+    GetPage(
+      name: _Paths.WORKORDER,
+      page: () => WorkorderView(),
+      binding: WorkorderBinding(),
+    ),
+    GetPage(
+      name: _Paths.MAINTENANCEHISTORY,
+      page: () => MaintenancehistoryView(),
+      binding: MaintenancehistoryBinding(),
+    ),
+    GetPage(
+      name: _Paths.LISTWORKORDER,
+      page: () => ListworkorderView(),
+      binding: ListworkorderBinding(),
+    ),
+    GetPage(
+      name: _Paths.MYWORKORDER,
+      page: () => MyworkorderView(),
+      binding: MyworkorderBinding(),
     ),
   ];
 }

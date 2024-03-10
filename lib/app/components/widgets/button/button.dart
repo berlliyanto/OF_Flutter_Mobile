@@ -39,6 +39,7 @@ Widget button({
                 textAlign: TextAlign.center,
                 color: textColor,
                 fontWeight: fontWeight,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ),

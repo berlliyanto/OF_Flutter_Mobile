@@ -71,8 +71,9 @@ class UserprofileView extends GetView<UserprofileController> {
       imageCard(
           url: controller.createUrlImage(),
           fileImage: controller.image,
-          height: 100,
-          width: 100,
+          additionalText: "Image",
+          height: Get.width * 0.25,
+          width: Get.width * 0.25,
           margins: [Get.width * 0.34, 0, Get.width * 0.34, 0],
           onTap: () {
             if (arg == null) {

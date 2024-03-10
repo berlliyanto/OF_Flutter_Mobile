@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
@@ -61,6 +62,20 @@ Future<dynamic> pickMonth(BuildContext context) async {
 
   if (pickedMonth != null) {
     return pickedMonth;
+  }
+
+  return null;
+}
+
+Future<dynamic> pickPDF() async {
+  FilePickerResult? result = await FilePicker.platform.pickFiles(
+    type: FileType.custom,
+    allowedExtensions: ['pdf'],
+  );
+  if (result != null) {
+    PlatformFile platformFile = result.files.first;
+    File file = File(result.files.single.path!);
+    return {"name": platformFile.name, "size": platformFile.size, "file": file};
   }
 
   return null;

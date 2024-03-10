@@ -429,6 +429,7 @@ class CheckreportView extends GetView<CheckreportController> {
             ]),
         child: GridView(
           padding: EdgeInsets.zero,
+          physics: const NeverScrollableScrollPhysics(),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             crossAxisSpacing: 10,

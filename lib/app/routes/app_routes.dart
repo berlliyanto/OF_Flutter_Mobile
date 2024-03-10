@@ -26,6 +26,11 @@ abstract class Routes {
   static const APPROVAL = _Paths.APPROVAL;
   static const ABSENCEHISTORY = _Paths.ABSENCEHISTORY;
   static const EMPLOYEE = _Paths.EMPLOYEE;
+  static const SALARY = _Paths.SALARY;
+  static const WORKORDER = _Paths.WORKORDER;
+  static const MAINTENANCEHISTORY = _Paths.MAINTENANCEHISTORY;
+  static const LISTWORKORDER = _Paths.LISTWORKORDER;
+  static const MYWORKORDER = _Paths.MYWORKORDER;
 }
 
 abstract class _Paths {
@@ -51,4 +56,9 @@ abstract class _Paths {
   static const APPROVAL = '/approval';
   static const ABSENCEHISTORY = '/absencehistory';
   static const EMPLOYEE = '/employee';
+  static const SALARY = '/salary';
+  static const WORKORDER = '/workorder';
+  static const MAINTENANCEHISTORY = '/maintenancehistory';
+  static const LISTWORKORDER = '/listworkorder';
+  static const MYWORKORDER = '/myworkorder';
 }

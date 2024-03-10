@@ -10,6 +10,7 @@ import 'package:of_flutter_mobile/app/utils/url_files.dart';
 Widget tileUser(
     {required ColorPicker colors,
     required String name,
+    Color backgroundColor = const Color(0xFFF5F5F5),
     String subtitle1 = "",
     dynamic subtitle2 = "",
     dynamic image,
@@ -19,7 +20,7 @@ Widget tileUser(
     margin: const EdgeInsets.only(bottom: 10),
     width: Get.width,
     decoration: BoxDecoration(
-      color: colors.whiteSmoke,
+      color: backgroundColor,
       borderRadius: BorderRadius.circular(10),
       border: Border.all(width: 1, color: colors.primaryBlack),
       boxShadow: [

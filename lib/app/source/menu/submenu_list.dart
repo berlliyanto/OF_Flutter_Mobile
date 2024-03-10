@@ -55,7 +55,7 @@ List<SubMenuModel> listCheckUnit = [
 List<SubMenuModel> listHumanCapital = [
   SubMenuModel(
     title: "SALARY SLIP",
-    routes: "",
+    routes: Routes.SALARY,
     image1: "assets/images/slip-gaji.png",
     permissions: "read-salary",
   ),
@@ -89,5 +89,34 @@ List<SubMenuModel> listHumanCapital = [
     routes: Routes.EMPLOYEE,
     image1: "assets/images/leave.png",
     permissions: "read-employee",
+  ),
+];
+
+//MAINTENANCE
+List<SubMenuModel> listMaintenance = [
+  SubMenuModel(
+    title: "WORK ORDER",
+    routes: Routes.WORKORDER,
+    image1: "assets/images/workorder.png",
+    permissions: "create-workorder",
+  ),
+  SubMenuModel(
+    title: "MY WORK ORDER",
+    routes: Routes.MYWORKORDER,
+    image1: "assets/images/workorder.png",
+    permissions: "create-workorder",
+  ),
+  SubMenuModel(
+    title: "HISTORY",
+    routes: Routes.MAINTENANCEHISTORY,
+    image1: "assets/images/mt-history.png",
+    permissions: "read-workorder",
+  ),
+  SubMenuModel(
+    title: "LIST WORK ORDER",
+    routes: Routes.LISTWORKORDER,
+    image1: "assets/images/workorder.png",
+    image2: "assets/images/list-forklift.png",
+    permissions: "verify-workorder",
   ),
 ];

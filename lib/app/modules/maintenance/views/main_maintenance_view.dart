@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 import 'package:get/get.dart';
 import 'package:of_flutter_mobile/app/components/layout/background_layout.dart';
@@ -26,13 +27,27 @@ class MaintenanceView extends GetView<MaintenanceController> {
           colors: colors,
           currentActiveMenu: "Maintenance",
           onTap: (route) => globalState.handleDrawerMenu(route)),
-      body: BackgroundLayout(
-        child: MainLayout(
-          children: [
-            title(title: "Maintenance"),
-          ],
-        ),
-      ),
+      body: GetBuilder<MaintenanceController>(builder: (builder) {
+        return BackgroundLayout(
+          child: MainLayout(
+            children: [
+              title(title: "Maintenance"),
+              const Gap(20),
+              Expanded(
+                child: GridView(
+                  padding: EdgeInsets.zero,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 20,
+                      childAspectRatio: 1.5),
+                  children: builder.renderMenu(),
+                ),
+              )
+            ],
+          ),
+        );
+      }),
     );
   }
 }
