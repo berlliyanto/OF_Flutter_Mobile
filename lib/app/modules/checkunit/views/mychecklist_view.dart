@@ -6,6 +6,7 @@ import 'package:of_flutter_mobile/app/components/layout/background_layout.dart';
 import 'package:of_flutter_mobile/app/components/layout/main_layout.dart';
 import 'package:of_flutter_mobile/app/components/widgets/appbar/appbar.dart';
 import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_tileUser.dart';
+import 'package:of_flutter_mobile/app/components/widgets/text/paragraph.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/title.dart';
 import 'package:of_flutter_mobile/app/components/widgets/tile/tile_user.dart';
 import 'package:of_flutter_mobile/app/dependency/global_state.dart';
@@ -33,13 +34,23 @@ class MychecklistView extends GetView<MychecklistController> {
       ];
     }
 
+    if (controller.listChecklist.isEmpty) {
+      return [
+        const Center(
+          child: Paragraph(
+            text: "No Data",
+            fontSize: 24,
+          ),
+        ),
+      ];
+    }
+
     return controller.listChecklist.map((e) {
       return tileUser(
           colors: colors,
           name: e.unitCode!,
           subtitle1: "Form Code : ${e.formCode!}",
-          subtitle2:
-              "Created : ${e.createdAt != null ? formatDate(e.createdAt) : '-'}",
+          subtitle2: e.createdAt != null ? formatDate(e.createdAt) : '-',
           image: e.forklift!.image ?? "",
           type: "forklift",
           onTap: () {
@@ -62,6 +73,7 @@ class MychecklistView extends GetView<MychecklistController> {
                 isScrollable: true,
                 refreshController: refreshController,
                 onRefresh: () async {
+                  await controller.myChecklist();
                   refreshController.refreshCompleted();
                 },
                 children: [

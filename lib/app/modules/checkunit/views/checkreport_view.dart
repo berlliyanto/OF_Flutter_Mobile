@@ -215,7 +215,7 @@ class CheckreportView extends GetView<CheckreportController> {
       ).animate().slideY(duration: 200.ms),
       const Gap(10),
       horizontalLabelInput(
-          label: "Forklift Hour Meter",
+          label: "Hour Meter",
           child: TextInput(
             isEnabled: !controller.isFinish.value,
             controller: controller.forkliftHMController,
@@ -456,7 +456,7 @@ class CheckreportView extends GetView<CheckreportController> {
               child: imageCard(
                   fileImage: controller.imageFront,
                   url: controller.createUrlImage("front"),
-                  additionalText: "(Sisi Depan)",
+                  additionalText: "Sisi Depan",
                   fontSize: 20,
                   iconSize: Get.width > 720 ? 70 : 40,
                   height: 200,
@@ -474,7 +474,7 @@ class CheckreportView extends GetView<CheckreportController> {
               child: imageCard(
                   fileImage: controller.imageBack,
                   url: controller.createUrlImage("back"),
-                  additionalText: "(Sisi Belakang)",
+                  additionalText: "Sisi Belakang",
                   fontSize: 20,
                   iconSize: Get.width > 720 ? 70 : 40,
                   height: 200,
@@ -492,7 +492,7 @@ class CheckreportView extends GetView<CheckreportController> {
               child: imageCard(
                   fileImage: controller.imageRight,
                   url: controller.createUrlImage("right"),
-                  additionalText: "(Sisi Kanan)",
+                  additionalText: "Sisi Kanan",
                   fontSize: 20,
                   iconSize: Get.width > 720 ? 70 : 40,
                   height: 200,
@@ -510,7 +510,7 @@ class CheckreportView extends GetView<CheckreportController> {
               child: imageCard(
                   fileImage: controller.imageLeft,
                   url: controller.createUrlImage("left"),
-                  additionalText: "(Sisi Kiri)",
+                  additionalText: "Sisi Kiri",
                   fontSize: 20,
                   iconSize: Get.width > 720 ? 70 : 40,
                   height: 200,
