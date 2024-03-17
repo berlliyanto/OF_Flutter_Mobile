@@ -85,21 +85,21 @@ class CheckreportView extends GetView<CheckreportController> {
             ),
           ],
         ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              backgroundColor: colors.cyan,
-              radius: 8,
-            ),
-            const Gap(5),
-            Heading(
-              heading: "h2",
-              text:
-                  "Hour Meter : ${controller.main['forklift_hour_meter'] ?? ''}",
-            ),
-          ],
-        ),
+        // Row(
+        //   crossAxisAlignment: CrossAxisAlignment.center,
+        //   children: [
+        //     CircleAvatar(
+        //       backgroundColor: colors.cyan,
+        //       radius: 8,
+        //     ),
+        //     const Gap(5),
+        //     Heading(
+        //       heading: "h2",
+        //       text:
+        //           "Hour Meter : ${controller.main['forklift_hour_meter'] ?? ''}",
+        //     ),
+        //   ],
+        // ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -285,6 +285,20 @@ class CheckreportView extends GetView<CheckreportController> {
                 }
               }),
           animationDuration: 250),
+      const Gap(10),
+      horizontalLabelInput(
+          label: "Hour Meter",
+          child: TextInput(
+            isEnabled: !controller.isFinish.value,
+            controller: controller.forkliftHMController,
+            keyboardType: TextInputType.number,
+            width: Get.width,
+            colors: colors,
+            onChanged: (value) =>
+                controller.onChangedInput("forklift_hour_meter", value),
+            hint: "Forklift Hour Meter",
+          ),
+          animationDuration: 300),
       const Gap(10),
       horizontalLabelInput(
           label: "Pallet Amount",

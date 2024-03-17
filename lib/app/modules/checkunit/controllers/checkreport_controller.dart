@@ -496,7 +496,7 @@ class CheckreportController extends GetxController {
       "pallet_amount": finishData['pallet_amount'],
       "man_hour_start": finishData['man_hour_start'],
       "man_hour_end": finishData['man_hour_end'],
-      "forklift_hour_meter": finishData['forklift_hour_meter'],
+      "forklift_hour_meter": forkliftHMController.text,
     };
 
     previewDialog(

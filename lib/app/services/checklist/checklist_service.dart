@@ -22,4 +22,8 @@ class CheckListService extends BaseServices {
   Future<Response> verify({required int id}) async {
     return await get(path: '/checklist/verify/$id');
   }
+
+  Future<Response> unfinish() async {
+    return await get(path: "/checklist/unfinish");
+  }
 }

@@ -14,6 +14,8 @@ Widget tileUser(
     String subtitle1 = "",
     dynamic subtitle2 = "",
     dynamic image,
+    String transaction = "show",
+    String type = "user",
     VoidCallback? onTap,
     VoidCallback? onLongPress}) {
   return Container(
@@ -46,7 +48,7 @@ Widget tileUser(
               if (image != "")
                 CachedNetworkImage(
                   imageUrl: urlImageBuilder(
-                      transaction: "show", type: "user", image: image),
+                      transaction: transaction, type: type, image: image),
                   errorWidget: (context, url, error) {
                     return Container(
                       height: 60,

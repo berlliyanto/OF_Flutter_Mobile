@@ -49,6 +49,12 @@ List<SubMenuModel> listCheckUnit = [
     image2: "assets/images/check-history.png",
     permissions: "read-checklist",
   ),
+  SubMenuModel(
+    title: "MY CHECKLIST",
+    routes: Routes.MYCHECKLIST,
+    image1: "assets/images/forklift.png",
+    permissions: "create-checklist",
+  ),
 ];
 
 //HUMAN CAPITAL

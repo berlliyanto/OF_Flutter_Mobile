@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:of_flutter_mobile/app/modules/maintenance/bindings/myworkorder_binding.dart';
-import 'package:of_flutter_mobile/app/modules/maintenance/views/myworkorder_view.dart';
+import 'package:of_flutter_mobile/app/modules/checkunit/bindings/mychecklist_binding.dart';
+import 'package:of_flutter_mobile/app/modules/checkunit/views/mychecklist_view.dart';
 
 import '../modules/checkunit/bindings/addunit_binding.dart';
 import '../modules/checkunit/bindings/checkhistory_binding.dart';
@@ -33,10 +33,12 @@ import '../modules/login/views/login_view.dart';
 import '../modules/maintenance/bindings/listworkorder_binding.dart';
 import '../modules/maintenance/bindings/main_maintenance_binding.dart';
 import '../modules/maintenance/bindings/maintenancehistory_binding.dart';
+import '../modules/maintenance/bindings/myworkorder_binding.dart';
 import '../modules/maintenance/bindings/workorder_binding.dart';
 import '../modules/maintenance/views/listworkorder_view.dart';
 import '../modules/maintenance/views/main_maintenance_view.dart';
 import '../modules/maintenance/views/maintenancehistory_view.dart';
+import '../modules/maintenance/views/myworkorder_view.dart';
 import '../modules/maintenance/views/workorder_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
@@ -181,6 +183,11 @@ class AppPages {
       name: _Paths.MYWORKORDER,
       page: () => MyworkorderView(),
       binding: MyworkorderBinding(),
+    ),
+    GetPage(
+      name: _Paths.MYCHECKLIST,
+      page: () => MychecklistView(),
+      binding: MychecklistBinding(),
     ),
   ];
 }

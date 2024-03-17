@@ -4,10 +4,10 @@ class AppConfig {
       "https://drive.google.com/drive/folders/1xAxf-0fe3jjXkWZFs4g-8xFE_EKMrwja?usp=sharing");
 
   // Use this in development
-  // final String url = "http://192.168.0.198:8080/api";
+  final String url = "http://192.168.0.198:8080/api";
 
   // Use this in production
-  final String url = "https://system-soekiman.com/forklift/api";
+  // final String url = "https://system-soekiman.com/forklift/api";
 
   final String version = "1.1.1";
   final int buildNumber = 11; // => update every new build

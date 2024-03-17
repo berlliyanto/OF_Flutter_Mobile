@@ -48,7 +48,7 @@ void previewDialog({
         children: [
           Container(
             padding: const EdgeInsets.all(5),
-            width: 120,
+            width: 130,
             decoration: BoxDecoration(
                 border: Border.all(width: 1),
                 borderRadius: BorderRadius.circular(5)),
@@ -59,8 +59,28 @@ void previewDialog({
                 const Heading(heading: "h3", text: "MAN HOUR"),
                 Paragraph(
                   text: data["man_hour"].toString(),
-                  fontSize: 24,
+                  fontSize: 18,
                   color: Colors.pink,
+                ),
+                const Paragraph(text: "HOURS")
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.all(5),
+            width: 130,
+            decoration: BoxDecoration(
+                border: Border.all(width: 1),
+                borderRadius: BorderRadius.circular(5)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const Heading(heading: "h3", text: "HOUR METER"),
+                Paragraph(
+                  text: data["forklift_hour_meter"].toString(),
+                  fontSize: 18,
+                  color: Colors.blue,
                 ),
                 const Paragraph(text: "HOURS")
               ],

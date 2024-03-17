@@ -31,6 +31,7 @@ abstract class Routes {
   static const MAINTENANCEHISTORY = _Paths.MAINTENANCEHISTORY;
   static const LISTWORKORDER = _Paths.LISTWORKORDER;
   static const MYWORKORDER = _Paths.MYWORKORDER;
+  static const MYCHECKLIST = _Paths.MYCHECKLIST;
 }
 
 abstract class _Paths {
@@ -61,4 +62,5 @@ abstract class _Paths {
   static const MAINTENANCEHISTORY = '/maintenancehistory';
   static const LISTWORKORDER = '/listworkorder';
   static const MYWORKORDER = '/myworkorder';
+  static const MYCHECKLIST = '/mychecklist';
 }
