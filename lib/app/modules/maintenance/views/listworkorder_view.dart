@@ -50,7 +50,7 @@ class ListworkorderView extends GetView<ListworkorderController> {
                 colors: colors,
                 name: "Name : ${e.userModel!.name!}",
                 subtitle1: "Unit : ${e.forkliftModel!.unitCode!}",
-                subtitle2: "Description : ${e.description}",
+                subtitle2: "Problem : ${e.description}",
                 image: e.userModel!.image ?? "",
                 onTap: () {
                   if (globalState.getPermissions.contains('verify-workorder')) {

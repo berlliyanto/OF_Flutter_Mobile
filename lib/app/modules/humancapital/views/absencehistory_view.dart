@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 
@@ -58,13 +59,14 @@ class AbsencehistoryView extends GetView<AbsencehistoryController> {
             withSuffix: true,
             suffixIcon: FontAwesomeIcons.magnifyingGlass,
           ),
-        ),
+        ).animate().slideY(duration: 200.ms),
       button(
-          text: controller.period.value,
-          colors: colors.whiteSmoke,
-          borderColor: colors.primaryBlack,
-          textColor: colors.primaryBlack,
-          onPressed: () => controller.onPeriodPicked(Get.context!)),
+        text: controller.period.value,
+        colors: colors.whiteSmoke,
+        borderColor: colors.primaryBlack,
+        textColor: colors.primaryBlack,
+        onPressed: () => controller.onPeriodPicked(Get.context!),
+      ).animate().slideY(duration: 250.ms),
       const Gap(10),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -79,7 +81,7 @@ class AbsencehistoryView extends GetView<AbsencehistoryController> {
               value: dropdownValue(controller.paidLeaveType.value),
               onChanged: (value) => controller.onChange(value, 'paidLeaveType'),
             ),
-          ),
+          ).animate().slideX(begin: -1, end: 0, duration: 300.ms),
           const Gap(10),
           Expanded(
             child: singleDropdownLess(
@@ -90,7 +92,7 @@ class AbsencehistoryView extends GetView<AbsencehistoryController> {
               value: dropdownValue(controller.statusId.value),
               onChanged: (value) => controller.onChange(value, 'status'),
             ),
-          ),
+          ).animate().slideX(begin: 1, end: 0, duration: 300.ms),
         ],
       ),
       const Gap(10),
@@ -131,7 +133,7 @@ class AbsencehistoryView extends GetView<AbsencehistoryController> {
         onPageChanged: (value) => controller.onPageChanged(value),
         onRowsPerPageChanged: (value) =>
             controller.onRowsPerPageChanged(value!),
-      ),
+      ).animate().fade(),
       const Gap(10),
     ];
   }

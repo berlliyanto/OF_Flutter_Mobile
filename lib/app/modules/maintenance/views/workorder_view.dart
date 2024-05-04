@@ -131,7 +131,7 @@ class WorkorderView extends GetView<WorkorderController> {
         },
         onSelected: (data) => controller.onTypeAheadSelected(data!),
         textEditingController: controller.searchDropDownController,
-      ).animate().slideY(duration: 200.ms),
+      ),
     ];
   }
 
@@ -319,22 +319,22 @@ class WorkorderView extends GetView<WorkorderController> {
     }
 
     return [
-      ...searchDropdownCondition(),
+      ...searchDropdownCondition().animate().fade(),
       const Gap(10),
-      const Heading(heading: "h2", text: "Description"),
+      const Heading(heading: "h2", text: "Problem"),
       const Gap(5),
       TextInput(
         isEnabled: arg == null,
         colors: colors,
         onChanged: (value) {},
         keyboardType: TextInputType.multiline,
-        hint: "Input Description",
+        hint: "Input Problem",
         controller: controller.descriptionController,
         maxLines: 5,
-      ),
-      ...bodyCondition(),
+      ).animate().fade(),
+      ...bodyCondition().animate().fade(),
       const Gap(10),
-      buttonCondition(),
+      buttonCondition().animate().fade(),
       const Gap(10),
     ];
   }

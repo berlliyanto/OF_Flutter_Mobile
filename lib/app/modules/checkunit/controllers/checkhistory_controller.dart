@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:of_flutter_mobile/app/models/checklist_model.dart';
 import 'package:of_flutter_mobile/app/models/forklift_model.dart';
 import 'package:of_flutter_mobile/app/models/pagination_model.dart';
@@ -10,6 +11,7 @@ import 'package:of_flutter_mobile/app/services/forklift/forklift_service.dart';
 import 'package:of_flutter_mobile/app/services/location/location_service.dart';
 import 'package:of_flutter_mobile/app/source/datatable/checkhistory_source.dart';
 import 'package:of_flutter_mobile/app/utils/file_downloader.dart';
+import 'package:of_flutter_mobile/app/utils/picker.dart';
 import 'package:of_flutter_mobile/app/utils/query_builder.dart';
 import 'package:of_flutter_mobile/app/utils/url_files.dart';
 
@@ -35,6 +37,10 @@ class CheckhistoryController extends GetxController {
   var currentPage = 1.obs;
   var perPage = 10.obs;
   var isAllLocationChecked = false.obs;
+  var period = "Select Period".obs;
+
+  DateTime? month;
+  final DateFormat dateFormat = DateFormat('MMMM yyyy');
 
   List<dynamic> listLocation = [];
   List<Map<String, dynamic>> listForklifts = [];
@@ -72,6 +78,17 @@ class CheckhistoryController extends GetxController {
     searchController.text = "";
     valueLocation.value = 0;
     update();
+  }
+
+  void onPeriodPicked(BuildContext context) async {
+    final month = await pickMonth(context);
+    if (month != null) {
+      this.month = month;
+      period.value = dateFormat.format(month);
+      activeQuery.value =
+          queryBuilder(activeQuery: activeQuery.value, query: "month=$month");
+      update();
+    }
   }
 
   void onPageChanged(int value) {

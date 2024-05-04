@@ -72,7 +72,7 @@ class UserPasswordView extends GetView<UserPasswordController> {
                     focusNode: controller.confirmPasswordNode,
                     controller: controller.confirmPasswordController,
                     isObscure: controller.isObscureConfirm.value,
-                    label: "Confrim Password",
+                    label: "Confirm Password",
                     prefixIcon: Icons.password,
                     toggleObscure: () => controller.toggleObscure("confirm"),
                     validator: (value) {

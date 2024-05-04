@@ -7,11 +7,11 @@ import 'package:get/get.dart';
 import 'package:of_flutter_mobile/app/components/layout/background_layout.dart';
 import 'package:of_flutter_mobile/app/components/layout/main_layout.dart';
 import 'package:of_flutter_mobile/app/components/widgets/appbar/appbar.dart';
+import 'package:of_flutter_mobile/app/components/widgets/button/button.dart';
 import 'package:of_flutter_mobile/app/components/widgets/datatable/datatable.dart';
 import 'package:of_flutter_mobile/app/components/widgets/datatable/datatable_header.dart';
 import 'package:of_flutter_mobile/app/components/widgets/dropdown/search_dropdown.dart';
 import 'package:of_flutter_mobile/app/components/widgets/dropdown/single_dropdown_less.dart';
-import 'package:of_flutter_mobile/app/components/widgets/input/text_input.dart';
 import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_bigrectangle.dart';
 import 'package:of_flutter_mobile/app/components/widgets/skeleton/skeleton_tile.dart';
 import 'package:of_flutter_mobile/app/components/widgets/text/paragraph.dart';
@@ -45,15 +45,12 @@ class CheckhistoryView extends GetView<CheckhistoryController> {
     }
 
     return [
-      TextInput(
-        controller: controller.searchController,
-        width: Get.width,
-        colors: colors,
-        onChanged: (value) => controller.onChangedInput("search", value),
-        hint: "Search",
-        withSuffix: true,
-        suffixIcon: FontAwesomeIcons.magnifyingGlass,
-        onTapOutside: (event) => FocusManager.instance.primaryFocus!.unfocus(),
+      button(
+        text: controller.period.value,
+        colors: colors.whiteSmoke,
+        borderColor: colors.primaryBlack,
+        textColor: colors.primaryBlack,
+        onPressed: () => controller.onPeriodPicked(Get.context!),
       ).animate().slideY(),
       const Gap(10),
       Row(
@@ -132,7 +129,7 @@ class CheckhistoryView extends GetView<CheckhistoryController> {
           "Action"
         ]),
         source: controller.source,
-        rowsPerPage: 10,
+        rowsPerPage: controller.perPage.value,
         onPageChanged: (value) => controller.onPageChanged(value),
         onRowsPerPageChanged: (value) =>
             controller.onRowsPerPageChanged(value!),

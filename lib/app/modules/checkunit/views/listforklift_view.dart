@@ -103,7 +103,7 @@ class ListforkliftView extends GetView<ListforkliftController> {
           ["No", "Unit Code", "Location", "Hour Meter", "PIC", "Action"],
         ),
         source: controller.source,
-        rowsPerPage: controller.meta.perPage,
+        rowsPerPage: controller.perPage.value,
         onPageChanged: (value) => controller.onPageChanged(value),
         onRowsPerPageChanged: (value) =>
             controller.onRowsPerPageChanged(value!),

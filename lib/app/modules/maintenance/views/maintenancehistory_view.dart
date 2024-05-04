@@ -48,15 +48,19 @@ class MaintenancehistoryView extends GetView<MaintenancehistoryController> {
         colors: colors,
         onChanged: (value) => controller.onChange("unitCode", value),
         hint: "Search Unit Code",
+        withSuffix: true,
+        suffixIcon: FontAwesomeIcons.magnifyingGlass,
         controller: controller.searchUnitCodeController,
       ).animate().slideY(duration: 200.ms),
       const Gap(10),
       button(
-        text: controller.period.value,
-        onPressed: () => controller.onPeriodPicked(Get.context!),
-        borderColor: colors.primaryBlack,
-        textColor: colors.primaryBlack,
-      ).animate().slideY(duration: 250.ms),
+              text: controller.period.value,
+              onPressed: () => controller.onPeriodPicked(Get.context!),
+              borderColor: colors.primaryBlack,
+              textColor: colors.primaryBlack,
+              colors: colors.whiteSmoke)
+          .animate()
+          .slideY(duration: 250.ms),
       const Gap(10),
       if (checkQueryIsExist(
           controller.activeQuery.value, ["unitCode", "month"]))
